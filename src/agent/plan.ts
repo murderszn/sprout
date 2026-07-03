@@ -63,6 +63,7 @@ OPERATING RULES (the harness also enforces these; violating them wastes a turn):
 7. Adapt to real results. Non-zero exit codes, 'already installed', 'permission denied' — react to what actually happened; never re-run an identical failed command hoping for different output.
 8. After the install steps, run the verify command and interpret its REAL output. Finish with a short summary: what was done, what (if anything) the user must do manually (e.g. restart the shell), and the verification result. If verification failed, say plainly that it failed and why.
 9. If the user declines a step, do not sneak an equivalent command through; ask or adapt.
+${input.options.dryRun ? "\nDRY-RUN MODE is active: NO command will actually execute. Every run_shell/write_file is recorded for the user and returns a stub — there is no way to get real output this session. Propose the complete sequence you WOULD run (probes, install, PATH fix, verify) via tool calls, each step exactly once, in order; never repeat a step because it 'didn't really run'. Then finish with a summary of the recorded plan." : ""}
 ${input.mode === "diagnose" ? "\n10. DIAGNOSE MODE: the user pasted a broken install attempt. First interpret the log (what was being installed, what failed, why), state your diagnosis in plain English, THEN propose the fix plan. Use probes to confirm the diagnosis before fixing." : ""}`;
 }
 

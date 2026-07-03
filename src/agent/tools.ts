@@ -188,7 +188,7 @@ async function runShell(
   if (options.dryRun) {
     console.log(chalk.magenta("  ⧗ dry-run: not executed"));
     steps.push({ command, reason, outcome: "dry-run" });
-    return "DRY RUN: command recorded but NOT executed. Assume success and continue outlining the remaining steps, including the final verify command.";
+    return "DRY RUN: step recorded, not executed (no real output exists). Move on to the NEXT step in your plan — do not repeat this one. End with the verify command, then a summary.";
   }
 
   const mustConfirm = args.requiresConfirmation !== false || isInherentlyRisky(command);
