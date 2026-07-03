@@ -35,13 +35,14 @@ import { promptForApiKey, promptYesNo, banner, formatCustomHelp } from "./ui/pro
 import { box, color, glyph } from "./ui/theme.js";
 import type { EnvironmentSnapshot } from "./env/detect.js";
 import type { ExecutorOptions, ExecutedStep } from "./agent/tools.js";
+import { VERSION } from "./version.js";
 
 const program = new Command();
 
 program
   .name("sprout")
   .description("Diagnose and fix local install/config/PATH problems for developer tools.\nNot a general coding agent — its whole world is package managers, PATH, and shell rc files.")
-  .version("0.1.0")
+  .version(VERSION)
   .option("--dry-run", "show the exact commands that would run, execute nothing", false)
   .option("--yes", "skip per-step confirmation prompts (hard guardrails still block)", false)
   .option("--model <id>", "override the model for this run")

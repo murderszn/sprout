@@ -32,10 +32,12 @@ It is deliberately **not** a general coding agent. Its entire world is package m
 ## Install
 
 ```sh
-npm install -g sprout-install    # after the package is published to npm
+npm install -g https://github.com/murderszn/sprout/releases/download/v0.2.0/sprout-install-0.2.0.tgz
 ```
 
-If npm returns `404 Not Found` for `sprout-install`, install from the GitHub repo or a local checkout instead:
+This release tarball install works on Windows, macOS, and Linux and does **not** use the npm registry. Until `sprout-install` is published to npm, `npm install -g sprout-install` will still return `404 Not Found`.
+
+Other install options:
 
 ```sh
 npm install -g git+https://github.com/murderszn/sprout.git

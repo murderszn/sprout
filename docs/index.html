@@ -28,7 +28,7 @@
   <meta name="twitter:image" content="https://murderszn.github.io/sprout/public/og-image.png">
   <meta name="twitter:image:alt" content="Sprout — sprout emoji on matcha green background">
   <meta name="twitter:title" content="Sprout | Install-fixer CLI">
-  <meta name="twitter:description" content="Fix install, config, and PATH problems for developer tools on your machine. Install from GitHub while npm publishing is pending.">
+  <meta name="twitter:description" content="Fix install, config, and PATH problems for developer tools on your machine. Install from the GitHub release tarball while npm publishing is pending.">
   <link rel="icon" href="public/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="public/apple-touch-icon.png" type="image/png" sizes="180x180">
   <link rel="apple-touch-icon" href="public/apple-touch-icon.png" sizes="180x180">
@@ -77,7 +77,7 @@
         "url": "https://murderszn.github.io/sprout/",
         "image": "https://murderszn.github.io/sprout/public/og-image.png",
         "screenshot": "https://murderszn.github.io/sprout/public/og-image.png",
-        "downloadUrl": "https://github.com/murderszn/sprout",
+        "downloadUrl": "https://github.com/murderszn/sprout/releases/download/v0.2.0/sprout-install-0.2.0.tgz",
         "softwareVersion": "0.2.0",
         "license": "https://opensource.org/licenses/MIT",
         "isAccessibleForFree": true,
@@ -186,8 +186,8 @@
             <p class="hero-subline">Detects your PC, plans the steps, asks before every command — then proves it with a real verify run.</p>
             <div class="hero-actions">
               <div class="hero-command-cta">
-                <code class="hero-command-text">npm install -g git+https://github.com/murderszn/sprout.git</code>
-                <button type="button" class="copy-btn copy-btn-hero" data-copy="npm install -g git+https://github.com/murderszn/sprout.git" aria-label="Copy install command">
+                <code class="hero-command-text">npm install -g https://github.com/murderszn/sprout/releases/download/v0.2.0/sprout-install-0.2.0.tgz</code>
+                <button type="button" class="copy-btn copy-btn-hero" data-copy="npm install -g https://github.com/murderszn/sprout/releases/download/v0.2.0/sprout-install-0.2.0.tgz" aria-label="Copy install command">
                   <span class="copy-text" aria-live="polite">Copy</span>
                 </button>
               </div>
@@ -260,14 +260,14 @@
               <span class="install-step-num">01</span>
               <div>
                 <h3 class="install-step-title">Install Sprout</h3>
-                <p class="install-step-desc">Install directly from GitHub, use the npm package after publishing, or build from source.</p>
+                <p class="install-step-desc">Install the GitHub release tarball, use the npm package after publishing, or build from source.</p>
               </div>
             </div>
             <div class="install-stack">
           <div class="install-group">
             <div class="install-group-label">
               <span>method.select</span>
-              <span>GitHub · npm · source</span>
+              <span>Release · npm · source</span>
             </div>
             <div class="platform-list" role="radiogroup" aria-label="Choose install method">
               <article class="platform-card active" data-platform="npm" role="radio" aria-checked="true" tabindex="0">
@@ -275,8 +275,8 @@
                   <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-git"/></svg>
                 </div>
                 <div class="platform-card-main">
-                  <h3>GitHub install</h3>
-                  <span class="platform-meta">Recommended until npm publish · Node 20+</span>
+                  <h3>Release tarball</h3>
+                  <span class="platform-meta">Recommended on Windows · Node 20+</span>
                 </div>
                 <span class="platform-select" aria-pressed="true">Selected</span>
               </article>
@@ -316,9 +316,9 @@
               <div class="command-panel active" id="cmd-npm">
                 <div class="command-line">
                   <span class="prompt" aria-hidden="true">$</span>
-                  <code class="install-command">npm install -g git+https://github.com/murderszn/sprout.git</code>
+                  <code class="install-command">npm install -g https://github.com/murderszn/sprout/releases/download/v0.2.0/sprout-install-0.2.0.tgz</code>
                 </div>
-                <button class="copy-btn" data-copy="npm install -g git+https://github.com/murderszn/sprout.git" aria-label="Copy command">
+                <button class="copy-btn" data-copy="npm install -g https://github.com/murderszn/sprout/releases/download/v0.2.0/sprout-install-0.2.0.tgz" aria-label="Copy command">
                   <span class="copy-text" aria-live="polite">Copy</span>
                 </button>
               </div>
@@ -649,7 +649,7 @@
         <div class="footer-inner">
           <h2 class="footer-headline">Ready to install.</h2>
           <div class="footer-actions">
-            <a href="#install" class="btn btn-primary btn-lg btn-mono" data-scroll-target="install">Install from GitHub</a>
+            <a href="#install" class="btn btn-primary btn-lg btn-mono" data-scroll-target="install">Install release tarball</a>
           </div>
           <nav class="footer-social" aria-label="Social links">
             <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">

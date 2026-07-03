@@ -15,6 +15,7 @@ import readline from "node:readline";
 import chalk from "chalk";
 import type { Command, Help } from "commander";
 import { maskKey } from "../config/store.js";
+import { VERSION } from "../version.js";
 import { color, glyph, wrap, styleProseLine, box, termWidth } from "./theme.js";
 
 const interactive = (): boolean => Boolean(process.stdin.isTTY && process.stdout.isTTY);
@@ -321,7 +322,7 @@ export function formatCustomHelp(cmd: Command, helper: Help): string {
   if (isMain) {
     parts.push("");
     parts.push(box([
-      `${glyph.sprout} ${color.brand.bold("sprout")} ${color.dim("v0.1.0")}`,
+      `${glyph.sprout} ${color.brand.bold("sprout")} ${color.dim(`v${VERSION}`)}`,
       color.dim("Diagnose & fix local install, config, and PATH problems for developer tools."),
     ]));
     parts.push("");
