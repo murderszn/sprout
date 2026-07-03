@@ -18,6 +18,14 @@
         { "manager": "dnf", "command": ["sudo", "dnf", "install", "-y", "ripgrep"], "requiresSudo": true },
         { "manager": "cargo", "command": ["cargo", "install", "ripgrep"], "requiresSudo": false, "notes": "Builds from source; ~/.cargo/bin must be on PATH." }
       ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "BurntSushi.ripgrep.MSVC", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false },
+        { "manager": "choco", "command": ["choco", "install", "ripgrep", "-y"], "requiresSudo": false },
+        { "manager": "scoop", "command": ["scoop", "install", "ripgrep"], "requiresSudo": false }
+      ]
     }
   },
   "commonFailures": [

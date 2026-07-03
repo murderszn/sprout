@@ -19,7 +19,8 @@
     "package-manager",
     "homebrew",
     "diagnostics",
-    "pollinations"
+    "pollinations",
+    "windows"
   ],
   "type": "module",
   "license": "MIT",
@@ -33,7 +34,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "tsc && mkdir -p dist/knowledge/tools && cp src/knowledge/tools/*.json dist/knowledge/tools/",
+    "build": "tsc && node -e \"const fs=require('fs'),p=require('path');fs.mkdirSync(p.join('dist','knowledge','tools'),{recursive:true});for(const f of fs.readdirSync(p.join('src','knowledge','tools')).filter(x=>x.endsWith('.json')))fs.copyFileSync(p.join('src','knowledge','tools',f),p.join('dist','knowledge','tools',f))\"",
     "dev": "tsx src/cli.ts",
     "test": "node --import tsx --test test/*.test.ts",
     "prepublishOnly": "npm run build"

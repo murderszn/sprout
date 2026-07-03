@@ -1,0 +1,44 @@
+{
+  "name": "rust",
+  "displayName": "Rust (via rustup)",
+  "aliases": ["rustup", "rustc", "cargo", "rustlang"],
+  "description": "Rust programming language compiler (rustc), package manager (cargo), and toolchain installer (rustup).",
+  "verify": { "command": ["rustc", "--version"], "expectedPattern": "rustc \\d+\\.\\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "official-installer",
+      "installs": [
+        {
+          "manager": "official-installer",
+          "command": ["curl", "--proto", "=https", "--tlsv1.2", "-sSf", "https://sh.rustup.rs", "-o", "/tmp/rustup.sh"],
+          "requiresSudo": false,
+          "notes": "Two-step flow: download rustup.sh script, show it to the user for confirmation, then run `sh /tmp/rustup.sh -y`."
+        },
+        { "manager": "brew", "command": ["brew", "install", "rustup-init"], "requiresSudo": false }
+      ]
+    },
+    "linux": {
+      "preferredManager": "official-installer",
+      "installs": [
+        {
+          "manager": "official-installer",
+          "command": ["curl", "--proto", "=https", "--tlsv1.2", "-sSf", "https://sh.rustup.rs", "-o", "/tmp/rustup.sh"],
+          "requiresSudo": false,
+          "notes": "Two-step flow: download rustup.sh script, verify it, then run `sh /tmp/rustup.sh -y`. A build toolchain like `build-essential` or `gcc` is a prerequisite."
+        }
+      ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "Rustlang.Rustup", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false, "notes": "Installs rustup. Requires Microsoft C++ Build Tools or Visual Studio to compile binary formulas." },
+        { "manager": "choco", "command": ["choco", "install", "rustup", "-y"], "requiresSudo": false },
+        { "manager": "scoop", "command": ["scoop", "install", "rustup"], "requiresSudo": false }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Requires C compiler and linker. On Linux, run `sudo apt install build-essential`. On macOS, run `xcode-select --install`. On Windows, ensure Visual Studio Build Tools are installed.",
+    "PATH needs to include `~/.cargo/bin` (`%USERPROFILE%\\.cargo\\bin` on Windows). If not present after installation, restart the terminal or manually source it."
+  ]
+}

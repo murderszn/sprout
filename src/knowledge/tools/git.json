@@ -19,6 +19,14 @@
         { "manager": "dnf", "command": ["sudo", "dnf", "install", "-y", "git"], "requiresSudo": true },
         { "manager": "pacman", "command": ["sudo", "pacman", "-S", "--noconfirm", "git"], "requiresSudo": true }
       ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "Git.Git", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false, "notes": "Installs Git for Windows with Git Bash. After install, a new terminal may be needed for PATH to update." },
+        { "manager": "choco", "command": ["choco", "install", "git", "-y"], "requiresSudo": false },
+        { "manager": "scoop", "command": ["scoop", "install", "git"], "requiresSudo": false }
+      ]
     }
   },
   "commonFailures": [

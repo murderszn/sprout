@@ -27,6 +27,14 @@
           "notes": "Same two-step review flow as macOS. Distro `nodejs` packages are often years out of date — avoid unless the user asks."
         }
       ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "OpenJS.NodeJS.LTS", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false, "notes": "Installs the latest LTS version. A new terminal is needed for PATH to update." },
+        { "manager": "scoop", "command": ["scoop", "install", "nodejs-lts"], "requiresSudo": false },
+        { "manager": "choco", "command": ["choco", "install", "nodejs-lts", "-y"], "requiresSudo": false }
+      ]
     }
   },
   "commonFailures": [

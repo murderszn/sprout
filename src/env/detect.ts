@@ -6,8 +6,7 @@
  * have changed mid-plan (e.g. after an rc-file edit), the agent calls the
  * `detect_environment` tool, which re-runs {@link detectEnvironment}.
  *
- * v1 is Unix-first: macOS and Linux. Windows fields exist in the types so a
- * fast-follow can slot in without reshaping the snapshot.
+ * Supports macOS, Linux, and Windows.
  */
 
 import os from "node:os";
@@ -15,7 +14,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execa } from "execa";
 
-export type SupportedShell = "bash" | "zsh" | "fish" | "sh" | "unknown";
+export type SupportedShell = "bash" | "zsh" | "fish" | "sh" | "powershell" | "pwsh" | "cmd" | "unknown";
 
 export interface PackageManagerInfo {
   name: string;
@@ -55,9 +54,13 @@ export interface EnvironmentSnapshot {
 
 const UNIX_PACKAGE_MANAGERS = ["brew", "apt-get", "dnf", "yum", "pacman", "apk", "npm", "pip3", "pipx", "cargo"] as const;
 
+const WINDOWS_PACKAGE_MANAGERS = ["winget", "choco", "scoop", "npm", "pip3", "pipx", "cargo"] as const;
+
 function shellNameFromBinary(binary: string): SupportedShell {
-  const base = path.basename(binary);
+  const base = path.basename(binary).replace(/\.exe$/i, "");
   if (base === "bash" || base === "zsh" || base === "fish" || base === "sh") return base;
+  if (base === "powershell" || base === "pwsh") return base;
+  if (base === "cmd") return "cmd";
   return "unknown";
 }
 
@@ -67,6 +70,19 @@ function shellNameFromBinary(binary: string): SupportedShell {
  * skip .bashrc by default.
  */
 function rcFileForShell(shell: SupportedShell, home: string, platform: NodeJS.Platform): string {
+  if (platform === "win32") {
+    switch (shell) {
+      case "pwsh":
+        return path.join(home, "Documents", "PowerShell", "Microsoft.PowerShell_profile.ps1");
+      case "powershell":
+        return path.join(home, "Documents", "WindowsPowerShell", "Microsoft.PowerShell_profile.ps1");
+      case "bash":
+        return path.join(home, ".bashrc");
+      default:
+        // cmd has no rc file; use PowerShell profile as a best-effort
+        return path.join(home, "Documents", "PowerShell", "Microsoft.PowerShell_profile.ps1");
+    }
+  }
   switch (shell) {
     case "zsh":
       return path.join(home, ".zshrc");
@@ -102,11 +118,25 @@ async function detectOsVersion(platform: NodeJS.Platform): Promise<{ osVersion: 
       return { osVersion: `Linux ${os.release()}`, linuxDistro: null };
     }
   }
+  if (platform === "win32") {
+    try {
+      const { stdout } = await execa("cmd", ["/c", "ver"], { timeout: 5000 });
+      const match = stdout.match(/\d+\.\d+\.\d+/);
+      return { osVersion: match ? `Windows ${match[0]}` : `Windows ${os.release()}`, linuxDistro: null };
+    } catch {
+      return { osVersion: `Windows ${os.release()}`, linuxDistro: null };
+    }
+  }
   return { osVersion: `${platform} ${os.release()}`, linuxDistro: null };
 }
 
 async function findExecutable(name: string): Promise<string | null> {
   try {
+    if (process.platform === "win32") {
+      const { stdout } = await execa("where.exe", [name], { timeout: 5000 });
+      const first = stdout.trim().split(/\r?\n/)[0];
+      return first && first.length > 0 ? first : null;
+    }
     // `command -v` resolves through PATH the way the user's shell would.
     const { stdout } = await execa("/bin/sh", ["-c", `command -v ${name}`]);
     const resolved = stdout.trim();
@@ -132,13 +162,25 @@ export async function detectEnvironment(): Promise<EnvironmentSnapshot> {
   const home = os.homedir();
   const { osVersion, linuxDistro } = await detectOsVersion(platform);
 
-  const shellBinary = process.env.SHELL ?? "/bin/sh";
+  let shellBinary: string;
+  if (platform === "win32") {
+    // Prefer pwsh (PowerShell 7+) if available, fall back to powershell.exe, then COMSPEC (cmd)
+    const pwsh = await findExecutable("pwsh");
+    if (pwsh) {
+      shellBinary = pwsh;
+    } else {
+      shellBinary = process.env.COMSPEC ?? "C:\\Windows\\System32\\cmd.exe";
+    }
+  } else {
+    shellBinary = process.env.SHELL ?? "/bin/sh";
+  }
   const shellName = shellNameFromBinary(shellBinary);
   const rcFile = rcFileForShell(shellName, home, platform);
 
+  const packageManagerList = platform === "win32" ? WINDOWS_PACKAGE_MANAGERS : UNIX_PACKAGE_MANAGERS;
   const managers: PackageManagerInfo[] = [];
   await Promise.all(
-    UNIX_PACKAGE_MANAGERS.map(async (name) => {
+    packageManagerList.map(async (name) => {
       const execPath = await findExecutable(name);
       if (!execPath) return;
       managers.push({ name, path: execPath, version: await packageManagerVersion(name, execPath) });

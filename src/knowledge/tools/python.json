@@ -28,6 +28,14 @@
         },
         { "manager": "apt-get", "command": ["sudo", "apt-get", "install", "-y", "python3", "python3-pip", "python3-venv"], "requiresSudo": true }
       ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "Python.Python.3.12", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false, "notes": "Installs Python 3.12. Ensure 'Add to PATH' is selected. A new terminal is needed." },
+        { "manager": "scoop", "command": ["scoop", "install", "python"], "requiresSudo": false },
+        { "manager": "choco", "command": ["choco", "install", "python", "-y"], "requiresSudo": false }
+      ]
     }
   },
   "commonFailures": [

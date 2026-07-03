@@ -1,0 +1,33 @@
+{
+  "name": "sqlite",
+  "displayName": "SQLite3 CLI",
+  "aliases": ["sqlite3", "sqlite-cli"],
+  "description": "Terminal-based front-end to the SQLite library.",
+  "verify": { "command": ["sqlite3", "--version"], "expectedPattern": "\\d+\\.\\d+\\.\\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew",
+      "installs": [
+        { "manager": "brew", "command": ["brew", "install", "sqlite"], "requiresSudo": false }
+      ]
+    },
+    "linux": {
+      "preferredManager": "apt-get",
+      "installs": [
+        { "manager": "apt-get", "command": ["sudo", "apt-get", "install", "-y", "sqlite3"], "requiresSudo": true },
+        { "manager": "dnf", "command": ["sudo", "dnf", "install", "-y", "sqlite"], "requiresSudo": true }
+      ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "SQLite.SQLite", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false },
+        { "manager": "choco", "command": ["choco", "install", "sqlite", "-y"], "requiresSudo": false },
+        { "manager": "scoop", "command": ["scoop", "install", "sqlite"], "requiresSudo": false }
+      ]
+    }
+  },
+  "commonFailures": [
+    "macOS has a system sqlite3 pre-installed at `/usr/bin/sqlite3` which may shadow a newer homebrew installation. Check version path if custom schema features fail."
+  ]
+}

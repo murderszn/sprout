@@ -17,6 +17,14 @@
         { "manager": "apt-get", "command": ["sudo", "apt-get", "install", "-y", "jq"], "requiresSudo": true },
         { "manager": "dnf", "command": ["sudo", "dnf", "install", "-y", "jq"], "requiresSudo": true }
       ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "jqlang.jq", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false },
+        { "manager": "choco", "command": ["choco", "install", "jq", "-y"], "requiresSudo": false },
+        { "manager": "scoop", "command": ["scoop", "install", "jq"], "requiresSudo": false }
+      ]
     }
   },
   "commonFailures": [

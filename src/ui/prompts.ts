@@ -13,6 +13,7 @@
 
 import readline from "node:readline";
 import chalk from "chalk";
+import type { Command, Help } from "commander";
 import { maskKey } from "../config/store.js";
 import { color, glyph, wrap, styleProseLine, box, termWidth } from "./theme.js";
 
@@ -311,4 +312,97 @@ function clip(text: string, maxLines = 12): string {
   const lines = text.split("\n");
   if (lines.length <= maxLines) return text;
   return [...lines.slice(0, maxLines), `… (${lines.length - maxLines} more lines)`].join("\n");
+}
+
+export function formatCustomHelp(cmd: Command, helper: Help): string {
+  const parts: string[] = [];
+  const isMain = cmd.parent === null;
+
+  if (isMain) {
+    parts.push("");
+    parts.push(box([
+      `${glyph.sprout} ${color.brand.bold("sprout")} ${color.dim("v0.1.0")}`,
+      color.dim("Diagnose & fix local install, config, and PATH problems for developer tools."),
+    ]));
+    parts.push("");
+  } else {
+    parts.push("");
+    parts.push(`  ${color.brand.bold(`${glyph.sprout} sprout`)} ${color.dim("·")} ${color.accent.bold(cmd.name())}`);
+    if (cmd.description()) {
+      parts.push(`  ${color.dim(cmd.description().split("\n")[0] || "")}`);
+    }
+    parts.push("");
+  }
+
+  // Usage
+  parts.push(`  ${color.brandDim.bold("Usage:")}`);
+  if (isMain) {
+    parts.push(`    ${color.accent("$")} ${color.bold("sprout")} ${color.dim("<command> [options]")}`);
+  } else {
+    let cmdPath = cmd.name();
+    let parent = cmd.parent;
+    while (parent && parent.parent) {
+      cmdPath = `${parent.name()} ${cmdPath}`;
+      parent = parent.parent;
+    }
+    const args = cmd.usage() || "";
+    parts.push(`    ${color.accent("$")} ${color.bold("sprout " + cmdPath)} ${color.dim(args)}`);
+  }
+  parts.push("");
+
+  // Arguments
+  const visibleArgs = helper.visibleArguments(cmd);
+  if (visibleArgs.length > 0) {
+    parts.push(`  ${color.brandDim.bold("Arguments:")}`);
+    const maxArgLen = Math.max(...visibleArgs.map(a => a.name().length), 12);
+    for (const arg of visibleArgs) {
+      const nameCol = `<${arg.name()}>`.padEnd(maxArgLen + 4);
+      parts.push(`    ${color.accent(nameCol)} ${color.dim(arg.description || "")}`);
+    }
+    parts.push("");
+  }
+
+  // Commands
+  const visibleCmds = helper.visibleCommands(cmd);
+  if (visibleCmds.length > 0) {
+    parts.push(`  ${color.brandDim.bold("Commands:")}`);
+    const maxCmdLen = Math.max(...visibleCmds.map(c => c.name().length), 12);
+    for (const c of visibleCmds) {
+      const nameCol = c.name().padEnd(maxCmdLen + 2);
+      const desc = c.description() ? c.description().split("\n")[0] : "";
+      parts.push(`    ${color.accent(nameCol)} ${color.dim(desc || "")}`);
+    }
+    parts.push("");
+  }
+
+  // Options
+  const visibleOpts = helper.visibleOptions(cmd);
+  if (visibleOpts.length > 0) {
+    parts.push(`  ${color.brandDim.bold("Options:")}`);
+    const maxOptLen = Math.max(...visibleOpts.map(o => o.flags.length), 18);
+    for (const opt of visibleOpts) {
+      const flagsCol = opt.flags.padEnd(maxOptLen + 2);
+      parts.push(`    ${color.accent(flagsCol)} ${color.dim(opt.description)}`);
+    }
+    parts.push("");
+  }
+
+  // Seeded Tools & Examples
+  if (isMain) {
+    parts.push(`  ${color.brandDim.bold("Seeded Tools:")}`);
+    parts.push(`    ${color.dim("git, node (nvm), python (pyenv), docker, gh, aws-cli, kubectl, brew, jq, rg, terraform")}`);
+    parts.push("");
+    parts.push(`  ${color.brandDim.bold("Examples:")}`);
+    parts.push(`    ${color.dim("# Install a tool dynamically or using the knowledge base")}`);
+    parts.push(`    ${color.accent("$")} ${color.bold("sprout install gh")}`);
+    parts.push("");
+    parts.push(`    ${color.dim("# Skip prompts (gates/guardrails still block malicious patterns)")}`);
+    parts.push(`    ${color.accent("$")} ${color.bold("sprout --yes install jq")}`);
+    parts.push("");
+    parts.push(`    ${color.dim("# Diagnose a failing build or install output")}`);
+    parts.push(`    ${color.accent("$")} ${color.bold("sprout diagnose < broken.log")}`);
+    parts.push("");
+  }
+
+  return parts.join("\n") + "\n";
 }

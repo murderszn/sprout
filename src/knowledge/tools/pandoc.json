@@ -1,0 +1,33 @@
+{
+  "name": "pandoc",
+  "displayName": "Pandoc",
+  "aliases": [],
+  "description": "General markup converter for converting files from one markup format into another.",
+  "verify": { "command": ["pandoc", "--version"], "expectedPattern": "pandoc \\d+\\.\\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew",
+      "installs": [
+        { "manager": "brew", "command": ["brew", "install", "pandoc"], "requiresSudo": false }
+      ]
+    },
+    "linux": {
+      "preferredManager": "apt-get",
+      "installs": [
+        { "manager": "apt-get", "command": ["sudo", "apt-get", "install", "-y", "pandoc"], "requiresSudo": true },
+        { "manager": "dnf", "command": ["sudo", "dnf", "install", "-y", "pandoc"], "requiresSudo": true }
+      ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "JohnMacFarlane.Pandoc", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false },
+        { "manager": "choco", "command": ["choco", "install", "pandoc", "-y"], "requiresSudo": false },
+        { "manager": "scoop", "command": ["scoop", "install", "pandoc"], "requiresSudo": false }
+      ]
+    }
+  },
+  "commonFailures": [
+    "To generate PDFs, Pandoc requires a LaTeX engine like `pdflatex` or `wkhtmltopdf` to be separately installed."
+  ]
+}

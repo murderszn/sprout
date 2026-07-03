@@ -6,13 +6,13 @@
 [![Website](https://img.shields.io/badge/website-murderszn.github.io%2Fsprout-A3E635?style=flat-square)](https://murderszn.github.io/sprout/)
 [![Discord](https://img.shields.io/badge/discord-join_community-5865F2?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/h9aXFuKqsv)
 
-**Install-fixer CLI for developer tools** — macOS & Linux
+**Install-fixer CLI for developer tools** — macOS, Linux & Windows
 
 Sprout diagnoses and fixes local install/config/PATH problems for developer tools. You tell it what you want installed (or paste a broken install attempt); it detects what *this* machine actually has, proposes a plain-English plan, runs it step by step with your confirmation, and proves the result with a real verification command — instead of assuming a generic script works everywhere.
 
-It is deliberately **not** a general coding agent. Its entire world is package managers, PATH, and shell rc files. It won't write your code, review your PRs, or answer unrelated questions — and it orchestrates existing package managers (brew, apt, dnf, npm, pip, …) rather than reimplementing them.
+It is deliberately **not** a general coding agent. Its entire world is package managers, PATH, and shell rc files. It won't write your code, review your PRs, or answer unrelated questions — and it orchestrates existing package managers (brew, apt, dnf, winget, choco, scoop, npm, pip, …) rather than reimplementing them.
 
-**v1 is Unix-first**: macOS and Linux. Windows (PowerShell, winget/choco/scoop) is a planned fast-follow; the types already leave room for it.
+**Platforms**: macOS, Linux, and Windows (PowerShell + winget/choco/scoop).
 
 <p align="center">
   <a href="https://murderszn.github.io/sprout/">
@@ -86,11 +86,11 @@ sprout status                  # confirm the key works and the model is awake
 sprout env                     # print the environment snapshot the agent sees
 ```
 
-Seeded knowledge base (curated per-OS install + verify recipes): git, node (nvm), python (pyenv), docker, GitHub CLI, AWS CLI, kubectl, Homebrew, jq, ripgrep, terraform. Anything else works too — the model reasons it out live and **tells you** it's doing so rather than pretending it came from the curated data.
+Seeded knowledge base (curated per-OS install + verify recipes): git, node (nvm), python (pyenv), docker, GitHub CLI (gh), GitLab CLI (glab), AWS CLI, kubectl, Homebrew, jq, ripgrep, terraform, Supabase CLI, Databricks CLI, Blender, Go, Rust (rustup), FFmpeg, SQLite3, Poetry, Pandoc. Anything else works too — the model reasons it out live and **tells you** it's doing so rather than pretending it came from the curated data.
 
 ## How a run works
 
-1. **Detect** — OS/version, shell + rc file, architecture, which package managers exist, PATH entries. One typed snapshot; everything downstream uses it.
+1. **Detect** — OS/version, shell + rc file (PowerShell profile on Windows), architecture, which package managers exist, PATH entries. One typed snapshot; everything downstream uses it.
 2. **Plan** — the model states a short plain-English plan *before* any tool call.
 3. **Confirm/execute** — each step shows the exact command (an argv array, executed with no shell) and the model's reason. Anything touching sudo, a system package manager, or an rc file asks `[y/N]` — default No. Results feed back to the model so it adapts to reality ("already installed", "permission denied") instead of replaying a script.
 4. **Verify** — after the plan, Sprout runs the tool's verify command itself and shows the real output. "Done" means the verify passed, not that the model said so.

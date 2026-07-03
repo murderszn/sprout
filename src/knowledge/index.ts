@@ -37,7 +37,7 @@ export interface KnowledgeEntry {
   description: string;
   /** Command whose output must match expectedPattern for the install to count as verified. */
   verify: { command: string[]; expectedPattern: string };
-  platforms: Partial<Record<"darwin" | "linux", PlatformInstalls>>;
+  platforms: Partial<Record<"darwin" | "linux" | "win32", PlatformInstalls>>;
   commonFailures: string[];
 }
 

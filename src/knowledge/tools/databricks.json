@@ -1,0 +1,37 @@
+{
+  "name": "databricks",
+  "displayName": "Databricks CLI",
+  "aliases": ["databricks-cli", "databricks cli"],
+  "description": "Databricks Command Line Interface for managing workspace assets, jobs, and configs.",
+  "verify": { "command": ["databricks", "--version"], "expectedPattern": "Databricks CLI v\\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew",
+      "installs": [
+        { "manager": "brew", "command": ["brew", "install", "databricks"], "requiresSudo": false }
+      ]
+    },
+    "linux": {
+      "preferredManager": "official-installer",
+      "installs": [
+        {
+          "manager": "official-installer",
+          "command": ["curl", "-fsSL", "https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh", "-o", "/tmp/databricks-install.sh"],
+          "requiresSudo": true,
+          "notes": "Downloads setup-cli installer. Requires run_shell using sudo or elevated execution to place binary in system path."
+        }
+      ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "Databricks.DatabricksCLI", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false },
+        { "manager": "choco", "command": ["choco", "install", "databricks-cli", "-y"], "requiresSudo": false }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Installed but not configured — needs `databricks configure` to set up token, host, and workspace profiles.",
+    "Older legacy Python-based `databricks-cli` (v0.18 or below) conflicts with the new Go-based `databricks` CLI (v0.200+). Ensure the legacy pip package is uninstalled if upgrading."
+  ]
+}

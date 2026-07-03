@@ -1,0 +1,35 @@
+{
+  "name": "glab",
+  "displayName": "GitLab CLI",
+  "aliases": ["gitlab-cli", "gitlab cli"],
+  "description": "GitLab's official command-line tool.",
+  "verify": { "command": ["glab", "--version"], "expectedPattern": "glab version \\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew",
+      "installs": [
+        { "manager": "brew", "command": ["brew", "install", "glab"], "requiresSudo": false }
+      ]
+    },
+    "linux": {
+      "preferredManager": "apt-get",
+      "installs": [
+        { "manager": "apt-get", "command": ["sudo", "apt-get", "install", "-y", "glab"], "requiresSudo": true },
+        { "manager": "dnf", "command": ["sudo", "dnf", "install", "-y", "glab"], "requiresSudo": true },
+        { "manager": "pacman", "command": ["sudo", "pacman", "-S", "--noconfirm", "glab"], "requiresSudo": true }
+      ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "GitLab.GLab", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false },
+        { "manager": "choco", "command": ["choco", "install", "glab", "-y"], "requiresSudo": false },
+        { "manager": "scoop", "command": ["scoop", "install", "glab"], "requiresSudo": false }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Installed but `glab auth login` was not run — authentication is required before most commands work.",
+    "GitLab host defaults to gitlab.com; self-hosted GitLab installations require setting the `GITLAB_HOST` environment variable or configuring a custom host during login."
+  ]
+}

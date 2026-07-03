@@ -22,11 +22,19 @@
           "notes": "Distro package; simplest. Docker's own apt repo (docker-ce) is newer but requires adding a repo + GPG key — offer it only if the user needs current versions."
         }
       ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "Docker.DockerDesktop", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false, "notes": "Installs Docker Desktop for Windows. Requires WSL 2 or Hyper-V. A restart may be needed, and Docker Desktop must be launched once before `docker` commands work." },
+        { "manager": "choco", "command": ["choco", "install", "docker-desktop", "-y"], "requiresSudo": false }
+      ]
     }
   },
   "commonFailures": [
     "`docker: command not found` right after Docker Desktop install on macOS — the app was never launched, so the CLI symlinks were never created.",
     "`Cannot connect to the Docker daemon` — the daemon isn't running (Desktop/colima not started, or `sudo systemctl start docker` on Linux).",
-    "On Linux, `permission denied on /var/run/docker.sock` — the user isn't in the `docker` group; fix is `sudo usermod -aG docker $USER` plus a re-login, and that group grants root-equivalent access, which is worth saying out loud."
+    "On Linux, `permission denied on /var/run/docker.sock` — the user isn't in the `docker` group; fix is `sudo usermod -aG docker $USER` plus a re-login, and that group grants root-equivalent access, which is worth saying out loud.",
+    "`docker: command not found` on Windows after Docker Desktop install — close and reopen the terminal, or ensure Docker Desktop is running."
   ]
 }

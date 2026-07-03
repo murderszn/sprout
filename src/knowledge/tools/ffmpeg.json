@@ -1,0 +1,33 @@
+{
+  "name": "ffmpeg",
+  "displayName": "FFmpeg",
+  "aliases": ["ffprobe"],
+  "description": "Cross-platform solution to record, convert and stream audio and video.",
+  "verify": { "command": ["ffmpeg", "-version"], "expectedPattern": "ffmpeg version" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew",
+      "installs": [
+        { "manager": "brew", "command": ["brew", "install", "ffmpeg"], "requiresSudo": false }
+      ]
+    },
+    "linux": {
+      "preferredManager": "apt-get",
+      "installs": [
+        { "manager": "apt-get", "command": ["sudo", "apt-get", "install", "-y", "ffmpeg"], "requiresSudo": true },
+        { "manager": "dnf", "command": ["sudo", "dnf", "install", "-y", "ffmpeg"], "requiresSudo": true }
+      ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "Gygax.FFmpeg", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false },
+        { "manager": "choco", "command": ["choco", "install", "ffmpeg", "-y"], "requiresSudo": false },
+        { "manager": "scoop", "command": ["scoop", "install", "ffmpeg"], "requiresSudo": false }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Large install footprint with many dependencies. Package manager updates or resolution conflicts may occasionally arise."
+  ]
+}

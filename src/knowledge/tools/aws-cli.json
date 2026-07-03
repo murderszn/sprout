@@ -22,6 +22,13 @@
         },
         { "manager": "pip3", "command": ["pip3", "install", "--user", "awscli"], "requiresSudo": false, "notes": "Installs v1, not v2 — only offer if the user explicitly wants pip. ~/.local/bin must be on PATH." }
       ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "Amazon.AWSCLI", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false },
+        { "manager": "choco", "command": ["choco", "install", "awscli", "-y"], "requiresSudo": false }
+      ]
     }
   },
   "commonFailures": [

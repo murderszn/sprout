@@ -1,0 +1,34 @@
+{
+  "name": "go",
+  "displayName": "Go (Golang)",
+  "aliases": ["golang", "go-lang"],
+  "description": "Go compiler and toolchain.",
+  "verify": { "command": ["go", "version"], "expectedPattern": "go version go\\d+\\.\\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew",
+      "installs": [
+        { "manager": "brew", "command": ["brew", "install", "go"], "requiresSudo": false }
+      ]
+    },
+    "linux": {
+      "preferredManager": "apt-get",
+      "installs": [
+        { "manager": "apt-get", "command": ["sudo", "apt-get", "install", "-y", "golang-go"], "requiresSudo": true },
+        { "manager": "dnf", "command": ["sudo", "dnf", "install", "-y", "golang"], "requiresSudo": true }
+      ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "GoLang.Go", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false },
+        { "manager": "choco", "command": ["choco", "install", "golang", "-y"], "requiresSudo": false },
+        { "manager": "scoop", "command": ["scoop", "install", "go"], "requiresSudo": false }
+      ]
+    }
+  },
+  "commonFailures": [
+    "GOROOT or GOPATH environment variables may not be set or point to old versions. Generally modern Go handles this automatically, but manually check PATH if `go` commands are not found.",
+    "A shell restart is often needed after installation for PATH updates to take effect."
+  ]
+}

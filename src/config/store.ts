@@ -22,7 +22,9 @@ export interface SproutConfig {
   model?: string;
 }
 
-const configDir = path.join(os.homedir(), ".sprout");
+const configDir = process.platform === "win32"
+  ? path.join(process.env.APPDATA ?? path.join(os.homedir(), "AppData", "Roaming"), "sprout")
+  : path.join(os.homedir(), ".sprout");
 const configPath = path.join(configDir, "config.json");
 
 export function configFilePath(): string {
@@ -43,9 +45,9 @@ export function writeConfig(update: Partial<SproutConfig>): void {
   for (const k of Object.keys(merged) as (keyof SproutConfig)[]) {
     if (merged[k] === undefined) delete merged[k];
   }
-  fs.mkdirSync(configDir, { recursive: true, mode: 0o700 });
-  fs.writeFileSync(configPath, JSON.stringify(merged, null, 2) + "\n", { mode: 0o600 });
-  fs.chmodSync(configPath, 0o600);
+  fs.mkdirSync(configDir, { recursive: true, ...(process.platform !== "win32" ? { mode: 0o700 } : {}) });
+  fs.writeFileSync(configPath, JSON.stringify(merged, null, 2) + "\n", { ...(process.platform !== "win32" ? { mode: 0o600 } : {}) });
+  if (process.platform !== "win32") fs.chmodSync(configPath, 0o600);
 }
 
 /** Key from env or config file; null means the caller should prompt interactively. */

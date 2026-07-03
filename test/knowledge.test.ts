@@ -8,8 +8,8 @@ test("all seed entries load and have both unix platforms + verify patterns", () 
   for (const e of entries) {
     assert.ok(e.verify.command.length > 0, `${e.name}: verify command`);
     assert.doesNotThrow(() => new RegExp(e.verify.expectedPattern), `${e.name}: verify pattern compiles`);
-    assert.ok(e.platforms.darwin || e.platforms.linux, `${e.name}: at least one platform`);
-    for (const platform of ["darwin", "linux"] as const) {
+    assert.ok(e.platforms.darwin || e.platforms.linux || e.platforms.win32, `${e.name}: at least one platform`);
+    for (const platform of ["darwin", "linux", "win32"] as const) {
       const p = e.platforms[platform];
       if (!p) continue;
       assert.ok(p.installs.length > 0, `${e.name}/${platform}: install options`);

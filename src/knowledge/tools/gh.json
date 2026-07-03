@@ -22,6 +22,14 @@
         },
         { "manager": "dnf", "command": ["sudo", "dnf", "install", "-y", "gh"], "requiresSudo": true }
       ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "GitHub.cli", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false },
+        { "manager": "choco", "command": ["choco", "install", "gh", "-y"], "requiresSudo": false },
+        { "manager": "scoop", "command": ["scoop", "install", "gh"], "requiresSudo": false }
+      ]
     }
   },
   "commonFailures": [

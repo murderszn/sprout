@@ -1,0 +1,39 @@
+{
+  "name": "supabase",
+  "displayName": "Supabase CLI",
+  "aliases": ["supabase-cli"],
+  "description": "Supabase CLI for local development, database migrations, and edge functions.",
+  "verify": { "command": ["supabase", "--version"], "expectedPattern": "supabase v\\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew",
+      "installs": [
+        { "manager": "brew", "command": ["brew", "install", "supabase/tap/supabase"], "requiresSudo": false }
+      ]
+    },
+    "linux": {
+      "preferredManager": "official-installer",
+      "installs": [
+        {
+          "manager": "official-installer",
+          "command": ["curl", "-fsSL", "https://raw.githubusercontent.com/supabase/cli/main/install.sh", "-o", "/tmp/supabase-install.sh"],
+          "requiresSudo": false,
+          "notes": "Two-step flow: download and inspect the script first, then run it to install user-local binary."
+        },
+        { "manager": "brew", "command": ["brew", "install", "supabase/tap/supabase"], "requiresSudo": false }
+      ]
+    },
+    "win32": {
+      "preferredManager": "scoop",
+      "installs": [
+        { "manager": "scoop", "command": ["scoop", "bucket", "add", "supabase", "https://github.com/supabase/scoop-bucket.git"], "requiresSudo": false, "notes": "Two-step installation: requires adding the supabase scoop bucket first, then running scoop install." },
+        { "manager": "scoop", "command": ["scoop", "install", "supabase"], "requiresSudo": false },
+        { "manager": "choco", "command": ["choco", "install", "supabase", "-y"], "requiresSudo": false }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Requires Docker to run local development servers; if Docker is not installed or running, `supabase start` will fail.",
+    "On Windows, Scoop installation is the official recommended path; choco might lag behind in package updates."
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "blender",
+  "displayName": "Blender",
+  "aliases": ["blender-cli", "blender cli"],
+  "description": "Blender 3D creation suite command line interface.",
+  "verify": { "command": ["blender", "--version"], "expectedPattern": "Blender \\d+\\.\\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew",
+      "installs": [
+        { "manager": "brew", "command": ["brew", "install", "--cask", "blender"], "requiresSudo": false, "notes": "Installs the Blender application bundle. On macOS, command line tools may need a manual symlink: `ln -s /Applications/Blender.app/Contents/MacOS/Blender /usr/local/bin/blender`." }
+      ]
+    },
+    "linux": {
+      "preferredManager": "snap",
+      "installs": [
+        { "manager": "snap", "command": ["sudo", "snap", "install", "blender", "--classic"], "requiresSudo": true },
+        { "manager": "apt-get", "command": ["sudo", "apt-get", "install", "-y", "blender"], "requiresSudo": true }
+      ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "BlenderFoundation.Blender", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false },
+        { "manager": "choco", "command": ["choco", "install", "blender", "-y"], "requiresSudo": false },
+        { "manager": "scoop", "command": ["scoop", "install", "blender"], "requiresSudo": false }
+      ]
+    }
+  },
+  "commonFailures": [
+    "On macOS, installing via Brew Cask puts the application in /Applications/Blender.app, but does not symlink the `blender` executable to the user's PATH by default. A symlink must be created manually.",
+    "Lacks GUI display context (e.g. on headless servers/CI/CD) — render operations should use the `-b` (background) flag."
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "poetry",
+  "displayName": "Poetry",
+  "aliases": ["python-poetry", "poetry-cli"],
+  "description": "Python packaging and dependency management tool.",
+  "verify": { "command": ["poetry", "--version"], "expectedPattern": "Poetry \\(version \\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "official-installer",
+      "installs": [
+        {
+          "manager": "official-installer",
+          "command": ["curl", "-sSL", "https://install.python-poetry.org", "-o", "/tmp/poetry-install.py"],
+          "requiresSudo": false,
+          "notes": "Two-step install: download install script, show it to the user, then run `python3 /tmp/poetry-install.py`."
+        },
+        { "manager": "pipx", "command": ["pipx", "install", "poetry"], "requiresSudo": false, "notes": "Easiest if pipx is already configured." }
+      ]
+    },
+    "linux": {
+      "preferredManager": "official-installer",
+      "installs": [
+        {
+          "manager": "official-installer",
+          "command": ["curl", "-sSL", "https://install.python-poetry.org", "-o", "/tmp/poetry-install.py"],
+          "requiresSudo": false,
+          "notes": "Two-step install: download install script, verify, then run `python3 /tmp/poetry-install.py`."
+        },
+        { "manager": "pipx", "command": ["pipx", "install", "poetry"], "requiresSudo": false }
+      ]
+    },
+    "win32": {
+      "preferredManager": "pipx",
+      "installs": [
+        { "manager": "pipx", "command": ["pipx", "install", "poetry"], "requiresSudo": false },
+        { "manager": "winget", "command": ["winget", "install", "--id", "Official.Poetry", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Requires python3 to be in the PATH. If python is not installed, install it first.",
+    "Binary install directory (`~/.local/bin` on Unix, `%APPDATA%\\Python\\Scripts` or similar on Windows) must be added to PATH. Check shell rc file after installation."
+  ]
+}

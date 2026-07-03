@@ -31,7 +31,7 @@ import {
   configFilePath,
   DEFAULT_MODEL,
 } from "./config/store.js";
-import { promptForApiKey, promptYesNo, banner } from "./ui/prompts.js";
+import { promptForApiKey, promptYesNo, banner, formatCustomHelp } from "./ui/prompts.js";
 import { box, color, glyph } from "./ui/theme.js";
 import type { EnvironmentSnapshot } from "./env/detect.js";
 import type { ExecutorOptions, ExecutedStep } from "./agent/tools.js";
@@ -44,7 +44,10 @@ program
   .version("0.1.0")
   .option("--dry-run", "show the exact commands that would run, execute nothing", false)
   .option("--yes", "skip per-step confirmation prompts (hard guardrails still block)", false)
-  .option("--model <id>", "override the model for this run");
+  .option("--model <id>", "override the model for this run")
+  .configureHelp({
+    formatHelp: formatCustomHelp,
+  });
 
 interface GlobalOpts {
   dryRun: boolean;

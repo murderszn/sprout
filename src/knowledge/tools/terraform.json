@@ -21,6 +21,14 @@
           "notes": "Requires HashiCorp's apt repo first (GPG keyring + sources.list entry per developer.hashicorp.com docs) — not in stock repos. Walk through repo-setup steps individually."
         }
       ]
+    },
+    "win32": {
+      "preferredManager": "winget",
+      "installs": [
+        { "manager": "winget", "command": ["winget", "install", "--id", "Hashicorp.Terraform", "--accept-source-agreements", "--accept-package-agreements"], "requiresSudo": false },
+        { "manager": "choco", "command": ["choco", "install", "terraform", "-y"], "requiresSudo": false },
+        { "manager": "scoop", "command": ["scoop", "install", "terraform"], "requiresSudo": false }
+      ]
     }
   },
   "commonFailures": [

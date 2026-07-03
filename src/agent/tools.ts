@@ -54,7 +54,7 @@ export const TOOL_DEFINITIONS: OpenAI.Chat.Completions.ChatCompletionTool[] = [
     function: {
       name: "run_shell",
       description:
-        "Run ONE command as an argv array (no shell: no pipes/&&/globs unless you explicitly use ['sh','-c',...], which is discouraged). The user sees the exact command and your reason, and must confirm risky steps. Never propose piping curl/wget into a shell — download to a file, read_file it, and run the file after the user confirms its contents.",
+        "Run ONE command as an argv array (no shell: no pipes/&&/globs unless you explicitly use ['sh','-c',...] on Unix or ['powershell','-Command',...] on Windows, which is discouraged). The user sees the exact command and your reason, and must confirm risky steps. Never propose piping curl/wget into a shell or Invoke-WebRequest into Invoke-Expression — download to a file, read_file it, and run the file after the user confirms its contents.",
       parameters: {
         type: "object",
         properties: {
@@ -133,10 +133,13 @@ export interface ExecutedStep {
 function isInherentlyRisky(argv: string[]): boolean {
   const head = argv[0] ?? "";
   if (head === "sudo") return true;
-  const managers = new Set(["brew", "apt", "apt-get", "dnf", "yum", "pacman", "apk", "npm", "pip", "pip3", "pipx", "cargo", "xcode-select"]);
-  if (managers.has(head)) {
+  // Windows elevation patterns
+  if (/^(runas|gsudo)$/i.test(head)) return true;
+  const managers = new Set(["brew", "apt", "apt-get", "dnf", "yum", "pacman", "apk", "npm", "pip", "pip3", "pipx", "cargo", "xcode-select",
+    "winget", "choco", "scoop"]);
+  if (managers.has(head) || managers.has(head.replace(/\.exe$/i, ""))) {
     // Read-only manager subcommands stay unprompted (list, --version, info…).
-    const readOnly = new Set(["--version", "-v", "list", "ls", "info", "search", "outdated", "doctor", "config"]);
+    const readOnly = new Set(["--version", "-v", "list", "ls", "info", "search", "outdated", "doctor", "config", "show", "status", "bucket"]);
     const sub = argv[1] ?? "";
     return !readOnly.has(sub);
   }
@@ -295,7 +298,11 @@ async function writeFileTool(
 }
 
 function expandHome(p: string): string {
-  return path.resolve(p.replace(/^~(?=\/|$)/, os.homedir()));
+  let expanded = p.replace(/^~(?=[/\\]|$)/, os.homedir());
+  if (process.platform === "win32") {
+    expanded = expanded.replace(/%USERPROFILE%/gi, os.homedir());
+  }
+  return path.resolve(expanded);
 }
 
 /** Cap tool output fed to the model; keep head and tail since errors cluster at the end. */
