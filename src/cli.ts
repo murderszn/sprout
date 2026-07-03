@@ -4,6 +4,7 @@
  *
  *   sprout install <tool>        main flow: detect → plan → confirm/execute → verify
  *   sprout diagnose              paste/pipe a broken install log, get a fix plan
+ *   sprout login                 authorize Sprout via Pollinations BYOP (your Pollen)
  *   sprout config                view (masked) / set / clear the stored key + default model
  *   sprout status                verify the key works and the model is awake
  *   sprout env                   print the environment snapshot (Phase 1 debugging aid)
@@ -19,8 +20,17 @@ import chalk from "chalk";
 import { detectEnvironment } from "./env/detect.js";
 import { lookupTool, seededToolNames } from "./knowledge/index.js";
 import { createClient, checkModelStatus, POLLINATIONS_BASE_URL } from "./agent/pollinations.js";
+import { resolveByopClientId, runByopLogin } from "./agent/byop.js";
 import { runAgent, runVerification } from "./agent/plan.js";
-import { resolveApiKey, resolveModel, readConfig, writeConfig, maskKey, configFilePath, DEFAULT_MODEL } from "./config/store.js";
+import {
+  resolveApiKey,
+  resolveModel,
+  readConfig,
+  writeConfig,
+  maskKey,
+  configFilePath,
+  DEFAULT_MODEL,
+} from "./config/store.js";
 import { promptForApiKey, promptYesNo, banner } from "./ui/prompts.js";
 import { box, color, glyph } from "./ui/theme.js";
 import type { EnvironmentSnapshot } from "./env/detect.js";
@@ -42,15 +52,68 @@ interface GlobalOpts {
   model?: string;
 }
 
-/** First-run key flow: env var → config file → interactive prompt + offer to save. */
+const interactive = (): boolean => Boolean(process.stdin.isTTY && process.stdout.isTTY);
+
+async function performByopLogin(save = true): Promise<string> {
+  const clientId = resolveByopClientId();
+  if (!clientId) {
+    throw new Error("BYOP is not configured — set POLLINATIONS_BYOP_KEY or ship a publishable pk_ App Key.");
+  }
+
+  console.log("\n" + chalk.bold("Sign in with Pollen"));
+  console.log(chalk.dim("Sprout will use your Pollinations balance for inference — nothing is charged to the app author.\n"));
+
+  const key = await runByopLogin(clientId, {
+    onDeviceCode: ({ userCode, verifyUrl, opened }) => {
+      console.log(`  ${color.brand(glyph.dot)} ${chalk.bold("Enter this code")} at ${color.accent(verifyUrl)}`);
+      console.log(`  ${color.dim(glyph.elbow)} ${chalk.bold(userCode)}\n`);
+      if (opened) {
+        console.log(chalk.dim("  Opened your browser — approve access, then come back here.\n"));
+      } else {
+        console.log(chalk.dim("  Could not open a browser automatically — visit the URL above.\n"));
+      }
+    },
+    onWaiting: (elapsedMs) => {
+      const secs = Math.round(elapsedMs / 1000);
+      process.stdout.write(`\r  ${color.dim(glyph.elbow)} waiting for approval… ${secs}s`);
+    },
+    onAuthorized: ({ user }) => {
+      process.stdout.write("\n");
+      if (user?.preferred_username) {
+        console.log(chalk.green(`  ${glyph.ok} authorized as ${user.preferred_username}`));
+      } else {
+        console.log(chalk.green(`  ${glyph.ok} authorized`));
+      }
+    },
+  });
+
+  if (save) {
+    writeConfig({ apiKey: key, apiKeyKind: "byop" });
+    console.log(chalk.green(`\nSaved (masked: ${maskKey(key)}) to ${configFilePath()}`));
+  }
+
+  return key;
+}
+
+/** First-run key flow: env var → config file → BYOP login or interactive paste. */
 async function requireApiKey(): Promise<string> {
   const resolved = resolveApiKey();
   if (resolved) return resolved.key;
 
+  const clientId = resolveByopClientId();
+  if (clientId && interactive()) {
+    const useByop = await promptYesNo(
+      "Sign in with Pollen at enter.pollinations.ai? (uses your balance — recommended)"
+    );
+    if (useByop) {
+      return performByopLogin(true);
+    }
+  }
+
   const key = await promptForApiKey();
   const save = await promptYesNo(`Save it to ${configFilePath()} (chmod 600)? Otherwise export SPROUT_API_KEY each run.`);
   if (save) {
-    writeConfig({ apiKey: key });
+    writeConfig({ apiKey: key, apiKeyKind: "manual" });
     console.log(chalk.green(`Saved to ${configFilePath()}`));
   }
   return key;
@@ -84,6 +147,19 @@ function printDetection(snapshot: EnvironmentSnapshot, kbNote: string, dryRun: b
   console.log(`  ${color.dim(glyph.elbow)} ${color.dim(kbNote)}`);
   if (dryRun) console.log(`  ${color.magic(glyph.elbow)} ${color.magic("dry run — nothing will execute")}`);
 }
+
+program
+  .command("login")
+  .description("authorize Sprout with your Pollinations account (BYOP device flow — uses your Pollen balance)")
+  .option("--no-save", "authorize but do not write the key to ~/.sprout/config.json")
+  .action(async (cmdOpts: { noSave?: boolean }) => {
+    if (!interactive()) {
+      console.error(chalk.red("sprout login requires an interactive terminal."));
+      process.exitCode = 1;
+      return;
+    }
+    await performByopLogin(!cmdOpts.noSave);
+  });
 
 program
   .command("install <tool>")
@@ -174,12 +250,12 @@ program
   .action(async (cmdOpts: { setKey?: boolean; clearKey?: boolean; model?: string }) => {
     if (cmdOpts.setKey) {
       const key = await promptForApiKey();
-      writeConfig({ apiKey: key });
+      writeConfig({ apiKey: key, apiKeyKind: "manual" });
       console.log(chalk.green(`Saved (masked: ${maskKey(key)}) to ${configFilePath()}`));
       return;
     }
     if (cmdOpts.clearKey) {
-      writeConfig({ apiKey: undefined });
+      writeConfig({ apiKey: undefined, apiKeyKind: undefined });
       console.log(chalk.green("Stored API key cleared."));
       return;
     }
@@ -190,10 +266,15 @@ program
     }
     const cfg = readConfig();
     const envKey = process.env.SPROUT_API_KEY?.trim();
+    const byopId = resolveByopClientId();
     console.log(chalk.bold("Sprout config") + chalk.dim(`  (${configFilePath()})`));
     console.log(`  api key (env):    ${envKey ? maskKey(envKey) : chalk.dim("not set")}`);
-    console.log(`  api key (stored): ${cfg.apiKey ? maskKey(cfg.apiKey) : chalk.dim("not set")}`);
+    console.log(`  api key (stored): ${cfg.apiKey ? maskKey(cfg.apiKey) : chalk.dim("not set")}${cfg.apiKeyKind ? chalk.dim(` · ${cfg.apiKeyKind}`) : ""}`);
     console.log(`  model:            ${resolveModel()} ${cfg.model ? "" : chalk.dim(`(default: ${DEFAULT_MODEL})`)}`);
+    console.log(`  byop app key:     ${byopId ? maskKey(byopId) : chalk.dim("not configured")}`);
+    if (!resolveApiKey() && byopId) {
+      console.log(chalk.dim(`  → run ${color.accent("sprout login")} to authorize with your Pollen balance`));
+    }
   });
 
 program

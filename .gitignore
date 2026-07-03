@@ -2,3 +2,10 @@ node_modules/
 dist/
 .env
 *.log
+.playwright-mcp/
+hero-*.png
+install-*.png
+phase1-*.png
+commands-*.png
+footer-*.png
+sprout-*.png

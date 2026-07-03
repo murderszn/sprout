@@ -13,8 +13,12 @@ import path from "node:path";
 
 export const DEFAULT_MODEL = "gpt-5.4-mini";
 
+export type ApiKeyKind = "byop" | "manual";
+
 export interface SproutConfig {
   apiKey?: string;
+  /** How the stored key was obtained — BYOP device flow vs pasted sk_. */
+  apiKeyKind?: ApiKeyKind;
   model?: string;
 }
 

@@ -1,6 +1,6 @@
 # 🌱 Sprout
 
-[![npm version](https://img.shields.io/npm/v/sprout-cli?style=flat-square&logo=npm&logoColor=white&label=npm)](https://www.npmjs.com/package/sprout-cli)
+[![npm version](https://img.shields.io/npm/v/sprout-install?style=flat-square&logo=npm&logoColor=white&label=npm)](https://www.npmjs.com/package/sprout-install)
 [![CI](https://img.shields.io/github/actions/workflow/status/murderszn/sprout/ci.yml?branch=main&style=flat-square&label=ci)](https://github.com/murderszn/sprout/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-65A30D?style=flat-square)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-84CC16?style=flat-square&logo=node.js&logoColor=white)](package.json)
@@ -33,7 +33,7 @@ It is deliberately **not** a general coding agent. Its entire world is package m
 ## Install
 
 ```sh
-npm install -g sprout-cli    # or run without installing: npx sprout-cli install gh
+npm install -g sprout-install    # or run without installing: npx sprout-install install gh
 ```
 
 From a checkout:
@@ -42,14 +42,26 @@ From a checkout:
 npm install && npm run build && npm link
 ```
 
-## Setup — bring your own Pollinations key
+## Setup — Pollinations (BYOP or bring your own key)
 
-Sprout never ships, proxies, or phones home with an API key. Inference goes to [Pollinations](https://gen.pollinations.ai) via its OpenAI-compatible API, using **your** key.
+Inference goes to [Pollinations](https://gen.pollinations.ai) via its OpenAI-compatible API. Sprout never proxies or phones home with your key — it stays in your env or `~/.sprout/config.json` (chmod 600).
 
-1. Get a secret key (`sk_...`) at **https://enter.pollinations.ai**.
-2. Run any Sprout command. On first run it prompts for the key (input hidden) and offers to save it to `~/.sprout/config.json` (chmod 600). Alternatively, export `SPROUT_API_KEY` and nothing is stored.
+### Recommended: `sprout login` (Bring Your Own Pollen)
 
-Key resolution order: `SPROUT_API_KEY` env var → `~/.sprout/config.json` → interactive prompt. The key is never printed back; anywhere it's redisplayed it appears masked (`sk_a****xyz`).
+Authorize Sprout to spend **your** Pollen balance via Pollinations [BYOP](https://github.com/pollinations/pollinations/blob/main/BRING_YOUR_OWN_POLLEN.md):
+
+```sh
+sprout login
+```
+
+Opens **enter.pollinations.ai**, you approve access in the browser, and Sprout stores a scoped `sk_...` key locally. On first run of any command, Sprout offers this flow before asking you to paste a key.
+
+### Alternative: paste your own `sk_...` key
+
+1. Get a secret key at **https://enter.pollinations.ai**.
+2. Run `sprout config --set-key`, or export `SPROUT_API_KEY`.
+
+Key resolution order: `SPROUT_API_KEY` env var → `~/.sprout/config.json` → `sprout login` / interactive prompt. Keys are only ever shown masked (`sk_a****xyz`).
 
 Default model: `gpt-5.4-mini` (override per-run with `--model`, or persistently with `sprout config --model <id>`).
 
@@ -65,8 +77,9 @@ sprout diagnose < broken.log   # pipe a failed install attempt, get a diagnosis 
 brew install foo 2>&1 | sprout diagnose --tool foo
 sprout diagnose                # interactive: paste the log, end with Ctrl-D
 
+sprout login                   # authorize with Pollen (BYOP device flow)
 sprout config                  # show masked key + model + config path
-sprout config --set-key        # store a new key (input hidden)
+sprout config --set-key        # store a pasted sk_ key (input hidden)
 sprout config --clear-key
 sprout config --model gpt-5.4
 

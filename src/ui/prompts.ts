@@ -110,8 +110,8 @@ export async function promptYesNo(question: string): Promise<boolean> {
 
 /** Hidden-input prompt for the Pollinations key; echoes only a masked form. */
 export async function promptForApiKey(): Promise<string> {
-  console.log("\n" + chalk.bold("Sprout needs a Pollinations API key (bring your own)."));
-  console.log(`Get one at ${color.accent("https://enter.pollinations.ai")} — it looks like ${color.dim("sk_...")}\n`);
+  console.log("\n" + chalk.bold("Sprout needs a Pollinations API key."));
+  console.log(`Paste an existing ${color.dim("sk_...")} key, or run ${color.accent("sprout login")} to authorize with your Pollen balance.\n`);
   const key = await askLine("Paste your key (input hidden): ", true);
   if (!key) throw new Error("No API key entered.");
   console.log(`Received ${color.dim(maskKey(key))}`);

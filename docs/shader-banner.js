@@ -39,33 +39,51 @@ float inTrail(float order, float head){
   return step(dist, TRAIL);
 }
 
-bool isNora(vec2 localId) {
+bool isSprout(vec2 localId) {
   float x = localId.x;
   float y = localId.y;
-  
-  // Letter 0: N (columns 0, 1, 2)
+  float lx;
+
+  // S (columns 0–2)
   if (x >= -0.5 && x <= 2.5) {
-    return (x < 0.5 || x > 1.5 || (x > 0.5 && x < 1.5 && y > 1.5 && y < 2.5));
+    lx = x;
+    return (y < 0.5 && lx > 0.5) ||
+           (y > 3.5 && lx < 1.5) ||
+           (y > 1.5 && y < 2.5) ||
+           (lx < 0.5 && y < 2.0) ||
+           (lx > 1.5 && y > 2.0);
   }
-  // Letter 1: O (columns 4, 5, 6)
+  // P (columns 4–6)
   if (x >= 3.5 && x <= 6.5) {
-    float lx = x - 4.0;
+    lx = x - 4.0;
+    return (lx < 0.5) ||
+           (y < 0.5) ||
+           (y > 1.5 && y < 2.5 && lx > 0.5) ||
+           (lx > 1.5 && y < 2.5);
+  }
+  // R (columns 8–10)
+  if (x >= 7.5 && x <= 10.5) {
+    lx = x - 8.0;
+    return (lx < 0.5) ||
+           (y < 0.5) ||
+           (y > 0.5 && y < 1.5 && lx > 1.5) ||
+           (y > 1.5 && y < 2.5 && lx > 0.5 && lx < 1.5) ||
+           (y > 2.5 && lx > 1.5);
+  }
+  // O (columns 12–14)
+  if (x >= 11.5 && x <= 14.5) {
+    lx = x - 12.0;
     return (lx < 0.5 || lx > 1.5 || y < 0.5 || y > 3.5);
   }
-  // Letter 2: R (columns 8, 9, 10)
-  if (x >= 7.5 && x <= 10.5) {
-    float lx = x - 8.0;
-    return (lx < 0.5 || 
-           (y > 3.5 && lx > 0.5 && lx < 1.5) || 
-           (y > 2.5 && y < 3.5 && lx > 1.5) || 
-           (y > 1.5 && y < 2.5 && lx > 0.5 && lx < 1.5) || 
-           (y > 0.5 && y < 1.5 && lx > 1.5) || 
-           (y < 0.5 && lx > 1.5));
+  // U (columns 16–18)
+  if (x >= 15.5 && x <= 18.5) {
+    lx = x - 16.0;
+    return (lx < 0.5 || lx > 1.5 || y > 3.5);
   }
-  // Letter 3: A (columns 12, 13, 14)
-  if (x >= 11.5 && x <= 14.5) {
-    float lx = x - 12.0;
-    return (lx < 0.5 || lx > 1.5 || y > 3.5 || (y > 1.5 && y < 2.5));
+  // T (columns 20–22)
+  if (x >= 19.5 && x <= 22.5) {
+    lx = x - 20.0;
+    return (y < 0.5) || (lx > 0.5 && lx < 1.5);
   }
   return false;
 }
@@ -122,14 +140,14 @@ void main(){
   float sparkHead = mod(tick * 4.3 + u_seed * 7.2, CYCLE);
   float cellSpark = nearHead(cellOrder, sparkHead) * pulse;
 
-  // Center the word "NORA" relative to screen geometry, independent of seedOffset
+  // Center the word "SPROUT" relative to screen geometry, independent of seedOffset
   vec2 centerId = floor((vec2(0.5 * u_res.x, 0.5 * u_res.y) / mn) * mix(1.2, 2.6, u_scale) * 3.0 * freq + vec2(gutter * 1.5));
   vec2 relId = floor(gv) - centerId;
 
   bool inWord = false;
-  vec2 localId = vec2(relId.x + 7.0, 2.0 - relId.y);
-  if (localId.x >= -0.5 && localId.x < 15.0 && localId.y >= -0.5 && localId.y < 5.0) {
-    inWord = isNora(localId);
+  vec2 localId = vec2(relId.x + 11.0, 2.0 + relId.y);
+  if (localId.x >= -0.5 && localId.x < 23.0 && localId.y >= -0.5 && localId.y < 5.0) {
+    inWord = isSprout(localId);
   }
 
   float highlighted = clamp(
