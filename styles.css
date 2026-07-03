@@ -172,6 +172,7 @@ a {
   z-index: 50;
   will-change: transform;
   overflow: hidden;
+  background-color: var(--black-soft);
 }
 
 .overlay.is-revealed {
@@ -180,12 +181,16 @@ a {
 
 .overlay-bg {
   position: absolute;
-  inset: -5% 0;
+  inset: -6% -10% 6% 10%;
   background-color: #84CC16;
   background-image:
     radial-gradient(ellipse 80% 70% at 30% 50%, rgba(101, 163, 13, 0.6) 0%, transparent 60%),
     linear-gradient(160deg, rgba(15, 17, 11, 0.08) 0%, transparent 50%);
   will-change: transform;
+  z-index: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.45);
 }
 
 .overlay-bg.is-shader-active {
@@ -419,6 +424,7 @@ a {
 }
 
 .hero-terminal-group {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -432,6 +438,7 @@ a {
 
 .hero-terminal {
   position: relative;
+  z-index: 2;
   width: 100%;
   min-width: 0;
   flex: 0 0 auto;
