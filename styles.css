@@ -187,6 +187,20 @@ a {
   will-change: transform;
 }
 
+.overlay-bg.is-shader-active {
+  background-color: #0F110B;
+  background-image: none;
+}
+
+.overlay-bg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
 .overlay-edge {
   position: absolute;
   bottom: 0;
