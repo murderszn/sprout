@@ -2327,6 +2327,15 @@ a {
   overflow: visible;
 }
 
+.footer-sprout-emoji {
+  display: inline-block;
+  font-size: 0.9em;
+  line-height: 1;
+  vertical-align: middle;
+  margin-left: 0.15em;
+  transform: translateY(-0.05em);
+}
+
 .footer-tagline {
   font-family: var(--font-mono);
   font-size: 0.9375rem;
