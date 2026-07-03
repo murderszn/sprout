@@ -5,7 +5,7 @@
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const PARAMS = {
-    colorBack: '#0F110B',
+    colorBack: '#FFFFFF',
     colors: ['#D9F99D', '#A3E635', '#84CC16', '#65A30D'],
     bandCount: 4,
     twist: 0.1,
