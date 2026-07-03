@@ -3,44 +3,102 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sprout | Install-fixer CLI for developer tools</title>
-  <meta name="description" content="Sprout diagnoses and fixes local install, config, and PATH problems for developer tools on your machine. Detect, plan, confirm, verify — not a general coding agent.">
-  <meta name="keywords" content="Sprout, sprout-cli, install fixer, developer tools, PATH, package manager, CLI agent, Pollinations">
-  <meta name="author" content="Sprout">
-  <meta name="robots" content="index, follow">
+  <title>Sprout | Install-fixer CLI for Developer Tools</title>
+  <meta name="description" content="Sprout is an install-fixer CLI for macOS and Linux. Diagnose and fix local install, config, and PATH problems for developer tools — detect your machine, plan steps, confirm each command, and verify with a real run. Not a general coding agent.">
+  <meta name="keywords" content="Sprout, sprout-cli, install fixer, developer tools, CLI, PATH, Homebrew, apt, npm, package manager, shell config, macOS, Linux, Pollinations, open source">
+  <meta name="author" content="murderszn">
+  <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#65A30D">
+  <meta name="application-name" content="Sprout">
+  <meta name="apple-mobile-web-app-title" content="Sprout">
   <link rel="canonical" href="https://murderszn.github.io/sprout/">
-  <meta property="og:title" content="Sprout | Install-fixer CLI">
-  <meta property="og:description" content="Tell Sprout what to install — it detects your machine, proposes a plan, runs it step by step with your confirmation, and proves the result.">
+  <link rel="alternate" href="https://github.com/murderszn/sprout" title="GitHub repository">
+  <meta property="og:title" content="Sprout | Install-fixer CLI for Developer Tools">
+  <meta property="og:description" content="Tell Sprout what to install. It detects your machine, proposes a plan, runs each step with your confirmation, and proves the result with a real verify command.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://murderszn.github.io/sprout/">
   <meta property="og:site_name" content="Sprout">
   <meta property="og:locale" content="en_US">
-  <meta property="og:image" content="https://murderszn.github.io/sprout/public/og-image.svg">
+  <meta property="og:image" content="https://murderszn.github.io/sprout/public/og-image.png">
+  <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Sprout install-fixer CLI — detect, plan, confirm, verify developer tool installs on macOS and Linux">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://murderszn.github.io/sprout/public/og-image.svg">
+  <meta name="twitter:image" content="https://murderszn.github.io/sprout/public/og-image.png">
+  <meta name="twitter:image:alt" content="Sprout install-fixer CLI — detect, plan, confirm, verify developer tool installs on macOS and Linux">
   <meta name="twitter:title" content="Sprout | Install-fixer CLI">
-  <meta name="twitter:description" content="Diagnose and fix local install/config/PATH problems for developer tools. MIT licensed.">
+  <meta name="twitter:description" content="Fix install, config, and PATH problems for developer tools on your machine. npm install -g sprout-cli">
   <link rel="icon" href="public/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="public/favicon.svg">
+  <link rel="icon" href="public/apple-touch-icon.png" type="image/png" sizes="180x180">
+  <link rel="apple-touch-icon" href="public/apple-touch-icon.png" sizes="180x180">
   <link rel="manifest" href="public/site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=Quicksand:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=9">
+  <link rel="stylesheet" href="styles.css?v=10">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Sprout",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "macOS, Linux",
-    "description": "Diagnose and fix local install, config, and PATH problems for developer tools.",
-    "url": "https://murderszn.github.io/sprout/",
-    "license": "https://opensource.org/licenses/MIT",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://murderszn.github.io/sprout/#website",
+        "url": "https://murderszn.github.io/sprout/",
+        "name": "Sprout",
+        "description": "Install-fixer CLI for developer tools on macOS and Linux.",
+        "inLanguage": "en-US",
+        "publisher": { "@id": "https://murderszn.github.io/sprout/#organization" }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://murderszn.github.io/sprout/#organization",
+        "name": "Sprout",
+        "url": "https://murderszn.github.io/sprout/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://murderszn.github.io/sprout/public/apple-touch-icon.png",
+          "width": 180,
+          "height": 180
+        },
+        "sameAs": [
+          "https://github.com/murderszn/sprout",
+          "https://www.npmjs.com/package/sprout-cli"
+        ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://murderszn.github.io/sprout/#software",
+        "name": "Sprout",
+        "alternateName": "sprout-cli",
+        "applicationCategory": "DeveloperApplication",
+        "applicationSubCategory": "CLI Tool",
+        "operatingSystem": "macOS, Linux",
+        "description": "Diagnose and fix local install, config, and PATH problems for developer tools. Detect your machine, plan install steps, confirm each command, and verify with a real command — not a general coding agent.",
+        "url": "https://murderszn.github.io/sprout/",
+        "image": "https://murderszn.github.io/sprout/public/og-image.png",
+        "screenshot": "https://murderszn.github.io/sprout/public/og-image.png",
+        "downloadUrl": "https://www.npmjs.com/package/sprout-cli",
+        "softwareVersion": "1.0",
+        "license": "https://opensource.org/licenses/MIT",
+        "isAccessibleForFree": true,
+        "featureList": [
+          "Install developer tools with machine-aware plans",
+          "Diagnose failed install attempts from logs",
+          "Detect OS, shell, PATH, and package managers",
+          "Step-by-step confirmation before system changes",
+          "Verify installs with real commands",
+          "Dry-run mode with zero side effects"
+        ],
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        "publisher": { "@id": "https://murderszn.github.io/sprout/#organization" }
+      }
+    ]
   }
   </script>
 </head>
@@ -88,8 +146,8 @@
       <div class="hero-layout">
         <div class="hero-content">
           <h1 class="hero-title">
-            <span class="hero-title-ghost" aria-hidden="true">Sprout</span>
-            <span class="hero-title-text">Sprout</span>
+            <span class="hero-title-ghost" aria-hidden="true">🌱 Sprout</span>
+            <span class="hero-title-text"><span class="hero-title-emoji" aria-hidden="true">🌱</span> Sprout</span>
           </h1>
           <p class="hero-tagline">
             Diagnose and fix install, config, and PATH problems for developer tools —

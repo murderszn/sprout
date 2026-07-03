@@ -1,8 +1,9 @@
 {
-  "name": "Sprout",
+  "name": "Sprout — Install-fixer CLI",
   "short_name": "Sprout",
-  "description": "Install-fixer CLI for developer tools",
+  "description": "Diagnose and fix local install, config, and PATH problems for developer tools on macOS and Linux.",
   "start_url": "/sprout/",
+  "scope": "/sprout/",
   "display": "standalone",
   "background_color": "#1A1D13",
   "theme_color": "#65A30D",
@@ -10,7 +11,20 @@
     {
       "src": "favicon.svg",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
