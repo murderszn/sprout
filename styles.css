@@ -402,6 +402,10 @@ a {
   position: relative;
   z-index: 1;
   width: 100%;
+  --mac-terminal-height: 420px;
+  height: var(--mac-terminal-height);
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes hero-enter {
@@ -1474,6 +1478,9 @@ a {
 
 .mac-terminal-body {
   background: var(--mac-bg);
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .mac-terminal .terminal-session {
@@ -1483,11 +1490,15 @@ a {
   line-height: 1.45;
   color: var(--mac-text);
   background: var(--mac-bg);
-  max-height: min(calc(100vh - var(--nav-height) - 5.5rem), 460px);
+  height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+.hero-terminal .mac-terminal .terminal-session {
+  max-height: none;
 }
 
 .mac-terminal .terminal-session::-webkit-scrollbar {
@@ -2456,9 +2467,8 @@ a {
     gap: 0.75rem;
   }
 
-  .mac-terminal .terminal-session,
-  .hero-terminal .terminal-session {
-    max-height: min(48vh, 340px);
+  .hero-terminal .mac-terminal {
+    --mac-terminal-height: 340px;
   }
 
   .scroll-cue {
@@ -2665,9 +2675,8 @@ a {
     font-size: 0.9375rem;
   }
 
-  .mac-terminal .terminal-session,
-  .hero-terminal .terminal-session {
-    max-height: min(42vh, 280px);
+  .hero-terminal .mac-terminal {
+    --mac-terminal-height: 280px;
   }
 
   .scroll-cue {
