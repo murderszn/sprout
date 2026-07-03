@@ -194,6 +194,7 @@ function focusHeroDemo() {
   void terminal.offsetWidth;
   terminal.classList.add('is-highlighted');
   window.setTimeout(() => terminal.classList.remove('is-highlighted'), 1400);
+  window.heroTerminal?.restart();
 }
 
 const installStepperItems = document.querySelectorAll('.install-stepper-item');
