@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=Quicksand:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=18">
+  <link rel="stylesheet" href="styles.css?v=19">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -180,48 +180,18 @@
         </div>
 
         <div class="hero-terminal" id="demo">
-          <div class="terminal-block terminal-block--session terminal-block--hero">
-            <div class="terminal-header">
-              <span class="terminal-dot"></span>
-              <span class="terminal-dot"></span>
-              <span class="terminal-dot"></span>
-              <span class="terminal-label">sprout install gh · macOS · zsh</span>
+          <div class="mac-terminal terminal-block--hero" id="hero-terminal">
+            <div class="mac-terminal-toolbar">
+              <div class="mac-terminal-traffic" aria-hidden="true">
+                <span class="mac-traffic mac-traffic--close"></span>
+                <span class="mac-traffic mac-traffic--min"></span>
+                <span class="mac-traffic mac-traffic--zoom"></span>
+              </div>
+              <p class="mac-terminal-title">zsh — sprout</p>
+              <div class="mac-terminal-toolbar-spacer" aria-hidden="true"></div>
             </div>
-            <div class="terminal-session" aria-label="Example sprout install gh session">
-              <div class="t-line t-cmd"><span class="t-prompt">$</span> sprout install gh</div>
-
-              <div class="t-box">
-                <div class="t-box-line"><span class="t-brand">🌱 <strong>sprout</strong></span> <span class="t-dim">·</span> <strong>install gh</strong></div>
-                <div class="t-box-line t-dim">model gpt-5.4-mini · gen.pollinations.ai</div>
-              </div>
-
-              <div class="t-line t-card"><span class="t-brand">⏺</span> <strong>environment</strong></div>
-              <div class="t-line t-elbow t-dim">⎿ macOS 14.6 (arm64) <span class="t-faint">·</span> zsh <span class="t-faint">·</span> rc ~/.zshrc</div>
-              <div class="t-line t-elbow t-dim">⎿ managers: brew, npm, pip3</div>
-              <div class="t-line t-elbow t-dim">⎿ knowledge base: curated entry for GitHub CLI</div>
-
-              <div class="t-line t-prose">I'll probe for <code>gh</code>, install via Homebrew if missing, then verify with <code>gh --version</code>.</div>
-
-              <div class="t-line t-card"><span class="t-brand">⏺</span> <strong>run_shell</strong> <span class="t-dim">· step 1</span></div>
-              <div class="t-line t-indent"><span class="t-accent">$</span> <span class="t-accent t-bold">command -v gh</span></div>
-              <div class="t-line t-elbow"><span class="t-dim">⎿</span> <span class="t-fail">✗ exit 1</span> <span class="t-dim">· 0.0s</span></div>
-
-              <div class="t-line t-card"><span class="t-brand">⏺</span> <strong>run_shell</strong> <span class="t-dim">· step 2</span></div>
-              <div class="t-line t-indent"><span class="t-accent">$</span> <span class="t-accent t-bold">brew install gh</span></div>
-              <div class="t-line t-confirm">Run this command? <span class="t-brand">yes</span></div>
-              <div class="t-line t-elbow"><span class="t-dim">⎿</span> <span class="t-ok">✓ exit 0</span> <span class="t-dim">· 11.8s</span></div>
-
-              <div class="t-line t-card"><span class="t-brand">⏺</span> <strong>run_shell</strong> <span class="t-dim">· step 3</span></div>
-              <div class="t-line t-indent"><span class="t-accent">$</span> <span class="t-accent t-bold">gh --version</span></div>
-              <div class="t-line t-elbow t-dim">⎿ gh version 2.63.1 (2024-11-13)</div>
-              <div class="t-line t-elbow"><span class="t-dim">⎿</span> <span class="t-ok t-bold">✓ verified</span></div>
-
-              <div class="t-box">
-                <div class="t-box-line t-brand t-bold">🌱 run summary</div>
-                <div class="t-box-line"><span class="t-ok">✓</span> command -v gh</div>
-                <div class="t-box-line"><span class="t-ok">✓</span> brew install gh</div>
-                <div class="t-box-line"><span class="t-ok">✓</span> gh --version</div>
-              </div>
+            <div class="mac-terminal-body">
+              <div class="terminal-session" id="hero-terminal-session" aria-live="polite" aria-label="Example sprout install gh session"></div>
             </div>
           </div>
         </div>
@@ -676,6 +646,7 @@
     </footer>
   </main>
 
+  <script src="hero-terminal.js" defer></script>
   <script src="hero-shader.js" defer></script>
   <script src="shader-banner.js" defer></script>
   <script src="main.js" defer></script>
