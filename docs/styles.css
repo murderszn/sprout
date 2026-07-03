@@ -373,8 +373,8 @@ a {
 
 .hero-layout {
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(280px, 1.05fr);
-  gap: clamp(1.25rem, 3vw, 2.5rem);
+  grid-template-columns: minmax(0, 0.42fr) minmax(320px, 0.58fr);
+  gap: clamp(1rem, 2.5vw, 2rem);
   align-items: center;
   width: 100%;
   max-width: var(--page-max);
@@ -383,18 +383,36 @@ a {
 }
 
 .hero-content {
+  position: relative;
   max-width: none;
   padding: 0;
   color: var(--black);
   animation: hero-enter 1s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.hero-content::before {
+  content: '';
+  position: absolute;
+  inset: -14% -10% -14% -18%;
+  background:
+    radial-gradient(ellipse 88% 78% at 18% 48%, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.52) 42%, transparent 72%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-content-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 26rem;
+}
+
 .hero-terminal {
   position: relative;
   min-width: 0;
-  align-self: stretch;
+  align-self: center;
   display: flex;
   align-items: center;
+  justify-content: center;
   scroll-margin-top: 1rem;
   scroll-margin-bottom: 1rem;
   animation: hero-enter 1s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
@@ -404,7 +422,8 @@ a {
   position: relative;
   z-index: 1;
   width: 100%;
-  --mac-terminal-height: 420px;
+  max-width: 640px;
+  --mac-terminal-height: 440px;
   height: var(--mac-terminal-height);
   display: flex;
   flex-direction: column;
@@ -421,102 +440,57 @@ a {
   }
 }
 
-.hero-title {
-  position: relative;
-  display: block;
-  max-width: 100%;
-  font-family: var(--font-brand);
-  font-size: clamp(3.5rem, 9vw, 7.5rem);
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.2vw, 3.125rem);
   font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: -0.035em;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.04em;
-  overflow: hidden;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--black);
+  max-width: 14ch;
+  margin-bottom: 0.625rem;
 }
 
-.hero-title-ghost {
-  position: absolute;
-  inset: 0;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(26, 29, 19, 0.16);
-  transform: translate(3px, -2px);
-  pointer-events: none;
-}
-
-.hero-title-text {
-  position: relative;
-  display: inline-block;
-  white-space: nowrap;
-}
-
-.hero-title-emoji {
-  display: inline-block;
-  margin-left: 0.14em;
-  font-family: system-ui, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
-  font-size: 0.5em;
-  line-height: 1;
-  vertical-align: 0.35em;
-  opacity: 0.9;
+.hero-headline em {
+  font-style: normal;
+  color: var(--black);
+  text-decoration: underline;
+  text-decoration-color: rgba(101, 163, 13, 0.45);
+  text-decoration-thickness: 0.12em;
+  text-underline-offset: 0.12em;
 }
 
 .hero-eyebrow {
   font-family: var(--font-mono);
-  font-size: clamp(0.6875rem, 1.6vw, 0.8125rem);
+  font-size: clamp(0.6875rem, 1.4vw, 0.8125rem);
   font-weight: 500;
   letter-spacing: 0.04em;
-  color: rgba(26, 29, 19, 0.52);
-  margin-bottom: 0.875rem;
+  color: rgba(26, 29, 19, 0.58);
+  margin-bottom: 0.75rem;
 }
 
-.hero-badges {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.3125rem 0.75rem;
+.hero-subline {
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--black);
-  background: rgba(26, 29, 19, 0.06);
-  border: 1px solid rgba(26, 29, 19, 0.18);
-  border-radius: 999px;
-  text-decoration: none;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
-}
-
-.hero-badge--link:hover {
-  background: rgba(26, 29, 19, 0.1);
-  border-color: rgba(26, 29, 19, 0.28);
-  color: var(--black);
-}
-
-.hero-punch {
-  font-family: var(--font-display);
-  font-size: clamp(1.375rem, 3.2vw, 2rem);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  color: var(--black);
-  max-width: 22ch;
-  margin-bottom: 0.625rem;
-}
-
-.hero-support {
-  font-size: clamp(0.9375rem, 2vw, 1.125rem);
+  font-size: clamp(0.8125rem, 1.6vw, 0.9375rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
   color: var(--text-on-yellow-muted);
-  max-width: 38ch;
-  margin-bottom: 1.25rem;
-  line-height: 1.55;
+  margin-bottom: 1.125rem;
+  line-height: 1.5;
+}
+
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.625rem;
+  margin-bottom: 0.75rem;
+}
+
+.hero-github-btn {
+  align-self: flex-start;
+  padding: 0.6875rem 1.125rem;
+  font-size: 0.8125rem;
 }
 
 .hero-command-cta {
@@ -524,9 +498,8 @@ a {
   align-items: center;
   gap: 0.75rem;
   width: 100%;
-  max-width: 28rem;
   min-width: 0;
-  margin-bottom: 0.875rem;
+  margin-bottom: 0;
   padding: 0.625rem 0.75rem 0.625rem 1rem;
   background: var(--black);
   border: 1px solid rgba(26, 29, 19, 0.35);
@@ -2417,48 +2390,54 @@ a {
 
   .hero-layout {
     grid-template-columns: 1fr;
-    gap: 1.75rem;
+    gap: 1.25rem;
     padding-bottom: 4.5rem;
   }
 
   .hero-terminal {
-    order: 2;
-    scroll-margin-top: calc(var(--nav-height) + 1rem);
-    scroll-margin-bottom: 2rem;
+    order: 1;
+    scroll-margin-top: calc(var(--nav-height) + 0.5rem);
+    scroll-margin-bottom: 1.25rem;
   }
 
   .hero-content {
+    order: 2;
     max-width: 100%;
   }
 
-  .hero-title {
-    font-size: clamp(2.25rem, 9vw, 3.25rem);
-    margin-bottom: 1rem;
-    letter-spacing: -0.03em;
+  .hero-content::before {
+    inset: -8% -6%;
+    background:
+      radial-gradient(ellipse 100% 80% at 50% 40%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.4) 50%, transparent 78%);
   }
 
-  .hero-title-ghost {
-    display: none;
+  .hero-content-inner {
+    max-width: none;
+  }
+
+  .hero-headline {
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+    max-width: none;
+    margin-bottom: 0.5rem;
   }
 
   .hero-eyebrow {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.625rem;
   }
 
-  .hero-punch {
-    max-width: none;
-  }
-
-  .hero-support {
-    max-width: none;
+  .hero-subline {
     margin-bottom: 1rem;
   }
 
   .hero-command-cta {
-    max-width: none;
     flex-direction: column;
     align-items: stretch;
     gap: 0.5rem;
+  }
+
+  .hero-github-btn {
+    align-self: stretch;
+    text-align: center;
   }
 
   .hero-command-text {
@@ -2487,10 +2466,10 @@ a {
     display: none;
   }
 
-  .hero-punch,
-  .hero-support,
+  .hero-headline,
+  .hero-subline,
   .hero-demo-link {
-    text-shadow: 0 1px 12px rgba(var(--yellow-rgb), 0.6);
+    text-shadow: 0 1px 10px rgba(255, 255, 255, 0.65);
   }
 
   .section-title {
@@ -2677,14 +2656,14 @@ a {
     padding-bottom: 3.5rem;
   }
 
-  .hero-title {
-    font-size: clamp(2.75rem, 10vw, 4.5rem);
-    margin-bottom: 0.75rem;
+  .hero-headline {
+    font-size: clamp(1.625rem, 6vw, 2.25rem);
+    margin-bottom: 0.5rem;
   }
 
-  .hero-tagline {
-    margin-bottom: 1rem;
-    font-size: 0.9375rem;
+  .hero-subline {
+    margin-bottom: 0.75rem;
+    font-size: 0.8125rem;
   }
 
   .hero-terminal .mac-terminal {
@@ -2705,7 +2684,6 @@ a {
   .scroll-cue-arrow,
   .hero-content,
   .hero-terminal,
-  .hero-title-ghost,
   .nav-logo-dot,
   .mac-terminal .t-cursor {
     animation: none;
