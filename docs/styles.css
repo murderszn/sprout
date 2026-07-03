@@ -307,12 +307,6 @@ a {
   letter-spacing: 0.02em;
 }
 
-.nav-logo-emoji {
-  font-size: 1.125rem;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
 .nav-logo-sub {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
@@ -2325,15 +2319,6 @@ a {
   letter-spacing: -0.03em;
   color: var(--text-on-dark);
   overflow: visible;
-}
-
-.footer-sprout-emoji {
-  display: inline-block;
-  font-size: 0.9em;
-  line-height: 1;
-  vertical-align: middle;
-  margin-left: 0.15em;
-  transform: translateY(-0.05em);
 }
 
 .footer-tagline {
