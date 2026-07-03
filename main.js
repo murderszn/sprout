@@ -1,18 +1,12 @@
 const overlay = document.getElementById('overlay');
 const overlayBg = document.getElementById('hero-terminal-bg');
-const scrollSpacer = document.getElementById('scroll-spacer');
 const nav = document.getElementById('nav');
 const scrollProgress = document.getElementById('scroll-progress');
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-let revealHeight = window.innerHeight;
 let scrollTicking = false;
 let lastScrollY = 0;
-
-function updateRevealHeight() {
-  revealHeight = scrollSpacer.offsetHeight || window.innerHeight;
-}
 
 function getNavOffset() {
   const navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height'), 10) || 72;
@@ -22,39 +16,15 @@ function getNavOffset() {
 function scrollToTarget(targetId) {
   const el = document.getElementById(targetId);
   if (!el) return;
-
-  const needsReveal = window.scrollY < revealHeight - 4;
   const targetTop = el.getBoundingClientRect().top + window.scrollY - getNavOffset();
-
-  if (needsReveal && !prefersReducedMotion) {
-    window.scrollTo({ top: revealHeight, behavior: 'auto' });
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: targetTop, behavior: 'smooth' });
-    });
-  } else if (needsReveal) {
-    window.scrollTo({ top: Math.max(revealHeight, targetTop) });
-  } else {
-    window.scrollTo({ top: targetTop, behavior: 'smooth' });
-  }
+  window.scrollTo({ top: targetTop, behavior: 'smooth' });
 }
 
 function handleScroll() {
   const scrollY = window.scrollY;
   lastScrollY = scrollY;
-  const progress = Math.min(scrollY / revealHeight, 1);
-
-  if (prefersReducedMotion) {
-    if (scrollY >= revealHeight - 1) {
-      overlay.style.transform = `translate3d(0, -${revealHeight}px, 0)`;
-      overlay.classList.add('is-revealed');
-    } else {
-      overlay.style.transform = 'translate3d(0, 0, 0)';
-      overlay.classList.remove('is-revealed');
-    }
-  } else {
-    overlay.style.transform = `translate3d(0, -${scrollY}px, 0)`;
-    overlay.classList.toggle('is-revealed', scrollY >= revealHeight - 1);
-  }
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? Math.min(scrollY / docHeight, 1) : 0;
 
   if (scrollProgress) {
     scrollProgress.style.transform = `scaleX(${progress})`;
@@ -80,6 +50,8 @@ const navSections = [
 ].filter((s) => s.el);
 
 function updateNavTheme() {
+  const scrollY = window.scrollY;
+  const heroHeight = window.innerHeight;
   const features = document.getElementById('features');
   if (!features) return;
 
@@ -91,7 +63,7 @@ function updateNavTheme() {
   if (featuresTop <= offset) {
     nav.classList.remove('nav--light', 'nav--dark', 'nav--yellow');
     nav.classList.add('nav--cream');
-  } else if (installTop <= offset || lastScrollY >= revealHeight - 1) {
+  } else if (installTop <= offset || scrollY >= heroHeight - offset) {
     nav.classList.remove('nav--light', 'nav--yellow', 'nav--cream');
     nav.classList.add('nav--dark');
   } else {
@@ -104,7 +76,8 @@ function updateNavTheme() {
 
 function updateNavActive(offset) {
   const links = document.querySelectorAll('.nav-links a[data-scroll-target]');
-  if (lastScrollY < revealHeight - 4) {
+  const heroHeight = window.innerHeight;
+  if (lastScrollY < heroHeight - offset - 10) {
     links.forEach((link) => link.classList.remove('is-active'));
     return;
   }
@@ -126,7 +99,6 @@ function updateNavActive(offset) {
 
 function init() {
   document.documentElement.classList.add('js');
-  updateRevealHeight();
   nav.classList.add('nav--light');
   handleScroll();
   updateNavTheme();
@@ -148,7 +120,6 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 window.addEventListener('resize', () => {
-  updateRevealHeight();
   handleScroll();
   updateNavTheme();
 });
@@ -160,7 +131,6 @@ window.addEventListener('hashchange', () => {
 
 window.addEventListener('pageshow', (e) => {
   if (e.persisted) {
-    updateRevealHeight();
     handleScroll();
     updateNavTheme();
   }
