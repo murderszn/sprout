@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=Quicksand:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=11">
+  <link rel="stylesheet" href="styles.css?v=12">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -146,22 +146,30 @@
     <header class="hero">
       <div class="hero-layout">
         <div class="hero-content">
+          <p class="hero-eyebrow">// brew install worked. gh: command not found.</p>
           <h1 class="hero-title">
             <span class="hero-title-ghost" aria-hidden="true">Sprout</span>
             <span class="hero-title-text">Sprout<span class="hero-title-emoji" aria-hidden="true">🌱</span></span>
           </h1>
-          <p class="hero-tagline">
-            Diagnose and fix install, config, and PATH problems for developer tools —
-            on <em>this</em> machine. Detect, plan, confirm each step, then verify with a real command.
-          </p>
+          <span class="hero-badge">Not a coding agent</span>
+          <p class="hero-punch">Fix installs on <em>this</em> machine.</p>
+          <p class="hero-support">Detect → plan → confirm → verify — real commands, your approval, proof it worked.</p>
+          <ul class="hero-chips" aria-label="Highlights">
+            <li>macOS · Linux</li>
+            <li>confirm each step</li>
+            <li>no curl | bash</li>
+            <li>bring your own key</li>
+          </ul>
           <div class="hero-actions">
-            <a href="#install" class="btn btn-hero-primary btn-mono" data-scroll-target="install">./install</a>
-            <a href="https://github.com/murderszn/sprout" class="btn btn-hero-outline btn-mono" target="_blank" rel="noopener noreferrer">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-              View source
-            </a>
+            <div class="hero-command-cta">
+              <code class="hero-command-text">npm install -g sprout-cli</code>
+              <button type="button" class="copy-btn copy-btn-hero" data-copy="npm install -g sprout-cli" aria-label="Copy install command">
+                <span class="copy-text" aria-live="polite">Copy</span>
+              </button>
+            </div>
+            <a href="#demo" class="btn btn-hero-outline btn-mono" data-scroll-target="demo">See it work ↓</a>
           </div>
-          <p class="hero-powered">Powered by <a href="https://enter.pollinations.ai" target="_blank" rel="noopener noreferrer">Pollinations</a> · bring your own <code class="inline-code inline-code--hero">sk_</code> key</p>
+          <p class="hero-powered">Powered by <a href="https://enter.pollinations.ai" target="_blank" rel="noopener noreferrer">Pollinations</a> · MIT · <a href="https://github.com/murderszn/sprout" target="_blank" rel="noopener noreferrer">open source</a></p>
         </div>
 
         <div class="hero-terminal" id="demo">
@@ -226,11 +234,35 @@
       <div class="install-inner reveal-on-scroll">
         <header class="install-header">
           <div class="section-label">// INSTALL</div>
-          <h2 class="section-title">One command to get started</h2>
-          <p class="section-desc">Install globally with npm, try without installing via <code class="inline-code">npx</code>, or build from source. On first run, Sprout prompts for your Pollinations API key and offers to save it to <code class="inline-code">~/.sprout/config.json</code>.</p>
+          <h2 class="section-title">Three steps to your first install</h2>
+          <p class="section-desc">Install Sprout, add your Pollinations key, then run a real command. Sprout detects your machine before it changes anything.</p>
         </header>
 
-        <div class="install-stack">
+        <ol class="install-stepper" aria-label="Setup steps">
+          <li class="install-stepper-item is-current" aria-current="step">
+            <span class="install-stepper-num">1</span>
+            <span class="install-stepper-label">Install</span>
+          </li>
+          <li class="install-stepper-item">
+            <span class="install-stepper-num">2</span>
+            <span class="install-stepper-label">API key</span>
+          </li>
+          <li class="install-stepper-item">
+            <span class="install-stepper-num">3</span>
+            <span class="install-stepper-label">First run</span>
+          </li>
+        </ol>
+
+        <div class="install-steps">
+          <div class="install-step" id="install-step-1">
+            <div class="install-step-head">
+              <span class="install-step-num">01</span>
+              <div>
+                <h3 class="install-step-title">Install Sprout</h3>
+                <p class="install-step-desc">Global npm install, one-off <code class="inline-code">npx</code>, or build from source.</p>
+              </div>
+            </div>
+            <div class="install-stack">
           <div class="install-group">
             <div class="install-group-label">
               <span>method.select</span>
@@ -309,17 +341,78 @@
               </div>
             </div>
           </div>
-
-          <div class="install-group">
-            <div class="install-group-label">
-              <span>api.key</span>
-              <span>first run</span>
             </div>
-            <div class="gh-command">
-              <code>Get a key at enter.pollinations.ai → sprout config --set-key → sprout install gh</code>
-              <button class="copy-btn copy-btn-sm" data-copy="sprout config --set-key" aria-label="Copy command">
-                <span class="copy-text" aria-live="polite">Copy</span>
-              </button>
+          </div>
+
+          <div class="install-step" id="install-step-2">
+            <div class="install-step-head">
+              <span class="install-step-num">02</span>
+              <div>
+                <h3 class="install-step-title">Add your API key</h3>
+                <p class="install-step-desc">Sprout never ships a key. Get one at <a href="https://enter.pollinations.ai" target="_blank" rel="noopener noreferrer">enter.pollinations.ai</a>, then store it locally.</p>
+              </div>
+            </div>
+            <div class="install-stack">
+              <div class="terminal-block">
+                <div class="terminal-header">
+                  <span class="terminal-dot"></span>
+                  <span class="terminal-dot"></span>
+                  <span class="terminal-dot"></span>
+                  <span class="terminal-label">First-time setup</span>
+                </div>
+                <div class="terminal-body">
+                  <div class="command-panel active">
+                    <div class="command-line">
+                      <span class="prompt" aria-hidden="true">$</span>
+                      <code class="install-command">sprout config --set-key</code>
+                    </div>
+                    <button class="copy-btn" data-copy="sprout config --set-key" aria-label="Copy command">
+                      <span class="copy-text" aria-live="polite">Copy</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <p class="install-step-note">Saved to <code class="inline-code">~/.sprout/config.json</code> (chmod 600) or export <code class="inline-code">SPROUT_API_KEY</code>. Sprout prompts on first run if neither is set.</p>
+            </div>
+          </div>
+
+          <div class="install-step" id="install-step-3">
+            <div class="install-step-head">
+              <span class="install-step-num">03</span>
+              <div>
+                <h3 class="install-step-title">Run your first command</h3>
+                <p class="install-step-desc">Install a tool, diagnose a failed attempt, or dry-run the plan with zero side effects.</p>
+              </div>
+            </div>
+            <div class="install-stack">
+              <div class="terminal-block">
+                <div class="terminal-header">
+                  <span class="terminal-dot"></span>
+                  <span class="terminal-dot"></span>
+                  <span class="terminal-dot"></span>
+                  <span class="terminal-label">Try it</span>
+                </div>
+                <div class="terminal-body terminal-body--stacked">
+                  <div class="command-panel active">
+                    <div class="command-line">
+                      <span class="prompt" aria-hidden="true">$</span>
+                      <code class="install-command">sprout install gh</code>
+                    </div>
+                    <button class="copy-btn" data-copy="sprout install gh" aria-label="Copy command">
+                      <span class="copy-text" aria-live="polite">Copy</span>
+                    </button>
+                  </div>
+                  <div class="command-panel active">
+                    <div class="command-line">
+                      <span class="prompt" aria-hidden="true">$</span>
+                      <code class="install-command">sprout --dry-run install node</code>
+                    </div>
+                    <button class="copy-btn" data-copy="sprout --dry-run install node" aria-label="Copy command">
+                      <span class="copy-text" aria-live="polite">Copy</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -507,6 +600,47 @@
       </div>
     </section>
 
+    <section id="faq" class="faq">
+      <div class="faq-inner reveal-on-scroll">
+        <header class="faq-header">
+          <div class="section-label">// FAQ</div>
+          <h2 class="section-title">Common questions</h2>
+          <p class="section-desc">Straight answers before you run anything on your machine.</p>
+        </header>
+
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>Do I need an API key?</summary>
+            <p>Yes. Sprout uses <a href="https://enter.pollinations.ai" target="_blank" rel="noopener noreferrer">Pollinations</a> for inference with <strong>your</strong> <code class="inline-code">sk_</code> key — never shipped, proxied, or stored by us. Run <code class="inline-code">sprout config --set-key</code> or export <code class="inline-code">SPROUT_API_KEY</code>.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Is it safe to run on my machine?</summary>
+            <p>Every step shows the exact command and asks for confirmation before sudo, system package managers, or shell rc edits. Destructive patterns are hard-blocked — <code class="inline-code">--yes</code> cannot override them. No <code class="inline-code">curl | bash</code>, ever.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How is this different from ChatGPT or Cursor?</summary>
+            <p>Those are general coding assistants. Sprout only handles installs, PATH, and shell config. It detects <em>your</em> OS, shell, and package managers, runs real verify commands, and refuses unrelated questions.</p>
+          </details>
+          <details class="faq-item">
+            <summary>What if I don't use Homebrew?</summary>
+            <p>Sprout detects what's actually on your machine — apt, dnf, npm, pip, and others. It picks a path for your setup and tells you when it's reasoning outside the curated knowledge base.</p>
+          </details>
+          <details class="faq-item">
+            <summary>My install already failed — can Sprout help?</summary>
+            <p>Yes. Pipe the log: <code class="inline-code">brew install foo 2>&1 | sprout diagnose --tool foo</code> or run <code class="inline-code">sprout diagnose</code> and paste the output. It proposes a fix plan the same way as a fresh install.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Does it work on Apple Silicon and Linux?</summary>
+            <p>v1 targets macOS and Linux (including arm64). Windows is planned. Run <code class="inline-code">sprout env</code> to see the snapshot Sprout uses for your machine.</p>
+          </details>
+          <details class="faq-item">
+            <summary>What does it cost?</summary>
+            <p>Sprout is MIT-licensed and free. You pay Pollinations for inference via your own API key. <code class="inline-code">npm install -g sprout-cli</code> has no subscription.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
     <footer class="footer reveal-on-scroll">
       <div class="footer-scene">
         <div class="footer-inner">
@@ -519,8 +653,20 @@
               GitHub
             </a>
           </div>
+          <div class="footer-badges">
+            <a href="https://github.com/murderszn/sprout" target="_blank" rel="noopener noreferrer" class="footer-badge">
+              <img src="https://img.shields.io/github/stars/murderszn/sprout?style=flat-square&amp;logo=github&amp;label=stars&amp;color=65A30D&amp;labelColor=1A1D13" alt="GitHub stars" width="88" height="20" loading="lazy">
+            </a>
+            <a href="https://www.npmjs.com/package/sprout-cli" target="_blank" rel="noopener noreferrer" class="footer-badge">
+              <img src="https://img.shields.io/npm/dm/sprout-cli?style=flat-square&amp;logo=npm&amp;label=downloads&amp;color=84CC16&amp;labelColor=1A1D13" alt="npm monthly downloads" width="120" height="20" loading="lazy">
+            </a>
+            <a href="https://www.npmjs.com/package/sprout-cli" target="_blank" rel="noopener noreferrer" class="footer-badge">
+              <img src="https://img.shields.io/npm/v/sprout-cli?style=flat-square&amp;logo=npm&amp;label=version&amp;color=A3E635&amp;labelColor=1A1D13" alt="npm version" width="100" height="20" loading="lazy">
+            </a>
+          </div>
           <nav class="footer-links" aria-label="Footer">
             <a href="https://github.com/murderszn/sprout/blob/main/README.md" target="_blank" rel="noopener noreferrer">README</a>
+            <a href="#faq" data-scroll-target="faq">FAQ</a>
             <a href="https://github.com/murderszn/sprout/blob/main/COMMUNITY.md" target="_blank" rel="noopener noreferrer" data-discord-invite>Community</a>
             <a href="https://github.com/murderszn/sprout/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contributing</a>
             <a href="https://www.npmjs.com/package/sprout-cli" target="_blank" rel="noopener noreferrer">npm</a>
