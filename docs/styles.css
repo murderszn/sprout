@@ -379,10 +379,10 @@ a {
 /* Hero */
 .hero {
   position: relative;
-  height: 100%;
-  min-height: 100%;
+  height: 100vh;
+  height: 100dvh;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   z-index: 2;
   overflow: visible;
@@ -404,12 +404,10 @@ a {
   align-items: center;
   justify-content: center;
   gap: clamp(2.5rem, 6vh, 4rem);
-  height: 100%;
-  min-height: 100%;
+  width: 100%;
   max-width: var(--page-max);
   margin: 0 auto;
-  padding-top: calc(var(--nav-height) + clamp(2rem, 5vh, 3.5rem));
-  padding-bottom: clamp(1.5rem, 4vh, 2.75rem);
+  padding: 0;
 }
 
 .hero-subgrid {
