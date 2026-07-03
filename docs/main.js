@@ -82,6 +82,7 @@ const navSections = [
   { id: 'install', el: document.getElementById('install') },
   { id: 'commands', el: document.getElementById('commands') },
   { id: 'features', el: document.getElementById('features') },
+  { id: 'faq', el: document.getElementById('faq') },
 ].filter((s) => s.el);
 
 function updateNavTheme() {
@@ -172,9 +173,50 @@ scrollCue?.addEventListener('click', () => scrollToTarget('install'));
 document.querySelectorAll('[data-scroll-target]').forEach((el) => {
   el.addEventListener('click', (e) => {
     e.preventDefault();
-    scrollToTarget(el.dataset.scrollTarget);
+    const target = el.dataset.scrollTarget;
+    if (target === 'demo') {
+      focusHeroDemo();
+      return;
+    }
+    scrollToTarget(target);
   });
 });
+
+function focusHeroDemo() {
+  const terminal = document.getElementById('demo');
+  if (!terminal) return;
+
+  if (lastScrollY > revealHeight * 0.35) {
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+  }
+
+  terminal.classList.remove('is-highlighted');
+  void terminal.offsetWidth;
+  terminal.classList.add('is-highlighted');
+  window.setTimeout(() => terminal.classList.remove('is-highlighted'), 1400);
+}
+
+const installStepperItems = document.querySelectorAll('.install-stepper-item');
+const installSteps = document.querySelectorAll('.install-step');
+
+if (installStepperItems.length && installSteps.length) {
+  const stepObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const index = [...installSteps].indexOf(entry.target);
+        installStepperItems.forEach((item, i) => {
+          const isCurrent = i === index;
+          item.classList.toggle('is-current', isCurrent);
+          item.toggleAttribute('aria-current', isCurrent ? 'step' : false);
+        });
+      });
+    },
+    { threshold: 0.35, rootMargin: '-20% 0px -55% 0px' }
+  );
+
+  installSteps.forEach((step) => stepObserver.observe(step));
+}
 
 document.querySelector('.nav-logo')?.addEventListener('click', (e) => {
   e.preventDefault();
