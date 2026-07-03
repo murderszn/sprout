@@ -2159,32 +2159,6 @@ a {
   border-radius: 2px;
 }
 
-.footer-badges {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 0.625rem;
-}
-
-.footer-badge {
-  display: inline-flex;
-  line-height: 0;
-  border-radius: 4px;
-  transition: transform 0.2s, opacity 0.2s;
-}
-
-.footer-badge:hover {
-  transform: translateY(-1px);
-  opacity: 0.92;
-}
-
-.footer-badge img {
-  display: block;
-  height: 20px;
-  width: auto;
-}
-
 .footer-links {
   display: flex;
   flex-wrap: wrap;
