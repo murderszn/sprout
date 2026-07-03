@@ -1,5 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Sprout">
-  <rect width="32" height="32" rx="8" fill="#65A30D"/>
-  <path d="M16 8c-2 0-3.5 1.5-3.5 3.5 0 2.5 3.5 6 3.5 6s3.5-3.5 3.5-6C19.5 9.5 18 8 16 8z" fill="#1A1D13"/>
-  <path d="M16 17.5v6.5" stroke="#1A1D13" stroke-width="2" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#84CC16"/>
+      <stop offset="100%" stop-color="#65A30D"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="url(#bg)"/>
+  <text x="16" y="17.5" text-anchor="middle" dominant-baseline="middle" font-size="18" font-family="Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif">🌱</text>
 </svg>
