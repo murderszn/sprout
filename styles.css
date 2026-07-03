@@ -433,16 +433,18 @@ a {
 
 .hero-title-text {
   position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.12em;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .hero-title-emoji {
+  display: inline-block;
+  margin-left: 0.14em;
   font-family: system-ui, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
-  font-size: 0.82em;
+  font-size: 0.5em;
   line-height: 1;
-  transform: translateY(0.04em);
+  vertical-align: 0.35em;
+  opacity: 0.9;
 }
 
 .hero-tagline {
