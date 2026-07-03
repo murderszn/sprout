@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Sprout — install-fixer CLI">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#65A30D"/>
+      <stop offset="45%" stop-color="#84CC16"/>
+      <stop offset="100%" stop-color="#D9F99D"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <text x="88" y="280" fill="#1A1D13" font-family="Lexend, system-ui, sans-serif" font-size="128" font-weight="800">Sprout</text>
+  <text x="92" y="360" fill="#434B32" font-family="Quicksand, system-ui, sans-serif" font-size="36" font-weight="500">Install-fixer CLI for developer tools</text>
+  <text x="92" y="430" fill="#6E7A52" font-family="JetBrains Mono, monospace" font-size="24">detect → plan → confirm → verify</text>
+  <rect x="88" y="480" width="420" height="56" rx="8" fill="#1A1D13"/>
+  <text x="112" y="518" fill="#D9F99D" font-family="JetBrains Mono, monospace" font-size="22" font-weight="600">npm install -g sprout-cli</text>
+</svg>
