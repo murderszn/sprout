@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="640" viewBox="0 0 1920 640" role="img" aria-label="Sprout Discord banner">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A1D13"/>
+      <stop offset="52%" stop-color="#365314"/>
+      <stop offset="100%" stop-color="#65A30D"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="76%" cy="38%" r="46%">
+      <stop offset="0%" stop-color="#D9F99D" stop-opacity="0.42"/>
+      <stop offset="100%" stop-color="#D9F99D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="640" fill="url(#bg)"/>
+  <rect width="1920" height="640" fill="url(#glow)"/>
+  <text x="1560" y="352" text-anchor="middle" dominant-baseline="middle" font-size="310" font-family="Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif">🌱</text>
+  <text x="132" y="260" fill="#F7FEE7" font-size="116" font-weight="800" font-family="Lexend, Inter, DM Sans, system-ui, sans-serif">Sprout</text>
+  <text x="136" y="338" fill="#D9F99D" font-size="42" font-family="Inter, DM Sans, system-ui, sans-serif">Install-fixer CLI for developer tools.</text>
+  <text x="136" y="414" fill="#F7FEE7" fill-opacity="0.82" font-size="32" font-family="Inter, DM Sans, system-ui, sans-serif">Broken installs, PATH fixes, and knowledge-base recipes.</text>
+</svg>
