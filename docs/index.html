@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sprout | Install-fixer CLI for Developer Tools</title>
-  <meta name="description" content="Sprout is an install-fixer CLI for macOS and Linux. Diagnose and fix local install, config, and PATH problems for developer tools — detect your machine, plan steps, confirm each command, and verify with a real run. Not a general coding agent.">
+  <meta name="description" content="Sprout is an install-fixer CLI for macOS, Linux, and Windows. Diagnose and fix local install, config, and PATH problems for developer tools — detect your machine, plan steps, confirm each command, and verify with a real run. Not a general coding agent.">
   <meta name="keywords" content="Sprout, sprout-install, install fixer, developer tools, CLI, PATH, Homebrew, apt, npm, package manager, shell config, macOS, Linux, Pollinations, open source">
   <meta name="author" content="murderszn">
   <meta name="robots" content="index, follow, max-image-preview:large">
@@ -28,7 +28,7 @@
   <meta name="twitter:image" content="https://murderszn.github.io/sprout/public/og-image.png">
   <meta name="twitter:image:alt" content="Sprout — sprout emoji on matcha green background">
   <meta name="twitter:title" content="Sprout | Install-fixer CLI">
-  <meta name="twitter:description" content="Fix install, config, and PATH problems for developer tools on your machine. npm install -g sprout-install">
+  <meta name="twitter:description" content="Fix install, config, and PATH problems for developer tools on your machine. Install from GitHub while npm publishing is pending.">
   <link rel="icon" href="public/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="public/apple-touch-icon.png" type="image/png" sizes="180x180">
   <link rel="apple-touch-icon" href="public/apple-touch-icon.png" sizes="180x180">
@@ -46,7 +46,7 @@
         "@id": "https://murderszn.github.io/sprout/#website",
         "url": "https://murderszn.github.io/sprout/",
         "name": "Sprout",
-        "description": "Install-fixer CLI for developer tools on macOS and Linux.",
+        "description": "Install-fixer CLI for developer tools on macOS, Linux, and Windows.",
         "inLanguage": "en-US",
         "publisher": { "@id": "https://murderszn.github.io/sprout/#organization" }
       },
@@ -62,8 +62,7 @@
           "height": 180
         },
         "sameAs": [
-          "https://github.com/murderszn/sprout",
-          "https://www.npmjs.com/package/sprout-install"
+          "https://github.com/murderszn/sprout"
         ]
       },
       {
@@ -73,12 +72,12 @@
         "alternateName": "sprout-install",
         "applicationCategory": "DeveloperApplication",
         "applicationSubCategory": "CLI Tool",
-        "operatingSystem": "macOS, Linux",
+        "operatingSystem": "macOS, Linux, Windows",
         "description": "Diagnose and fix local install, config, and PATH problems for developer tools. Detect your machine, plan install steps, confirm each command, and verify with a real command — not a general coding agent.",
         "url": "https://murderszn.github.io/sprout/",
         "image": "https://murderszn.github.io/sprout/public/og-image.png",
         "screenshot": "https://murderszn.github.io/sprout/public/og-image.png",
-        "downloadUrl": "https://www.npmjs.com/package/sprout-install",
+        "downloadUrl": "https://github.com/murderszn/sprout",
         "softwareVersion": "1.0",
         "license": "https://opensource.org/licenses/MIT",
         "isAccessibleForFree": true,
@@ -187,8 +186,8 @@
             <p class="hero-subline">Detects your PC, plans the steps, asks before every command — then proves it with a real verify run.</p>
             <div class="hero-actions">
               <div class="hero-command-cta">
-                <code class="hero-command-text">npm install -g sprout-install</code>
-                <button type="button" class="copy-btn copy-btn-hero" data-copy="npm install -g sprout-install" aria-label="Copy install command">
+                <code class="hero-command-text">npm install -g git+https://github.com/murderszn/sprout.git</code>
+                <button type="button" class="copy-btn copy-btn-hero" data-copy="npm install -g git+https://github.com/murderszn/sprout.git" aria-label="Copy install command">
                   <span class="copy-text" aria-live="polite">Copy</span>
                 </button>
               </div>
@@ -196,7 +195,7 @@
             <p class="hero-trust">
               <a href="https://github.com/murderszn/sprout" target="_blank" rel="noopener noreferrer">Open source</a>
               <span class="hero-trust-sep" aria-hidden="true">·</span>
-              <span>macOS · Linux</span>
+              <span>macOS · Linux · Windows</span>
               <span class="hero-trust-sep" aria-hidden="true">·</span>
               <a href="https://github.com/murderszn/sprout/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT</a>
             </p>
@@ -261,34 +260,34 @@
               <span class="install-step-num">01</span>
               <div>
                 <h3 class="install-step-title">Install Sprout</h3>
-                <p class="install-step-desc">Global npm install, one-off <code class="inline-code">npx</code>, or build from source.</p>
+                <p class="install-step-desc">Install directly from GitHub, use the npm package after publishing, or build from source.</p>
               </div>
             </div>
             <div class="install-stack">
           <div class="install-group">
             <div class="install-group-label">
               <span>method.select</span>
-              <span>npm · npx · source</span>
+              <span>GitHub · npm · source</span>
             </div>
             <div class="platform-list" role="radiogroup" aria-label="Choose install method">
               <article class="platform-card active" data-platform="npm" role="radio" aria-checked="true" tabindex="0">
                 <div class="platform-icon">
-                  <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-npm"/></svg>
+                  <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-git"/></svg>
                 </div>
                 <div class="platform-card-main">
-                  <h3>npm global</h3>
-                  <span class="platform-meta">Recommended · Node 20+</span>
+                  <h3>GitHub install</h3>
+                  <span class="platform-meta">Recommended until npm publish · Node 20+</span>
                 </div>
                 <span class="platform-select" aria-pressed="true">Selected</span>
               </article>
 
               <article class="platform-card" data-platform="npx" role="radio" aria-checked="false" tabindex="0">
                 <div class="platform-icon">
-                  <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-npx"/></svg>
+                  <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-npm"/></svg>
                 </div>
                 <div class="platform-card-main">
-                  <h3>npx</h3>
-                  <span class="platform-meta">No global install</span>
+                  <h3>npm package</h3>
+                  <span class="platform-meta">After sprout-install is published</span>
                 </div>
                 <span class="platform-select" aria-pressed="false">Select</span>
               </article>
@@ -317,18 +316,18 @@
               <div class="command-panel active" id="cmd-npm">
                 <div class="command-line">
                   <span class="prompt" aria-hidden="true">$</span>
-                  <code class="install-command">npm install -g sprout-install</code>
+                  <code class="install-command">npm install -g git+https://github.com/murderszn/sprout.git</code>
                 </div>
-                <button class="copy-btn" data-copy="npm install -g sprout-install" aria-label="Copy command">
+                <button class="copy-btn" data-copy="npm install -g git+https://github.com/murderszn/sprout.git" aria-label="Copy command">
                   <span class="copy-text" aria-live="polite">Copy</span>
                 </button>
               </div>
               <div class="command-panel" id="cmd-npx">
                 <div class="command-line">
                   <span class="prompt" aria-hidden="true">$</span>
-                  <code class="install-command">npx sprout-install install gh</code>
+                  <code class="install-command">npm install -g sprout-install</code>
                 </div>
-                <button class="copy-btn" data-copy="npx sprout-install install gh" aria-label="Copy command">
+                <button class="copy-btn" data-copy="npm install -g sprout-install" aria-label="Copy command">
                   <span class="copy-text" aria-live="polite">Copy</span>
                 </button>
               </div>
@@ -634,12 +633,12 @@
             <p>Yes. Pipe the log: <code class="inline-code">brew install foo 2>&1 | sprout diagnose --tool foo</code> or run <code class="inline-code">sprout diagnose</code> and paste the output. It proposes a fix plan the same way as a fresh install.</p>
           </details>
           <details class="faq-item">
-            <summary>Does it work on Apple Silicon and Linux?</summary>
-            <p>v1 targets macOS and Linux (including arm64). Windows is planned. Run <code class="inline-code">sprout env</code> to see the snapshot Sprout uses for your machine.</p>
+            <summary>Does it work on Apple Silicon, Linux, and Windows?</summary>
+            <p>v1 targets macOS, Linux (including arm64), and Windows. Run <code class="inline-code">sprout env</code> to see the snapshot Sprout uses for your machine.</p>
           </details>
           <details class="faq-item">
             <summary>What does it cost?</summary>
-            <p>Sprout is MIT-licensed and free. You pay Pollinations for inference from your Pollen balance (<code class="inline-code">sprout login</code>) or your own API key. <code class="inline-code">npm install -g sprout-install</code> has no subscription.</p>
+            <p>Sprout is MIT-licensed and free. You pay Pollinations for inference from your Pollen balance (<code class="inline-code">sprout login</code>) or your own API key. Installing Sprout has no subscription.</p>
           </details>
         </div>
       </div>
@@ -650,7 +649,7 @@
         <div class="footer-inner">
           <h2 class="footer-headline">Ready to install.</h2>
           <div class="footer-actions">
-            <a href="#install" class="btn btn-primary btn-lg btn-mono" data-scroll-target="install">npm install -g sprout-install</a>
+            <a href="#install" class="btn btn-primary btn-lg btn-mono" data-scroll-target="install">Install from GitHub</a>
           </div>
           <nav class="footer-social" aria-label="Social links">
             <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">

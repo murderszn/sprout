@@ -32,7 +32,15 @@ It is deliberately **not** a general coding agent. Its entire world is package m
 ## Install
 
 ```sh
-npm install -g sprout-install    # or run without installing: npx sprout-install install gh
+npm install -g sprout-install    # after the package is published to npm
+```
+
+If npm returns `404 Not Found` for `sprout-install`, install from the GitHub repo or a local checkout instead:
+
+```sh
+npm install -g git+https://github.com/murderszn/sprout.git
+# Windows local checkout example:
+npm install -g C:\path\to\sprout
 ```
 
 From a checkout:
