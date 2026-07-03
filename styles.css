@@ -206,9 +206,10 @@ a {
   align-items: center;
   justify-content: space-between;
   height: var(--nav-height);
-  padding: env(safe-area-inset-top, 0) clamp(1.5rem, 4vw, 3rem) 0;
-  padding-left: max(1.5rem, env(safe-area-inset-left));
-  padding-right: max(1.5rem, env(safe-area-inset-right));
+  padding-top: env(safe-area-inset-top, 0);
+  padding-bottom: 0;
+  padding-left: max(var(--section-pad-x), env(safe-area-inset-left));
+  padding-right: max(var(--section-pad-x), env(safe-area-inset-right));
   transition: background 0.35s ease, backdrop-filter 0.35s ease, color 0.35s ease;
 }
 
@@ -350,6 +351,8 @@ a {
   display: flex;
   align-items: center;
   z-index: 2;
+  padding-left: max(var(--section-pad-x), env(safe-area-inset-left));
+  padding-right: max(var(--section-pad-x), env(safe-area-inset-right));
 }
 
 .hero-layout {
@@ -358,11 +361,9 @@ a {
   gap: clamp(1.25rem, 3vw, 2.5rem);
   align-items: center;
   width: 100%;
-  max-width: min(1360px, 100%);
+  max-width: var(--page-max);
   margin: 0 auto;
-  padding: calc(var(--nav-height) + 1.75rem) clamp(1.5rem, 4vw, 3rem) 4.5rem;
-  padding-left: max(1.5rem, env(safe-area-inset-left));
-  padding-right: max(1.5rem, env(safe-area-inset-right));
+  padding: calc(var(--nav-height) + 1.75rem) 0 4.5rem;
 }
 
 .hero-content {
@@ -1864,11 +1865,6 @@ a {
     --nav-height: 72px;
     --section-pad-y: clamp(3.5rem, 8vw, 5rem);
     --section-pad-x: 1.25rem;
-  }
-
-  .nav {
-    padding-left: max(1.25rem, env(safe-area-inset-left));
-    padding-right: max(1.25rem, env(safe-area-inset-right));
   }
 
   .nav-links {
