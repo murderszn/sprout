@@ -139,7 +139,10 @@ function init() {
 
   if (location.hash) {
     const id = location.hash.slice(1);
-    requestAnimationFrame(() => scrollToTarget(id));
+    requestAnimationFrame(() => {
+      if (id === 'demo') focusHeroDemo();
+      else scrollToTarget(id);
+    });
   }
 }
 
@@ -157,7 +160,8 @@ window.addEventListener('resize', () => {
 });
 
 window.addEventListener('hashchange', () => {
-  if (location.hash) scrollToTarget(location.hash.slice(1));
+  if (location.hash === '#demo') focusHeroDemo();
+  else if (location.hash) scrollToTarget(location.hash.slice(1));
 });
 
 window.addEventListener('pageshow', (e) => {
@@ -175,6 +179,7 @@ document.querySelectorAll('[data-scroll-target]').forEach((el) => {
     e.preventDefault();
     const target = el.dataset.scrollTarget;
     if (target === 'demo') {
+      history.replaceState(null, '', '#demo');
       focusHeroDemo();
       return;
     }
@@ -186,15 +191,26 @@ function focusHeroDemo() {
   const terminal = document.getElementById('demo');
   if (!terminal) return;
 
-  if (lastScrollY > revealHeight * 0.35) {
-    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-  }
+  const jumpToTerminal = () => {
+    terminal.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'center',
+      inline: 'nearest',
+    });
 
-  terminal.classList.remove('is-highlighted');
-  void terminal.offsetWidth;
-  terminal.classList.add('is-highlighted');
-  window.setTimeout(() => terminal.classList.remove('is-highlighted'), 1400);
-  window.heroTerminal?.restart();
+    terminal.classList.remove('is-highlighted');
+    void terminal.offsetWidth;
+    terminal.classList.add('is-highlighted');
+    window.setTimeout(() => terminal.classList.remove('is-highlighted'), 1400);
+    window.heroTerminal?.restart();
+  };
+
+  if (lastScrollY > 4) {
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    window.setTimeout(jumpToTerminal, prefersReducedMotion ? 0 : 420);
+  } else {
+    jumpToTerminal();
+  }
 }
 
 const installStepperItems = document.querySelectorAll('.install-stepper-item');

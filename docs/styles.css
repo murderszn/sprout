@@ -395,6 +395,8 @@ a {
   align-self: stretch;
   display: flex;
   align-items: center;
+  scroll-margin-top: 1rem;
+  scroll-margin-bottom: 1rem;
   animation: hero-enter 1s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
 }
 
@@ -2405,6 +2407,14 @@ a {
     background-position: 70% center;
   }
 
+  .hero {
+    align-items: flex-start;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .hero-layout {
     grid-template-columns: 1fr;
     gap: 1.75rem;
@@ -2413,6 +2423,8 @@ a {
 
   .hero-terminal {
     order: 2;
+    scroll-margin-top: calc(var(--nav-height) + 1rem);
+    scroll-margin-bottom: 2rem;
   }
 
   .hero-content {
