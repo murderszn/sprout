@@ -1,0 +1,5 @@
+Contact: https://github.com/murderszn/sprout/security/advisories/new
+Policy: https://github.com/murderszn/sprout/blob/main/SECURITY.md
+Preferred-Languages: en
+Expires: 2027-07-03T00:00:00Z
+Canonical: https://murderszn.github.io/sprout/.well-known/security.txt

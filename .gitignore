@@ -9,3 +9,18 @@ phase1-*.png
 commands-*.png
 footer-*.png
 sprout-*.png
+
+# Secrets / local credentials
+.env*
+!.env.example
+npm_recovery_codes*.txt
+*recovery*codes*.txt
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.asc
+*.gpg
+*.kdbx
