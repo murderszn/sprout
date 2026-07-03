@@ -1,6 +1,5 @@
 # 🌱 Sprout
 
-[![npm version](https://img.shields.io/npm/v/sprout-install?style=flat-square&logo=npm&logoColor=white&label=npm)](https://www.npmjs.com/package/sprout-install)
 [![CI](https://img.shields.io/github/actions/workflow/status/murderszn/sprout/ci.yml?branch=main&style=flat-square&label=ci)](https://github.com/murderszn/sprout/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-65A30D?style=flat-square)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-84CC16?style=flat-square&logo=node.js&logoColor=white)](package.json)
