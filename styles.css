@@ -407,13 +407,13 @@ a {
   gap: clamp(2.5rem, 6vh, 4rem);
   height: 100%;
   min-height: 100%;
-  max-width: 1160px;
+  max-width: var(--page-max);
   margin: 0 auto;
   padding:
     calc(var(--nav-height) + clamp(2rem, 5vh, 3.5rem))
-    max(clamp(2.5rem, 6vw, 5rem), env(safe-area-inset-right))
+    max(var(--section-pad-x), env(safe-area-inset-right))
     clamp(1.5rem, 4vh, 2.75rem)
-    max(clamp(2.5rem, 6vw, 5rem), env(safe-area-inset-left));
+    max(var(--section-pad-x), env(safe-area-inset-left));
 }
 
 .hero-subgrid {
