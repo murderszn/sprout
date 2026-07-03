@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=Quicksand:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=13">
+  <link rel="stylesheet" href="styles.css?v=14">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -104,19 +104,27 @@
 </head>
 <body>
   <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
-    <symbol id="icon-cli" viewBox="0 0 24 24"><path fill="currentColor" d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1 2v10h14V7H5zm2.3 2.3 3.4 3.4-3.4 3.4 1.4 1.4 4.8-4.8-4.8-4.8-1.4 1.4zm4.7 6.7v2h6v-2h-6z"/></symbol>
+    <!-- How it works (workflow) -->
     <symbol id="icon-detect" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
-    <symbol id="icon-plan" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></symbol>
-    <symbol id="icon-confirm" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="icon-plan" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></symbol>
+    <symbol id="icon-confirm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
     <symbol id="icon-verify" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m22 4-10 10.01-3-3"/></symbol>
     <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
-    <symbol id="icon-narrow" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></symbol>
-    <symbol id="icon-install" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></symbol>
-    <symbol id="icon-diagnose" viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></symbol>
-    <symbol id="icon-config" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
-    <symbol id="icon-status" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
-    <symbol id="icon-dryrun" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
-    <symbol id="icon-env" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></symbol>
+    <symbol id="icon-narrow" viewBox="0 0 24 24"><path d="M12 2v4"/><path d="M12 18v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="m16.24 16.24 2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="m4.93 19.07 2.83-2.83"/><path d="m16.24 7.76 2.83-2.83"/></symbol>
+    <!-- CLI commands -->
+    <symbol id="cmd-install" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/></symbol>
+    <symbol id="cmd-diagnose" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><circle cx="10" cy="15" r="2"/><path d="m12 17 2 2"/></symbol>
+    <symbol id="cmd-config" viewBox="0 0 24 24"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M2 14h4"/><path d="M10 8h4"/><path d="M18 16h4"/></symbol>
+    <symbol id="cmd-status" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+    <symbol id="cmd-dryrun" viewBox="0 0 24 24"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></symbol>
+    <symbol id="cmd-env" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01"/><path d="M6 18h.01"/><path d="M10 6h8"/><path d="M10 18h5"/></symbol>
+    <symbol id="cmd-yes" viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><path d="M19 5v14"/></symbol>
+    <!-- Install methods -->
+    <symbol id="icon-npm" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/></symbol>
+    <symbol id="icon-npx" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+    <symbol id="icon-git" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M6 9v6"/><path d="M18 6v12"/><path d="M18 9a9 9 0 0 1-9 9"/></symbol>
+    <symbol id="icon-key" viewBox="0 0 24 24"><path d="m21 2-2 2"/><path d="m7.61 7.61a5.5 5.5 0 1 1 7.78 7.78l5.5 5.5a2.12 2.12 0 0 1-3 3L7.61 7.61z"/></symbol>
+    <symbol id="icon-terminal" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><path d="M12 19h8"/></symbol>
     <symbol id="icon-open" viewBox="0 0 24 24"><path d="M12 22v-9"/><path d="M15.17 2.21a1.67 1.67 0 0 1 1.63 0L21 4.57a1.93 1.93 0 0 1 0 3.36L8.82 14.79a1.655 1.655 0 0 1-1.64 0L3 12.43a1.93 1.93 0 0 1 0-3.36z"/><path d="M20 13v3.87a2.06 2.06 0 0 1-1.11 1.83l-6 3.08a1.93 1.93 0 0 1-1.78 0l-6-3.08A2.06 2.06 0 0 1 4 16.87V13"/><path d="M21 12.43a1.93 1.93 0 0 0 0-3.36L8.83 2.2a1.64 1.64 0 0 0-1.63 0L3 4.57a1.93 1.93 0 0 0 0 3.36l12.18 6.86a1.636 1.636 0 0 0 1.63 0z"/></symbol>
   </svg>
 
@@ -151,7 +159,12 @@
             <span class="hero-title-ghost" aria-hidden="true">Sprout</span>
             <span class="hero-title-text">Sprout<span class="hero-title-emoji" aria-hidden="true">🌱</span></span>
           </h1>
-          <span class="hero-badge">Not a coding agent</span>
+          <div class="hero-badges">
+            <span class="hero-badge">Not a coding agent</span>
+            <a href="https://enter.pollinations.ai" class="hero-badge hero-badge--link" target="_blank" rel="noopener noreferrer">Pollinations</a>
+            <a href="https://github.com/murderszn/sprout/blob/main/LICENSE" class="hero-badge hero-badge--link" target="_blank" rel="noopener noreferrer">MIT</a>
+            <a href="https://github.com/murderszn/sprout" class="hero-badge hero-badge--link" target="_blank" rel="noopener noreferrer">Open source</a>
+          </div>
           <p class="hero-punch">Fix installs on <em>this</em> machine.</p>
           <p class="hero-support">Detect → plan → confirm → verify — real commands, your approval, proof it worked.</p>
           <ul class="hero-chips" aria-label="Highlights">
@@ -160,16 +173,18 @@
             <li>no curl | bash</li>
             <li>bring your own key</li>
           </ul>
-          <div class="hero-actions">
-            <div class="hero-command-cta">
-              <code class="hero-command-text">npm install -g sprout-cli</code>
-              <button type="button" class="copy-btn copy-btn-hero" data-copy="npm install -g sprout-cli" aria-label="Copy install command">
-                <span class="copy-text" aria-live="polite">Copy</span>
-              </button>
-            </div>
-            <a href="#demo" class="btn btn-hero-outline btn-mono" data-scroll-target="demo">See it work ↓</a>
+          <div class="hero-command-cta">
+            <code class="hero-command-text">npm install -g sprout-cli</code>
+            <button type="button" class="copy-btn copy-btn-hero" data-copy="npm install -g sprout-cli" aria-label="Copy install command">
+              <span class="copy-text" aria-live="polite">Copy</span>
+            </button>
           </div>
-          <p class="hero-powered">Powered by <a href="https://enter.pollinations.ai" target="_blank" rel="noopener noreferrer">Pollinations</a> · MIT · <a href="https://github.com/murderszn/sprout" target="_blank" rel="noopener noreferrer">open source</a></p>
+          <p class="hero-demo-cta">
+            <a href="#demo" class="hero-demo-link btn-mono" data-scroll-target="demo">
+              <svg class="ui-icon ui-icon--sm" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-terminal"/></svg>
+              See it work in the terminal ↓
+            </a>
+          </p>
         </div>
 
         <div class="hero-terminal" id="demo">
@@ -256,6 +271,7 @@
         <div class="install-steps">
           <div class="install-step" id="install-step-1">
             <div class="install-step-head">
+              <span class="install-step-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><use href="#icon-npm"/></svg></span>
               <span class="install-step-num">01</span>
               <div>
                 <h3 class="install-step-title">Install Sprout</h3>
@@ -271,7 +287,7 @@
             <div class="platform-list" role="radiogroup" aria-label="Choose install method">
               <article class="platform-card active" data-platform="npm" role="radio" aria-checked="true" tabindex="0">
                 <div class="platform-icon">
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1.5 1.5h21v21h-21V1.5zm3 3v15h15V4.5h-15zm2.25 2.25h10.5v1.5H6.75v-1.5zm0 3h10.5v1.5H6.75v-1.5zm0 3h7.5v1.5h-7.5v-1.5z"/></svg>
+                  <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-npm"/></svg>
                 </div>
                 <div class="platform-card-main">
                   <h3>npm global</h3>
@@ -282,7 +298,7 @@
 
               <article class="platform-card" data-platform="npx" role="radio" aria-checked="false" tabindex="0">
                 <div class="platform-icon">
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zm0 7.5L4.5 7 12 4.5 19.5 7 12 9.5zm-8 3.5v5l8 4.5 8-4.5v-5l-8 4.5-8-4.5z"/></svg>
+                  <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-npx"/></svg>
                 </div>
                 <div class="platform-card-main">
                   <h3>npx</h3>
@@ -293,7 +309,7 @@
 
               <article class="platform-card" data-platform="source" role="radio" aria-checked="false" tabindex="0">
                 <div class="platform-icon">
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+                  <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-git"/></svg>
                 </div>
                 <div class="platform-card-main">
                   <h3>From source</h3>
@@ -346,6 +362,7 @@
 
           <div class="install-step" id="install-step-2">
             <div class="install-step-head">
+              <span class="install-step-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><use href="#icon-key"/></svg></span>
               <span class="install-step-num">02</span>
               <div>
                 <h3 class="install-step-title">Add your API key</h3>
@@ -378,6 +395,7 @@
 
           <div class="install-step" id="install-step-3">
             <div class="install-step-head">
+              <span class="install-step-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><use href="#icon-terminal"/></svg></span>
               <span class="install-step-num">03</span>
               <div>
                 <h3 class="install-step-title">Run your first command</h3>
@@ -439,31 +457,31 @@
 
           <div class="channel-grid" role="list">
             <div class="channel-item" role="listitem">
-              <svg class="channel-icon" width="20" height="20" aria-hidden="true"><use href="#icon-install"/></svg>
+              <svg class="channel-icon ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cmd-install"/></svg>
               <span class="channel-name">install &lt;tool&gt;</span>
             </div>
             <div class="channel-item" role="listitem">
-              <svg class="channel-icon" width="20" height="20" aria-hidden="true"><use href="#icon-diagnose"/></svg>
+              <svg class="channel-icon ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cmd-diagnose"/></svg>
               <span class="channel-name">diagnose</span>
             </div>
             <div class="channel-item" role="listitem">
-              <svg class="channel-icon" width="20" height="20" aria-hidden="true"><use href="#icon-config"/></svg>
+              <svg class="channel-icon ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cmd-config"/></svg>
               <span class="channel-name">config</span>
             </div>
             <div class="channel-item" role="listitem">
-              <svg class="channel-icon" width="20" height="20" aria-hidden="true"><use href="#icon-status"/></svg>
+              <svg class="channel-icon ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cmd-status"/></svg>
               <span class="channel-name">status</span>
             </div>
             <div class="channel-item" role="listitem">
-              <svg class="channel-icon" width="20" height="20" aria-hidden="true"><use href="#icon-dryrun"/></svg>
+              <svg class="channel-icon ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cmd-dryrun"/></svg>
               <span class="channel-name">--dry-run</span>
             </div>
             <div class="channel-item" role="listitem">
-              <svg class="channel-icon" width="20" height="20" aria-hidden="true"><use href="#icon-env"/></svg>
+              <svg class="channel-icon ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cmd-env"/></svg>
               <span class="channel-name">env</span>
             </div>
             <div class="channel-item" role="listitem">
-              <svg class="channel-icon" width="20" height="20" aria-hidden="true"><use href="#icon-cli"/></svg>
+              <svg class="channel-icon ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#cmd-yes"/></svg>
               <span class="channel-name">--yes</span>
             </div>
           </div>
@@ -491,7 +509,7 @@
         <article class="feature-card reveal-on-scroll">
           <div class="feature-card-head">
             <span class="feature-num">01</span>
-            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-detect"/></svg>
+            <svg class="feature-icon ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-detect"/></svg>
           </div>
           <span class="feature-tag">DETECT</span>
           <h3 class="feature-headline">Read this machine</h3>
@@ -501,7 +519,7 @@
         <article class="feature-card reveal-on-scroll">
           <div class="feature-card-head">
             <span class="feature-num">02</span>
-            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-plan"/></svg>
+            <svg class="feature-icon ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-plan"/></svg>
           </div>
           <span class="feature-tag">PLAN</span>
           <h3 class="feature-headline">Plain English first</h3>
@@ -511,7 +529,7 @@
         <article class="feature-card reveal-on-scroll">
           <div class="feature-card-head">
             <span class="feature-num">03</span>
-            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-confirm"/></svg>
+            <svg class="feature-icon ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-confirm"/></svg>
           </div>
           <span class="feature-tag">CONFIRM</span>
           <h3 class="feature-headline">You approve each step</h3>
@@ -521,7 +539,7 @@
         <article class="feature-card reveal-on-scroll">
           <div class="feature-card-head">
             <span class="feature-num">04</span>
-            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-verify"/></svg>
+            <svg class="feature-icon ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-verify"/></svg>
           </div>
           <span class="feature-tag">VERIFY</span>
           <h3 class="feature-headline">Prove it worked</h3>
@@ -531,7 +549,7 @@
         <article class="feature-card reveal-on-scroll">
           <div class="feature-card-head">
             <span class="feature-num">05</span>
-            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-shield"/></svg>
+            <svg class="feature-icon ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-shield"/></svg>
           </div>
           <span class="feature-tag">SAFETY</span>
           <h3 class="feature-headline">Hard guardrails</h3>
@@ -541,7 +559,7 @@
         <article class="feature-card reveal-on-scroll">
           <div class="feature-card-head">
             <span class="feature-num">06</span>
-            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-narrow"/></svg>
+            <svg class="feature-icon ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-narrow"/></svg>
           </div>
           <span class="feature-tag">NARROW</span>
           <h3 class="feature-headline">One job only</h3>

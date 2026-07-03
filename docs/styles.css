@@ -458,10 +458,17 @@ a {
   margin-bottom: 0.875rem;
 }
 
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
 .hero-badge {
   display: inline-flex;
   align-items: center;
-  margin-bottom: 1rem;
   padding: 0.3125rem 0.75rem;
   font-family: var(--font-mono);
   font-size: 0.6875rem;
@@ -472,6 +479,14 @@ a {
   background: rgba(26, 29, 19, 0.06);
   border: 1px solid rgba(26, 29, 19, 0.18);
   border-radius: 999px;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.hero-badge--link:hover {
+  background: rgba(26, 29, 19, 0.1);
+  border-color: rgba(26, 29, 19, 0.28);
+  color: var(--black);
 }
 
 .hero-punch {
@@ -514,25 +529,48 @@ a {
   border-radius: 4px;
 }
 
-.hero-actions {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: stretch;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-}
-
 .hero-command-cta {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  flex: 1 1 16rem;
+  width: 100%;
+  max-width: 28rem;
   min-width: 0;
+  margin-bottom: 0.875rem;
   padding: 0.625rem 0.75rem 0.625rem 1rem;
   background: var(--black);
   border: 1px solid rgba(26, 29, 19, 0.35);
   border-radius: 6px;
   box-shadow: 0 10px 28px rgba(15, 17, 11, 0.22);
+}
+
+.hero-demo-cta {
+  margin: 0 0 0.25rem;
+}
+
+.hero-demo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: rgba(26, 29, 19, 0.62);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.hero-demo-link:hover {
+  color: var(--black);
+}
+
+.hero-demo-link .ui-icon {
+  color: rgba(26, 29, 19, 0.5);
+}
+
+.hero-demo-link:hover .ui-icon {
+  color: var(--black);
 }
 
 .hero-command-text {
@@ -566,23 +604,22 @@ a {
   transition: box-shadow 0.35s ease;
 }
 
-.hero-powered {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-on-yellow-subtle);
+/* Shared stroke icon pack */
+.ui-icon {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
 }
 
-.hero-powered a {
-  color: var(--text-on-yellow-muted);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color 0.2s;
-}
-
-.hero-powered a:hover {
-  color: var(--black);
+.ui-icon--sm {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2;
 }
 
 /* Scroll cue */
@@ -901,18 +938,30 @@ a {
 .install-step-head {
   display: flex;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 0.875rem;
   margin-bottom: 1.5rem;
 }
 
-.install-step-num {
+.install-step-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
   flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--accent-light);
-  padding-top: 0.25rem;
+  color: var(--accent-bright);
+  background: rgba(101, 163, 13, 0.1);
+  border: 1px solid rgba(101, 163, 13, 0.22);
+  border-radius: var(--radius-box);
+}
+
+.install-step-icon .ui-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.install-step-num {
+  display: none;
 }
 
 .install-step-title {
@@ -1161,11 +1210,17 @@ a {
 }
 
 .platform-icon {
-  width: 28px;
-  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 0;
   color: var(--gray-light);
   flex-shrink: 0;
+}
+
+.platform-icon .ui-icon {
+  width: 28px;
+  height: 28px;
 }
 
 .platform-card.active .platform-icon {
@@ -1600,9 +1655,6 @@ a {
 .channel-icon {
   color: var(--gray-light);
   transition: color 0.2s;
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
 }
 
 .channel-item:hover .channel-icon {
@@ -1910,14 +1962,8 @@ a {
 
 .feature-icon {
   color: rgba(26, 29, 19, 0.42);
-  flex-shrink: 0;
   width: 28px;
   height: 28px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.75;
-  stroke-linecap: round;
-  stroke-linejoin: round;
 }
 
 .feature-card:hover .feature-icon {
@@ -2268,12 +2314,8 @@ a {
     margin-bottom: 1.25rem;
   }
 
-  .hero-actions {
-    margin-bottom: 1.25rem;
-  }
-
   .hero-command-cta {
-    flex: 1 1 100%;
+    max-width: none;
     flex-direction: column;
     align-items: stretch;
     gap: 0.5rem;
@@ -2286,11 +2328,6 @@ a {
 
   .copy-btn-hero {
     width: 100%;
-    justify-content: center;
-  }
-
-  .hero-actions .btn-hero-outline {
-    flex: 1 1 100%;
     justify-content: center;
   }
 
@@ -2310,21 +2347,9 @@ a {
     display: none;
   }
 
-  .hero-actions {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-  }
-
-  .hero-actions .btn {
-    text-align: center;
-    justify-content: center;
-    width: 100%;
-  }
-
   .hero-punch,
   .hero-support,
-  .hero-powered {
+  .hero-demo-link {
     text-shadow: 0 1px 12px rgba(var(--yellow-rgb), 0.6);
   }
 
@@ -2520,10 +2545,6 @@ a {
   .hero-tagline {
     margin-bottom: 1rem;
     font-size: 0.9375rem;
-  }
-
-  .hero-actions {
-    margin-bottom: 1rem;
   }
 
   .hero-terminal .terminal-session {
