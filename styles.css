@@ -184,15 +184,15 @@ a {
 
 .hero-terminal-bg {
   position: absolute;
-  inset: -6% -10% 6% 10%;
+  inset: -20% -30% 5% 15%;
   background-image: url('public/hero-sprout.jpg');
   background-size: cover;
   background-position: center;
   will-change: transform;
   z-index: 1;
-  border-radius: 20px;
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 45px 120px rgba(0, 0, 0, 0.5);
 }
 
 .overlay-bg-canvas {
