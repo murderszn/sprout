@@ -65,6 +65,11 @@ function handleScroll() {
   }
 
   scrollCue?.classList.toggle('is-hidden', progress > 0.08);
+
+  const terminalReveal = prefersReducedMotion
+    ? 1
+    : Math.min(scrollY / Math.max(revealHeight * 0.5, 1), 1);
+  document.documentElement.style.setProperty('--hero-terminal-reveal', String(terminalReveal));
 }
 
 function onScroll() {
@@ -134,6 +139,10 @@ function init() {
   document.documentElement.classList.add('js');
   updateRevealHeight();
   nav.classList.add('nav--light');
+  document.documentElement.style.setProperty(
+    '--hero-terminal-reveal',
+    prefersReducedMotion ? '1' : '0'
+  );
   handleScroll();
   updateNavTheme();
 
@@ -191,13 +200,9 @@ function focusHeroDemo() {
   const terminal = document.getElementById('demo');
   if (!terminal) return;
 
-  const jumpToTerminal = () => {
-    terminal.scrollIntoView({
-      behavior: prefersReducedMotion ? 'auto' : 'smooth',
-      block: 'center',
-      inline: 'nearest',
-    });
+  const revealScroll = Math.min(revealHeight * 0.42, Math.max(revealHeight - 1, 0));
 
+  const highlightTerminal = () => {
     terminal.classList.remove('is-highlighted');
     void terminal.offsetWidth;
     terminal.classList.add('is-highlighted');
@@ -205,11 +210,16 @@ function focusHeroDemo() {
     window.heroTerminal?.restart();
   };
 
-  if (lastScrollY > 4) {
-    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-    window.setTimeout(jumpToTerminal, prefersReducedMotion ? 0 : 420);
+  if (prefersReducedMotion) {
+    highlightTerminal();
+    return;
+  }
+
+  if (lastScrollY < revealScroll - 8) {
+    window.scrollTo({ top: revealScroll, behavior: 'smooth' });
+    window.setTimeout(highlightTerminal, 480);
   } else {
-    jumpToTerminal();
+    highlightTerminal();
   }
 }
 

@@ -7,6 +7,7 @@
 }
 
 :root {
+  --hero-terminal-reveal: 0;
   /* Matcha Latte — Chromaverse */
   --yellow: #65A30D;
   --yellow-bright: #D9F99D;
@@ -151,10 +152,10 @@ a {
   outline-color: var(--black);
 }
 
-/* Scroll driver */
+/* Scroll driver — extra length gives room to reveal the terminal */
 .scroll-spacer {
-  height: 100vh;
-  height: 100dvh;
+  height: 140vh;
+  height: 140dvh;
   pointer-events: none;
 }
 
@@ -364,14 +365,12 @@ a {
 .hero {
   position: relative;
   height: 100%;
+  min-height: 100%;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   z-index: 2;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
+  overflow: visible;
 }
 
 .hero-layout {
@@ -380,15 +379,17 @@ a {
 }
 
 .hero-layout--centered {
-  --hero-stage-width: min(34rem, calc(100vw - 2 * var(--section-pad-x)));
+  --hero-stage-width: min(40rem, calc(100vw - 2 * var(--section-pad-x)));
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(1.5rem, 4vw, 2.25rem);
+  justify-content: flex-start;
+  gap: clamp(1.25rem, 3vw, 1.75rem);
+  min-height: 100%;
   padding:
-    calc(var(--nav-height) + 1.5rem)
+    calc(var(--nav-height) + 1rem)
     max(var(--section-pad-x), env(safe-area-inset-right))
-    3.5rem
+    2rem
     max(var(--section-pad-x), env(safe-area-inset-left));
 }
 
@@ -406,19 +407,37 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  scroll-margin-top: 1rem;
-  scroll-margin-bottom: 1rem;
-  animation: hero-enter 1s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+  margin-top: clamp(0.5rem, 2vh, 1.25rem);
+  transform:
+    translateY(calc((1 - var(--hero-terminal-reveal)) * 52%))
+    scale(calc(0.94 + var(--hero-terminal-reveal) * 0.06));
+  opacity: calc(0.45 + var(--hero-terminal-reveal) * 0.55);
+  will-change: transform, opacity;
 }
 
 .hero-terminal .mac-terminal {
   position: relative;
   z-index: 1;
   width: 100%;
-  --mac-terminal-height: 400px;
-  height: var(--mac-terminal-height);
+  aspect-ratio: 16 / 10;
+  height: auto;
+  --mac-terminal-height: auto;
+  min-height: 0;
   display: flex;
   flex-direction: column;
+}
+
+.hero-terminal .mac-terminal-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-terminal .mac-terminal .terminal-session {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
 }
 
 @keyframes hero-enter {
@@ -616,6 +635,10 @@ a {
     0 28px 80px rgba(0, 0, 0, 0.52),
     0 0 0 2px rgba(132, 204, 22, 0.28);
   transition: box-shadow 0.35s ease;
+}
+
+.hero-terminal.is-highlighted {
+  opacity: 1;
 }
 
 /* Shared stroke icon pack */
@@ -2492,10 +2515,6 @@ a {
     gap: 0.75rem;
   }
 
-  .hero-terminal .mac-terminal {
-    --mac-terminal-height: min(340px, calc(100dvh - var(--nav-height) - 17rem));
-  }
-
   .scroll-cue {
     display: none;
   }
@@ -2696,16 +2715,16 @@ a {
     font-size: 0.8125rem;
   }
 
-  .hero-terminal .mac-terminal {
-    --mac-terminal-height: min(280px, calc(100dvh - var(--nav-height) - 15rem));
-  }
-
   .scroll-cue {
     bottom: 1.25rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  :root {
+    --hero-terminal-reveal: 1;
+  }
+
   html {
     scroll-behavior: auto;
   }
