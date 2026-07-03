@@ -406,7 +406,7 @@ a {
   display: flex;
   justify-content: center;
   flex: 0 0 auto;
-  animation: hero-enter 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: hero-enter 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
 }
 
 .hero-subgrid {
@@ -424,7 +424,7 @@ a {
   flex: 0 0 calc(50% - clamp(1.25rem, 3vw, 2.25rem));
   text-align: left;
   color: var(--black);
-  animation: hero-enter 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+  animation: hero-enter 1s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .hero-terminal-group {
@@ -436,7 +436,7 @@ a {
   flex: 0 0 calc(50% - clamp(1.25rem, 3vw, 2.25rem));
   max-width: 100%;
   align-self: center;
-  animation: hero-enter 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+  animation: hero-enter 1s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .hero-terminal-group .hero-trust {
