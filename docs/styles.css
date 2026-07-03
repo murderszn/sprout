@@ -172,7 +172,10 @@ a {
   z-index: 50;
   will-change: transform;
   overflow: hidden;
-  background-color: var(--black-soft);
+  background-color: #84CC16;
+  background-image:
+    radial-gradient(ellipse 80% 70% at 30% 50%, rgba(101, 163, 13, 0.6) 0%, transparent 60%),
+    linear-gradient(160deg, rgba(15, 17, 11, 0.08) 0%, transparent 50%);
 }
 
 .overlay.is-revealed {
