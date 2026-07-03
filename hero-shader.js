@@ -7,20 +7,20 @@
   const PARAMS = {
     image: 'public/hero-sprout.jpg',
     // Chromaverse — Matcha Latte palette (see :root in styles.css)
-    colorFront: '#84CC16', // --accent-light / --yellow-hover
-    colorBack: '#2D3220', // --black-raised
-    colorHighlight: '#E8F5D8', // --white
+    colorFront: '#93C5FD',
+    colorBack: '#0F172A',
+    colorHighlight: '#F0F9FF',
     originalColors: false,
     inverted: false,
     type: 4, // 1 = random, 2 = 2x2 Bayer, 3 = 4x4 Bayer, 4 = 8x8 Bayer
     pxSize: 4,
     colorSteps: 5,
-    scale: 1,
+    scale: 0.85,
     rotation: 0,
     offsetX: 0,
     offsetY: 0,
     originX: 0.5,
-    originY: 0.5,
+    originY: 0.72,
     fit: 2, // cover
     worldWidth: 0,
     worldHeight: 0,
