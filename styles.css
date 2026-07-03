@@ -184,7 +184,7 @@ a {
 
 .hero-terminal-bg {
   position: absolute;
-  inset: -20% -30% 5% 15%;
+  inset: -20% 10% 5% -25%;
   background-image: url('public/hero-sprout.jpg');
   background-size: cover;
   background-position: center;
