@@ -29,6 +29,10 @@ test("lookup resolves canonical names and aliases, case-insensitive", () => {
   assert.equal(lookupTool("ripgrep")?.name, "rg");
   assert.equal(lookupTool("AWS-CLI")?.name, "aws");
   assert.equal(lookupTool("nvm")?.name, "node");
+  assert.equal(lookupTool("Claude Code")?.name, "claude");
+  assert.equal(lookupTool("OpenAI Codex")?.name, "codex");
+  assert.equal(lookupTool("Antigravity")?.name, "agy");
+  assert.equal(lookupTool("Memo Code")?.name, "mimo");
   assert.equal(lookupTool("definitely-not-seeded"), null);
 });
 

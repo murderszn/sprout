@@ -1,0 +1,73 @@
+{
+  "name": "gemini",
+  "displayName": "Gemini CLI",
+  "aliases": [
+    "gemini-cli",
+    "gemini cli",
+    "google gemini",
+    "google gemini cli"
+  ],
+  "description": "Google Gemini command-line coding assistant.",
+  "verify": {
+    "command": [
+      "gemini",
+      "--version"
+    ],
+    "expectedPattern": "([Gg]emini|\\d+\\.\\d+)"
+  },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@google/gemini-cli@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js/npm. Authentication happens on first run or via provider configuration."
+        }
+      ]
+    },
+    "linux": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@google/gemini-cli@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js/npm. Prefer nvm/user-local npm globals."
+        }
+      ]
+    },
+    "win32": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@google/gemini-cli@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js LTS. Open a new PowerShell if PATH has not refreshed."
+        }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Node.js/npm must be installed first.",
+    "Gemini authentication/account setup is separate from installation.",
+    "If gemini is installed but not found, npm global bin is not on PATH."
+  ]
+}

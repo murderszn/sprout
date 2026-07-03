@@ -44,7 +44,7 @@ sprout --version
 If npm registry access is blocked, use the release tarball fallback instead:
 
 ```sh
-npm install -g https://github.com/murderszn/sprout/releases/download/v0.2.0/sprout-install-0.2.0.tgz
+npm install -g https://github.com/murderszn/sprout/releases/download/v0.3.0/sprout-install-0.3.0.tgz
 ```
 
 Do **not** install from the GitHub Pages site URL (`murderszn.github.io/sprout`) — that serves the website, not the npm package.
@@ -90,6 +90,7 @@ Default model: `gpt-5.4-mini` (override per-run with `--model`, or persistently 
 
 ```sh
 sprout install gh              # main flow: detect → plan → confirm each step → verify
+sprout install claude          # agentic coding CLIs: Claude Code, Codex, Gemini, OpenCode, etc.
 sprout install ripgrep
 sprout --dry-run install node  # exact command list, zero side effects
 sprout --yes install jq        # skip per-step [y/N] prompts (hard guardrails still block)
@@ -108,7 +109,7 @@ sprout status                  # confirm the key works and the model is awake
 sprout env                     # print the environment snapshot the agent sees
 ```
 
-Seeded knowledge base (curated per-OS install + verify recipes): git, node (nvm), python (pyenv), docker, GitHub CLI (gh), GitLab CLI (glab), AWS CLI, kubectl, Homebrew, jq, ripgrep, terraform, Supabase CLI, Databricks CLI, Blender, Go, Rust (rustup), FFmpeg, SQLite3, Poetry, Pandoc. Anything else works too — the model reasons it out live and **tells you** it's doing so rather than pretending it came from the curated data.
+Seeded knowledge base (curated per-OS install + verify recipes): Claude Code, OpenAI Codex CLI, Google Antigravity CLI, MiMo Code (also catches "Memo Code"), OpenCode, Gemini CLI, Qwen Code, Sourcegraph Amp, git, node (nvm), python (pyenv), docker, GitHub CLI (gh), GitLab CLI (glab), AWS CLI, kubectl, Homebrew, jq, ripgrep, terraform, Supabase CLI, Databricks CLI, Blender, Go, Rust (rustup), FFmpeg, SQLite3, Poetry, Pandoc. Anything else works too — the model reasons it out live and **tells you** it's doing so rather than pretending it came from the curated data.
 
 ## How a run works
 

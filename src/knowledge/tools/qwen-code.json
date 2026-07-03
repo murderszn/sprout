@@ -1,0 +1,73 @@
+{
+  "name": "qwen",
+  "displayName": "Qwen Code",
+  "aliases": [
+    "qwen-code",
+    "qwen code",
+    "qwen cli",
+    "qwen-code cli"
+  ],
+  "description": "Qwen Code terminal coding agent.",
+  "verify": {
+    "command": [
+      "qwen",
+      "--version"
+    ],
+    "expectedPattern": "([Qq]wen|\\d+\\.\\d+)"
+  },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@qwen-code/qwen-code@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js/npm. Configure model provider credentials after installation if prompted."
+        }
+      ]
+    },
+    "linux": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@qwen-code/qwen-code@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js/npm. Prefer user-local npm global installs."
+        }
+      ]
+    },
+    "win32": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@qwen-code/qwen-code@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js LTS. Open a new PowerShell if qwen is not found."
+        }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Node.js/npm must be installed first.",
+    "Provider credentials and model selection may be required on first run.",
+    "If qwen is not found after install, repair npm global PATH."
+  ]
+}

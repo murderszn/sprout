@@ -1,0 +1,108 @@
+{
+  "name": "mimo",
+  "displayName": "MiMo Code",
+  "aliases": [
+    "mimo-code",
+    "mimo code",
+    "memo code",
+    "memo-code",
+    "xiaomi mimo",
+    "xiaomi mimo code"
+  ],
+  "description": "MiMo Code terminal coding agent.",
+  "verify": {
+    "command": [
+      "mimo",
+      "--version"
+    ],
+    "expectedPattern": "([Mm]i[Mm]o|mimo|\\d+\\.\\d+)"
+  },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@mimo-ai/cli@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js/npm. The user asked for 'Memo Code'; this entry maps that common typo to MiMo Code."
+        },
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@xiaomi-mimo/cli@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Alternative Xiaomi MiMo Code CLI package. Use if the @mimo-ai package is not the desired distribution."
+        }
+      ]
+    },
+    "linux": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@mimo-ai/cli@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js/npm. Prefer user-local npm global installs."
+        },
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@xiaomi-mimo/cli@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Alternative Xiaomi MiMo Code CLI package."
+        }
+      ]
+    },
+    "win32": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@mimo-ai/cli@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js LTS. Open a new PowerShell if mimo is not found."
+        },
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@xiaomi-mimo/cli@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Alternative Xiaomi MiMo Code CLI package."
+        }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Node.js/npm must be installed first.",
+    "There are multiple MiMo/Memo-like packages; verify the user wants MiMo Code before choosing an alternative distribution.",
+    "If mimo is not found after install, repair npm global PATH."
+  ]
+}

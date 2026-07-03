@@ -1,0 +1,73 @@
+{
+  "name": "claude",
+  "displayName": "Claude Code",
+  "aliases": [
+    "claude-code",
+    "claude code",
+    "anthropic claude",
+    "anthropic claude code"
+  ],
+  "description": "Anthropic's Claude Code terminal coding agent.",
+  "verify": {
+    "command": [
+      "claude",
+      "--version"
+    ],
+    "expectedPattern": "([Cc]laude|\\d+\\.\\d+)"
+  },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@anthropic-ai/claude-code@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js/npm. If npm is missing or too old, install Node.js first."
+        }
+      ]
+    },
+    "linux": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@anthropic-ai/claude-code@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js/npm. Prefer a user-managed Node install (nvm) to avoid sudo-owned global npm directories."
+        }
+      ]
+    },
+    "win32": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@anthropic-ai/claude-code@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js LTS. Open a new PowerShell after install if the claude command is not found."
+        }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Node.js/npm must be installed before the npm global install can work.",
+    "Global npm bin directories are sometimes missing from PATH; open a new terminal or fix npm prefix/PATH.",
+    "Claude Code may require an interactive login or API/account setup after installation."
+  ]
+}

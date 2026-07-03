@@ -1,0 +1,73 @@
+{
+  "name": "amp",
+  "displayName": "Sourcegraph Amp",
+  "aliases": [
+    "sourcegraph amp",
+    "amp code",
+    "ampcode",
+    "amp cli"
+  ],
+  "description": "Sourcegraph Amp agentic coding CLI.",
+  "verify": {
+    "command": [
+      "amp",
+      "--version"
+    ],
+    "expectedPattern": "([Aa]mp|\\d+\\.\\d+)"
+  },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@sourcegraph/amp@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js/npm. Configure Sourcegraph/Amp authentication after installation if prompted."
+        }
+      ]
+    },
+    "linux": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@sourcegraph/amp@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js/npm. Prefer user-local npm global installs."
+        }
+      ]
+    },
+    "win32": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@sourcegraph/amp@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js LTS. Open a new PowerShell if amp is not found."
+        }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Node.js/npm must be installed first.",
+    "Amp authentication/setup may be required on first run.",
+    "If amp is not found after install, repair npm global PATH."
+  ]
+}

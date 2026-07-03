@@ -1,0 +1,85 @@
+{
+  "name": "agy",
+  "displayName": "Google Antigravity CLI",
+  "aliases": [
+    "antigravity",
+    "antigravity cli",
+    "google antigravity",
+    "google antigravity cli",
+    "agy"
+  ],
+  "description": "Google Antigravity CLI for terminal-based agent orchestration.",
+  "verify": {
+    "command": [
+      "agy",
+      "--version"
+    ],
+    "expectedPattern": "(agy|[Aa]ntigravity|\\d+\\.\\d+)"
+  },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew-cask",
+      "installs": [
+        {
+          "manager": "brew-cask",
+          "command": [
+            "brew",
+            "install",
+            "--cask",
+            "antigravity-cli"
+          ],
+          "requiresSudo": false,
+          "notes": "Installs the official Google Antigravity CLI cask and links the agy binary."
+        },
+        {
+          "manager": "brew-cask",
+          "command": [
+            "brew",
+            "install",
+            "--cask",
+            "antigravity-ide"
+          ],
+          "requiresSudo": false,
+          "notes": "Installs the Antigravity IDE cask as an alternative if the user wants the full desktop app."
+        }
+      ]
+    },
+    "linux": {
+      "preferredManager": "official-download",
+      "installs": [
+        {
+          "manager": "official-download",
+          "command": [
+            "xdg-open",
+            "https://antigravity.google/product/antigravity-cli"
+          ],
+          "requiresSudo": false,
+          "notes": "No universal Linux package-manager command is seeded yet. Open the official Google Antigravity CLI download page and follow the platform-specific installer."
+        }
+      ]
+    },
+    "win32": {
+      "preferredManager": "official-download",
+      "installs": [
+        {
+          "manager": "official-download",
+          "command": [
+            "powershell",
+            "-NoProfile",
+            "-ExecutionPolicy",
+            "Bypass",
+            "-Command",
+            "Start-Process 'https://antigravity.google/product/antigravity-cli'"
+          ],
+          "requiresSudo": false,
+          "notes": "Opens the official Google Antigravity CLI download page. Use the Windows installer from Google, then open a new PowerShell and verify agy --version."
+        }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Antigravity packaging differs by platform; prefer official Google download pages when a package manager entry is not available.",
+    "On macOS, Homebrew links the CLI as agy, not antigravity.",
+    "After installing a desktop/GUI package, open a new terminal before verifying PATH."
+  ]
+}

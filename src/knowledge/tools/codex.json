@@ -1,0 +1,72 @@
+{
+  "name": "codex",
+  "displayName": "OpenAI Codex CLI",
+  "aliases": [
+    "openai codex",
+    "codex cli",
+    "openai codex cli"
+  ],
+  "description": "OpenAI's Codex terminal coding agent.",
+  "verify": {
+    "command": [
+      "codex",
+      "--version"
+    ],
+    "expectedPattern": "([Cc]odex|\\d+\\.\\d+)"
+  },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@openai/codex@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js/npm. After installation, run the Codex login/config command if prompted."
+        }
+      ]
+    },
+    "linux": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@openai/codex@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js/npm. Prefer nvm/user-local npm to avoid sudo-owned global packages."
+        }
+      ]
+    },
+    "win32": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "@openai/codex@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js LTS. Open a new PowerShell if PATH has not refreshed."
+        }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Node.js/npm must be installed first.",
+    "If codex is installed but not found, npm's global bin directory is missing from PATH.",
+    "The first real run may need OpenAI account/API authentication."
+  ]
+}

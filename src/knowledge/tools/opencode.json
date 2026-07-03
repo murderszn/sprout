@@ -1,0 +1,72 @@
+{
+  "name": "opencode",
+  "displayName": "OpenCode",
+  "aliases": [
+    "open code",
+    "opencode-ai",
+    "sst opencode"
+  ],
+  "description": "OpenCode terminal coding agent.",
+  "verify": {
+    "command": [
+      "opencode",
+      "--version"
+    ],
+    "expectedPattern": "([Oo]pen[Cc]ode|opencode|\\d+\\.\\d+)"
+  },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "opencode-ai@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js/npm. Configure providers/API keys after installation."
+        }
+      ]
+    },
+    "linux": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "opencode-ai@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js/npm. Prefer user-local npm global installs."
+        }
+      ]
+    },
+    "win32": {
+      "preferredManager": "npm",
+      "installs": [
+        {
+          "manager": "npm",
+          "command": [
+            "npm",
+            "install",
+            "-g",
+            "opencode-ai@latest"
+          ],
+          "requiresSudo": false,
+          "notes": "Requires Node.js LTS. Open a new PowerShell if opencode is not found after install."
+        }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Node.js/npm must be installed first.",
+    "Provider/API key configuration is separate from installing the CLI.",
+    "If opencode is not found after install, refresh the terminal or repair npm global PATH."
+  ]
+}
