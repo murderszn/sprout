@@ -24,7 +24,7 @@
   "type": "module",
   "license": "MIT",
   "bin": {
-    "sprout": "./dist/cli.js"
+    "sprout": "dist/cli.js"
   },
   "files": [
     "dist"
