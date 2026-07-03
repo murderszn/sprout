@@ -1,6 +1,6 @@
 {
   "name": "sprout-install",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Diagnose and fix local install/config/PATH problems for developer tools. Not a general coding agent.",
   "author": "murderszn",
   "homepage": "https://murderszn.github.io/sprout/",
