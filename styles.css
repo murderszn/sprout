@@ -480,10 +480,10 @@ a {
 
 .hero-headline {
   font-family: var(--font-display);
-  font-size: clamp(2.75rem, 10vw, 5.75rem);
+  font-size: clamp(2.5rem, 5.5vw, 4.25rem);
   font-weight: 800;
-  line-height: 0.96;
-  letter-spacing: -0.045em;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
   color: var(--black);
   margin: 0 0 0.75rem;
   text-wrap: balance;
