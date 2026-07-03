@@ -53,9 +53,6 @@ function handleScroll() {
     }
   } else {
     overlay.style.transform = `translate3d(0, -${scrollY}px, 0)`;
-    if (overlayBg) {
-      overlayBg.style.transform = `translate3d(0, ${scrollY * 0.12}px, 0)`;
-    }
     overlay.classList.toggle('is-revealed', scrollY >= revealHeight - 1);
   }
 
