@@ -4,6 +4,8 @@
   if (!root || !session) return;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const PIN_THRESHOLD = 28;
+  let userPinned = false;
 
   const SESSION_HTML = `
 <div class="t-line t-cmd"><span class="t-prompt">$</span> sprout install gh</div>
@@ -91,9 +93,24 @@
     return base + Math.floor(Math.random() * 18);
   }
 
-  function scrollToBottom() {
-    session.scrollTop = session.scrollHeight;
+  function isNearBottom() {
+    return session.scrollHeight - session.scrollTop - session.clientHeight <= PIN_THRESHOLD;
   }
+
+  function scrollToBottom() {
+    if (userPinned) return;
+
+    const sync = () => {
+      session.scrollTop = Math.max(0, session.scrollHeight - session.clientHeight);
+    };
+
+    sync();
+    requestAnimationFrame(sync);
+  }
+
+  session.addEventListener('scroll', () => {
+    userPinned = !isNearBottom();
+  }, { passive: true });
 
   function createCursor() {
     const cursor = document.createElement('span');
@@ -213,11 +230,13 @@
 
   function renderStatic() {
     session.innerHTML = SESSION_HTML;
+    userPinned = false;
     scrollToBottom();
   }
 
   async function playLoop(id) {
     session.innerHTML = '';
+    userPinned = false;
     root.classList.add('is-typing');
 
     for (const step of STEPS) {

@@ -2,7 +2,6 @@ const overlay = document.getElementById('overlay');
 const overlayBg = document.getElementById('overlay-bg');
 const scrollSpacer = document.getElementById('scroll-spacer');
 const nav = document.getElementById('nav');
-const scrollCue = document.getElementById('scroll-cue');
 const scrollProgress = document.getElementById('scroll-progress');
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -63,8 +62,6 @@ function handleScroll() {
   if (scrollProgress) {
     scrollProgress.style.transform = `scaleX(${progress})`;
   }
-
-  scrollCue?.classList.toggle('is-hidden', progress > 0.08);
 }
 
 function onScroll() {
@@ -172,8 +169,6 @@ window.addEventListener('pageshow', (e) => {
   }
 });
 
-scrollCue?.addEventListener('click', () => scrollToTarget('install'));
-
 document.querySelectorAll('[data-scroll-target]').forEach((el) => {
   el.addEventListener('click', (e) => {
     e.preventDefault();
@@ -237,7 +232,7 @@ function selectPlatform(platform) {
     }
   });
 
-  document.querySelectorAll('.command-panel').forEach((panel) => {
+  document.querySelectorAll('#install-step-1 .command-panel').forEach((panel) => {
     panel.classList.toggle('active', panel.id === `cmd-${platform}`);
   });
 }

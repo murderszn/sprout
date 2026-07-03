@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sprout | Install-fixer CLI for Developer Tools</title>
   <meta name="description" content="Sprout is an install-fixer CLI for macOS and Linux. Diagnose and fix local install, config, and PATH problems for developer tools — detect your machine, plan steps, confirm each command, and verify with a real run. Not a general coding agent.">
-  <meta name="keywords" content="Sprout, sprout-cli, install fixer, developer tools, CLI, PATH, Homebrew, apt, npm, package manager, shell config, macOS, Linux, Pollinations, open source">
+  <meta name="keywords" content="Sprout, sprout-install, install fixer, developer tools, CLI, PATH, Homebrew, apt, npm, package manager, shell config, macOS, Linux, Pollinations, open source">
   <meta name="author" content="murderszn">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#65A30D">
@@ -28,7 +28,7 @@
   <meta name="twitter:image" content="https://murderszn.github.io/sprout/public/og-image.png">
   <meta name="twitter:image:alt" content="Sprout — sprout emoji on matcha green background">
   <meta name="twitter:title" content="Sprout | Install-fixer CLI">
-  <meta name="twitter:description" content="Fix install, config, and PATH problems for developer tools on your machine. npm install -g sprout-cli">
+  <meta name="twitter:description" content="Fix install, config, and PATH problems for developer tools on your machine. npm install -g sprout-install">
   <link rel="icon" href="public/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="public/apple-touch-icon.png" type="image/png" sizes="180x180">
   <link rel="apple-touch-icon" href="public/apple-touch-icon.png" sizes="180x180">
@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=Quicksand:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=26">
+  <link rel="stylesheet" href="styles.css?v=43">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -63,14 +63,14 @@
         },
         "sameAs": [
           "https://github.com/murderszn/sprout",
-          "https://www.npmjs.com/package/sprout-cli"
+          "https://www.npmjs.com/package/sprout-install"
         ]
       },
       {
         "@type": "SoftwareApplication",
         "@id": "https://murderszn.github.io/sprout/#software",
         "name": "Sprout",
-        "alternateName": "sprout-cli",
+        "alternateName": "sprout-install",
         "applicationCategory": "DeveloperApplication",
         "applicationSubCategory": "CLI Tool",
         "operatingSystem": "macOS, Linux",
@@ -78,7 +78,7 @@
         "url": "https://murderszn.github.io/sprout/",
         "image": "https://murderszn.github.io/sprout/public/og-image.png",
         "screenshot": "https://murderszn.github.io/sprout/public/og-image.png",
-        "downloadUrl": "https://www.npmjs.com/package/sprout-cli",
+        "downloadUrl": "https://www.npmjs.com/package/sprout-install",
         "softwareVersion": "1.0",
         "license": "https://opensource.org/licenses/MIT",
         "isAccessibleForFree": true,
@@ -134,14 +134,12 @@
 
   <nav class="nav" id="nav">
     <a href="#top" class="nav-logo" aria-label="Sprout — back to top">
-      <span class="nav-logo-dot" aria-hidden="true"></span>
+      <span class="nav-logo-emoji" aria-hidden="true">🌱</span>
       <span class="nav-logo-text">SPROUT</span>
     </a>
     <div class="nav-links">
-      <a href="https://github.com/murderszn/sprout/blob/main/README.md" target="_blank" rel="noopener noreferrer">Docs</a>
       <a href="#install" data-scroll-target="install">Install</a>
-      <a href="#commands" data-scroll-target="commands">Commands</a>
-      <a href="#features" data-scroll-target="features">Features</a>
+      <a href="https://github.com/murderszn/sprout/blob/main/README.md" target="_blank" rel="noopener noreferrer">Docs</a>
       <a href="https://github.com/murderszn/sprout/blob/main/COMMUNITY.md" class="nav-community" target="_blank" rel="noopener noreferrer" data-discord-invite>Community</a>
     </div>
   </nav>
@@ -155,15 +153,32 @@
         <div class="hero-intro">
           <p class="hero-eyebrow">// how tf do i install this $#!+?!</p>
           <h1 class="hero-headline">Fix installs on <em>this</em> machine.</h1>
-          <p class="hero-subline">Detect → plan → confirm → verify.</p>
           <div class="hero-actions">
             <div class="hero-command-cta">
-              <code class="hero-command-text">npm install -g sprout-cli</code>
-              <button type="button" class="copy-btn copy-btn-hero" data-copy="npm install -g sprout-cli" aria-label="Copy install command">
+              <code class="hero-command-text">npm install -g sprout-install</code>
+              <button type="button" class="copy-btn copy-btn-hero" data-copy="npm install -g sprout-install" aria-label="Copy install command">
                 <span class="copy-text" aria-live="polite">Copy</span>
               </button>
             </div>
-            <a href="https://github.com/murderszn/sprout" class="btn btn-hero-outline btn-mono hero-github-btn" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+
+        <div class="hero-terminal-group">
+          <div class="hero-terminal" id="demo">
+            <div class="mac-terminal terminal-block--hero" id="hero-terminal">
+              <div class="mac-terminal-toolbar">
+                <div class="mac-terminal-traffic" aria-hidden="true">
+                  <span class="mac-traffic mac-traffic--close"></span>
+                  <span class="mac-traffic mac-traffic--min"></span>
+                  <span class="mac-traffic mac-traffic--zoom"></span>
+                </div>
+                <p class="mac-terminal-title">zsh — sprout</p>
+                <div class="mac-terminal-toolbar-spacer" aria-hidden="true"></div>
+              </div>
+              <div class="mac-terminal-body">
+                <div class="terminal-session" id="hero-terminal-session" aria-live="polite" aria-label="Example sprout install gh session"></div>
+              </div>
+            </div>
           </div>
           <p class="hero-trust">
             <a href="https://github.com/murderszn/sprout" target="_blank" rel="noopener noreferrer">Open source</a>
@@ -173,30 +188,8 @@
             <a href="https://github.com/murderszn/sprout/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT</a>
           </p>
         </div>
-
-        <div class="hero-terminal" id="demo">
-          <div class="mac-terminal terminal-block--hero" id="hero-terminal">
-            <div class="mac-terminal-toolbar">
-              <div class="mac-terminal-traffic" aria-hidden="true">
-                <span class="mac-traffic mac-traffic--close"></span>
-                <span class="mac-traffic mac-traffic--min"></span>
-                <span class="mac-traffic mac-traffic--zoom"></span>
-              </div>
-              <p class="mac-terminal-title">zsh — sprout</p>
-              <div class="mac-terminal-toolbar-spacer" aria-hidden="true"></div>
-            </div>
-            <div class="mac-terminal-body">
-              <div class="terminal-session" id="hero-terminal-session" aria-live="polite" aria-label="Example sprout install gh session"></div>
-            </div>
-          </div>
-        </div>
       </div>
     </header>
-
-    <button class="scroll-cue" id="scroll-cue" aria-label="Scroll to install">
-      <span class="scroll-cue-text">Scroll</span>
-      <svg class="scroll-cue-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-    </button>
 
     <div class="overlay-edge" aria-hidden="true"></div>
   </div>
@@ -288,18 +281,18 @@
               <div class="command-panel active" id="cmd-npm">
                 <div class="command-line">
                   <span class="prompt" aria-hidden="true">$</span>
-                  <code class="install-command">npm install -g sprout-cli</code>
+                  <code class="install-command">npm install -g sprout-install</code>
                 </div>
-                <button class="copy-btn" data-copy="npm install -g sprout-cli" aria-label="Copy command">
+                <button class="copy-btn" data-copy="npm install -g sprout-install" aria-label="Copy command">
                   <span class="copy-text" aria-live="polite">Copy</span>
                 </button>
               </div>
               <div class="command-panel" id="cmd-npx">
                 <div class="command-line">
                   <span class="prompt" aria-hidden="true">$</span>
-                  <code class="install-command">npx sprout-cli install gh</code>
+                  <code class="install-command">npx sprout-install install gh</code>
                 </div>
-                <button class="copy-btn" data-copy="npx sprout-cli install gh" aria-label="Copy command">
+                <button class="copy-btn" data-copy="npx sprout-install install gh" aria-label="Copy command">
                   <span class="copy-text" aria-live="polite">Copy</span>
                 </button>
               </div>
@@ -322,8 +315,8 @@
               <span class="install-step-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><use href="#icon-key"/></svg></span>
               <span class="install-step-num">02</span>
               <div>
-                <h3 class="install-step-title">Add your API key</h3>
-                <p class="install-step-desc">Sprout never ships a key. Get one at <a href="https://enter.pollinations.ai" target="_blank" rel="noopener noreferrer">enter.pollinations.ai</a>, then store it locally.</p>
+                <h3 class="install-step-title">Authorize with Pollen</h3>
+                <p class="install-step-desc">Run <code class="inline-code">sprout login</code> to authorize with your <a href="https://enter.pollinations.ai" target="_blank" rel="noopener noreferrer">Pollinations</a> account (BYOP — uses your Pollen balance). Or paste an existing <code class="inline-code">sk_</code> key with <code class="inline-code">sprout config --set-key</code>.</p>
               </div>
             </div>
             <div class="install-stack">
@@ -338,15 +331,15 @@
                   <div class="command-panel active">
                     <div class="command-line">
                       <span class="prompt" aria-hidden="true">$</span>
-                      <code class="install-command">sprout config --set-key</code>
+                      <code class="install-command">sprout login</code>
                     </div>
-                    <button class="copy-btn" data-copy="sprout config --set-key" aria-label="Copy command">
+                    <button class="copy-btn" data-copy="sprout login" aria-label="Copy command">
                       <span class="copy-text" aria-live="polite">Copy</span>
                     </button>
                   </div>
                 </div>
               </div>
-              <p class="install-step-note">Saved to <code class="inline-code">~/.sprout/config.json</code> (chmod 600) or export <code class="inline-code">SPROUT_API_KEY</code>. Sprout prompts on first run if neither is set.</p>
+              <p class="install-step-note">Authorized keys save to <code class="inline-code">~/.sprout/config.json</code> (chmod 600). Alternatively: <code class="inline-code">sprout config --set-key</code> or export <code class="inline-code">SPROUT_API_KEY</code>.</p>
             </div>
           </div>
 
@@ -586,7 +579,7 @@
         <div class="faq-list">
           <details class="faq-item">
             <summary>Do I need an API key?</summary>
-            <p>Yes. Sprout uses <a href="https://enter.pollinations.ai" target="_blank" rel="noopener noreferrer">Pollinations</a> for inference with <strong>your</strong> <code class="inline-code">sk_</code> key — never shipped, proxied, or stored by us. Run <code class="inline-code">sprout config --set-key</code> or export <code class="inline-code">SPROUT_API_KEY</code>.</p>
+            <p>Yes — inference uses <strong>your</strong> Pollinations account. Run <code class="inline-code">sprout login</code> (recommended; BYOP device flow at <a href="https://enter.pollinations.ai" target="_blank" rel="noopener noreferrer">enter.pollinations.ai</a>) or paste an <code class="inline-code">sk_</code> key via <code class="inline-code">sprout config --set-key</code>. Sprout never ships or proxies a key; yours stays local.</p>
           </details>
           <details class="faq-item">
             <summary>Is it safe to run on my machine?</summary>
@@ -610,7 +603,7 @@
           </details>
           <details class="faq-item">
             <summary>What does it cost?</summary>
-            <p>Sprout is MIT-licensed and free. You pay Pollinations for inference via your own API key. <code class="inline-code">npm install -g sprout-cli</code> has no subscription.</p>
+            <p>Sprout is MIT-licensed and free. You pay Pollinations for inference from your Pollen balance (<code class="inline-code">sprout login</code>) or your own API key. <code class="inline-code">npm install -g sprout-install</code> has no subscription.</p>
           </details>
         </div>
       </div>
@@ -619,10 +612,9 @@
     <footer class="footer reveal-on-scroll">
       <div class="footer-scene">
         <div class="footer-inner">
-          <h2 class="footer-headline">Ready to install.</h2>
-          <p class="footer-tagline">Tell Sprout what you need. It figures out the rest — on your machine, with your confirmation.</p>
+          <h2 class="footer-headline">Ready to install.<span aria-hidden="true">🌱</span></h2>
           <div class="footer-actions">
-            <a href="#install" class="btn btn-primary btn-lg btn-mono" data-scroll-target="install">npm install -g sprout-cli</a>
+            <a href="#install" class="btn btn-primary btn-lg btn-mono" data-scroll-target="install">npm install -g sprout-install</a>
             <a href="https://github.com/murderszn/sprout" class="btn btn-dark btn-lg btn-mono" target="_blank" rel="noopener noreferrer">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
               GitHub
@@ -641,9 +633,9 @@
     </footer>
   </main>
 
-  <script src="hero-terminal.js" defer></script>
-  <script src="hero-shader.js" defer></script>
-  <script src="shader-banner.js" defer></script>
-  <script src="main.js" defer></script>
+  <script src="hero-terminal.js?v=43" defer></script>
+  <script src="hero-shader.js?v=43" defer></script>
+  <script src="shader-banner.js?v=43" defer></script>
+  <script src="main.js?v=43" defer></script>
 </body>
 </html>
