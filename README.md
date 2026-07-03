@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-65A30D?style=flat-square)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-84CC16?style=flat-square&logo=node.js&logoColor=white)](package.json)
 [![Website](https://img.shields.io/badge/website-murderszn.github.io%2Fsprout-A3E635?style=flat-square)](https://murderszn.github.io/sprout/)
-[![Discord](https://img.shields.io/badge/discord-join_community-5865F2?style=flat-square&logo=discord&logoColor=white)](https://github.com/murderszn/sprout/blob/main/COMMUNITY.md#discord)
+[![Discord](https://img.shields.io/badge/discord-join_community-5865F2?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/h9aXFuKqsv)
 
 **Install-fixer CLI for developer tools** — macOS & Linux
 
@@ -107,7 +107,7 @@ Seeded knowledge base (curated per-OS install + verify recipes): git, node (nvm)
 
 ## Community
 
-Questions, broken install logs, and knowledge-base ideas belong in [Discord](https://github.com/murderszn/sprout/blob/main/COMMUNITY.md#discord) (invite link in [COMMUNITY.md](COMMUNITY.md)) or [GitHub Issues](https://github.com/murderszn/sprout/issues).
+Questions, broken install logs, and knowledge-base ideas belong in [Discord](https://discord.gg/h9aXFuKqsv) (invite link in [COMMUNITY.md](COMMUNITY.md)) or [GitHub Issues](https://github.com/murderszn/sprout/issues).
 
 - [COMMUNITY.md](COMMUNITY.md) — Discord setup, channels, branding assets
 - [CONTRIBUTING.md](CONTRIBUTING.md) — add install recipes

@@ -4,10 +4,10 @@ Sprout is built for people who are tired of copy-pasting install scripts that as
 
 ## Discord
 
-**Invite link:** _add your permanent invite here once the server is live_
+**Invite link:** [https://discord.gg/h9aXFuKqsv](https://discord.gg/h9aXFuKqsv)
 
 ```text
-https://discord.gg/YOUR_INVITE_CODE
+https://discord.gg/h9aXFuKqsv
 ```
 
 Replace the placeholder in three places after you create the server:
