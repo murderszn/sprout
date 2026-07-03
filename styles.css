@@ -386,27 +386,45 @@ a {
   --hero-terminal-width: calc(var(--hero-terminal-stage) * var(--phi));
   --hero-terminal-peek: 0.52;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: clamp(2rem, 5vw, 4rem);
+  justify-content: center;
+  gap: clamp(2.5rem, 6vh, 4rem);
   height: 100%;
   min-height: 100%;
   max-width: var(--page-max);
   margin: 0 auto;
   padding:
-    calc(var(--nav-height) + clamp(2.5rem, 6vh, 4.5rem))
+    calc(var(--nav-height) + clamp(2rem, 5vh, 3.5rem))
     max(var(--section-pad-x), env(safe-area-inset-right))
-    clamp(2.5rem, 6vh, 4.5rem)
+    clamp(2rem, 5vh, 3.5rem)
     max(var(--section-pad-x), env(safe-area-inset-left));
 }
 
+.hero-centerpiece {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex: 0 0 auto;
+  animation: hero-enter 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-subgrid {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(2.5rem, 6vw, 4.5rem);
+  width: 100%;
+  flex: 1 1 auto;
+}
+
 .hero-intro {
-  width: 40%;
-  flex: 0 0 40%;
+  width: calc(50% - clamp(1.25rem, 3vw, 2.25rem));
+  flex: 0 0 calc(50% - clamp(1.25rem, 3vw, 2.25rem));
   text-align: left;
   color: var(--black);
-  animation: hero-enter 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: hero-enter 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
 }
 
 .hero-terminal-group {
@@ -414,10 +432,11 @@ a {
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
-  width: 60%;
-  flex: 0 0 60%;
+  width: calc(50% - clamp(1.25rem, 3vw, 2.25rem));
+  flex: 0 0 calc(50% - clamp(1.25rem, 3vw, 2.25rem));
   max-width: 100%;
   align-self: center;
+  animation: hero-enter 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
 }
 
 .hero-terminal-group .hero-trust {
@@ -534,13 +553,13 @@ a {
   margin-bottom: 0.75rem;
 }
 
-.hero-layout--centered .hero-actions {
+.hero-centerpiece .hero-actions {
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   gap: 0.75rem;
-  margin: 0 0 clamp(1.25rem, 3vh, 1.75rem);
+  margin: 0 auto;
   width: auto;
   max-width: 28rem;
 }
@@ -2451,11 +2470,11 @@ a {
     margin-bottom: 0.75rem;
   }
 
-  .hero-layout--centered .hero-actions {
+  .hero-centerpiece .hero-actions {
     margin-bottom: clamp(1rem, 2.5vh, 1.25rem);
   }
 
-  .hero-layout--centered .hero-actions {
+  .hero-centerpiece .hero-actions {
     flex-direction: column;
     align-items: stretch;
   }
@@ -2668,9 +2687,12 @@ a {
 
 @media (max-width: 1024px) {
   .hero-layout--centered {
+    gap: clamp(1.5rem, 3vh, 2.5rem);
+  }
+
+  .hero-subgrid {
     flex-direction: column;
-    justify-content: center;
-    gap: clamp(1.5rem, 3.5vh, 2rem);
+    gap: clamp(1.5rem, 3vh, 2.5rem);
   }
 
   .hero-intro {
@@ -2681,11 +2703,6 @@ a {
 
   .hero-headline {
     margin: 0 auto 0.75rem;
-  }
-
-  .hero-layout--centered .hero-actions {
-    justify-content: center;
-    margin: 0 auto clamp(1rem, 2.5vh, 1.25rem);
   }
 
   .hero-terminal-group {
@@ -2721,7 +2738,7 @@ a {
     margin-bottom: 0.5rem;
   }
 
-  .hero-layout--centered .hero-actions {
+  .hero-centerpiece .hero-actions {
     margin-bottom: clamp(0.75rem, 2vh, 1rem);
   }
 
