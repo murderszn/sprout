@@ -1,27 +1,27 @@
-(function initHeroSwirl() {
+(function initHeroImageDithering() {
   const container = document.getElementById('overlay-bg');
   if (!container) return;
 
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
+  // Ported from @paper-design/shaders image-dithering
+  // https://shaders.paper.design/image-dithering
   const PARAMS = {
-    colorBack: '#FFFFFF',
-    colors: ['#D9F99D', '#A3E635', '#84CC16', '#65A30D'],
-    bandCount: 4,
-    twist: 0.1,
-    center: 0.2,
-    proportion: 0.5,
-    softness: 0,
-    noise: 0.2,
-    noiseFrequency: 0.4,
-    speed: prefersReducedMotion ? 0 : 0.32,
+    image: 'public/hero-sprout.jpg',
+    // Chromaverse — Matcha Latte palette (see :root in styles.css)
+    colorFront: '#84CC16', // --accent-light / --yellow-hover
+    colorBack: '#2D3220', // --black-raised
+    colorHighlight: '#E8F5D8', // --white
+    originalColors: false,
+    inverted: false,
+    type: 4, // 1 = random, 2 = 2x2 Bayer, 3 = 4x4 Bayer, 4 = 8x8 Bayer
+    pxSize: 4,
+    colorSteps: 5,
     scale: 1,
     rotation: 0,
     offsetX: 0,
     offsetY: 0,
     originX: 0.5,
     originY: 0.5,
-    fit: 1,
+    fit: 2, // cover
     worldWidth: 0,
     worldHeight: 0,
   };
@@ -31,44 +31,12 @@
 #define PI 3.14159265358979323846
 `;
 
-  const ROTATION2 = `
-vec2 rotate(vec2 uv, float th) {
-  return mat2(cos(th), sin(th), -sin(th), cos(th)) * uv;
-}
-`;
-
-  const SIMPLEX_NOISE = `
-vec3 permute(vec3 x) { return mod(((x * 34.0) + 1.0) * x, 289.0); }
-float snoise(vec2 v) {
-  const vec4 C = vec4(0.211324865405187, 0.366025403784439,
-    -0.577350269189626, 0.024390243902439);
-  vec2 i = floor(v + dot(v, C.yy));
-  vec2 x0 = v - i + dot(i, C.xx);
-  vec2 i1;
-  i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-  vec4 x12 = x0.xyxy + C.xxzz;
-  x12.xy -= i1;
-  i = mod(i, 289.0);
-  vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0))
-    + i.x + vec3(0.0, i1.x, 1.0));
-  vec3 m = max(0.5 - vec3(dot(x0, x0), dot(x12.xy, x12.xy),
-      dot(x12.zw, x12.zw)), 0.0);
-  m = m * m;
-  m = m * m;
-  vec3 x = 2.0 * fract(p * C.www) - 1.0;
-  vec3 h = abs(x) - 0.5;
-  vec3 ox = floor(x + 0.5);
-  vec3 a0 = x - ox;
-  m *= 1.79284291400159 - 0.85373472095314 * (a0 * a0 + h * h);
-  vec3 g;
-  g.x = a0.x * x0.x + h.x * x0.y;
-  g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-  return 130.0 * dot(m, g);
-}
-`;
-
-  const COLOR_BANDING_FIX = `
-  color += 1. / 256. * (fract(sin(dot(.014 * gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453123) - .5);
+  const HASH21 = `
+  float hash21(vec2 p) {
+    p = fract(p * vec2(0.3183099, 0.3678794)) + 0.1;
+    p += dot(p, p + 19.19);
+    return fract(p.x * p.y);
+  }
 `;
 
   const VS = `#version 300 es
@@ -76,143 +44,187 @@ precision mediump float;
 
 layout(location = 0) in vec4 a_position;
 
-uniform vec2 u_resolution;
-uniform float u_pixelRatio;
-uniform float u_imageAspectRatio;
-uniform float u_originX;
-uniform float u_originY;
-uniform float u_worldWidth;
-uniform float u_worldHeight;
-uniform float u_fit;
-uniform float u_scale;
-uniform float u_rotation;
-uniform float u_offsetX;
-uniform float u_offsetY;
-
-out vec2 v_objectUV;
-
-vec3 getBoxSize(float boxRatio, vec2 givenBoxSize) {
-  vec2 box = vec2(0.);
-  box.x = boxRatio * min(givenBoxSize.x / boxRatio, givenBoxSize.y);
-  float noFitBoxWidth = box.x;
-  if (u_fit == 1.) {
-    box.x = boxRatio * min(u_resolution.x / boxRatio, u_resolution.y);
-  } else if (u_fit == 2.) {
-    box.x = boxRatio * max(u_resolution.x / boxRatio, u_resolution.y);
-  }
-  box.y = box.x / boxRatio;
-  return vec3(box, noFitBoxWidth);
-}
-
 void main() {
   gl_Position = a_position;
-
-  vec2 uv = gl_Position.xy * .5;
-  vec2 boxOrigin = vec2(.5 - u_originX, u_originY - .5);
-  vec2 givenBoxSize = vec2(u_worldWidth, u_worldHeight);
-  givenBoxSize = max(givenBoxSize, vec2(1.)) * u_pixelRatio;
-  float r = u_rotation * 3.14159265358979323846 / 180.;
-  mat2 graphicRotation = mat2(cos(r), sin(r), -sin(r), cos(r));
-  vec2 graphicOffset = vec2(-u_offsetX, u_offsetY);
-
-  float fixedRatio = 1.;
-  vec2 fixedRatioBoxGivenSize = vec2(
-    (u_worldWidth == 0.) ? u_resolution.x : givenBoxSize.x,
-    (u_worldHeight == 0.) ? u_resolution.y : givenBoxSize.y
-  );
-
-  vec2 objectBoxSize = getBoxSize(fixedRatio, fixedRatioBoxGivenSize).xy;
-  vec2 objectWorldScale = u_resolution.xy / objectBoxSize;
-
-  v_objectUV = uv;
-  v_objectUV *= objectWorldScale;
-  v_objectUV += boxOrigin * (objectWorldScale - 1.);
-  v_objectUV += graphicOffset;
-  v_objectUV /= u_scale;
-  v_objectUV = graphicRotation * v_objectUV;
 }`;
 
   const FS = `#version 300 es
 precision mediump float;
 
-uniform float u_time;
-uniform vec4 u_colorBack;
-uniform vec4 u_colors[10];
-uniform float u_colorsCount;
-uniform float u_bandCount;
-uniform float u_twist;
-uniform float u_center;
-uniform float u_proportion;
-uniform float u_softness;
-uniform float u_noise;
-uniform float u_noiseFrequency;
+uniform vec2 u_resolution;
+uniform float u_pixelRatio;
+uniform float u_originX;
+uniform float u_originY;
+uniform float u_worldWidth;
+uniform float u_worldHeight;
+uniform float u_fit;
 
-in vec2 v_objectUV;
+uniform float u_scale;
+uniform float u_rotation;
+uniform float u_offsetX;
+uniform float u_offsetY;
+
+uniform vec4 u_colorFront;
+uniform vec4 u_colorBack;
+uniform vec4 u_colorHighlight;
+
+uniform sampler2D u_image;
+uniform float u_imageAspectRatio;
+
+uniform float u_type;
+uniform float u_pxSize;
+uniform bool u_originalColors;
+uniform bool u_inverted;
+uniform float u_colorSteps;
+
 out vec4 fragColor;
 
+${HASH21}
 ${DECLARE_PI}
-${SIMPLEX_NOISE}
-${ROTATION2}
+
+float getUvFrame(vec2 uv, vec2 pad) {
+  float aa = 0.0001;
+
+  float left   = smoothstep(-pad.x, -pad.x + aa, uv.x);
+  float right  = smoothstep(1.0 + pad.x, 1.0 + pad.x - aa, uv.x);
+  float bottom = smoothstep(-pad.y, -pad.y + aa, uv.y);
+  float top    = smoothstep(1.0 + pad.y, 1.0 + pad.y - aa, uv.y);
+
+  return left * right * bottom * top;
+}
+
+vec2 getImageUV(vec2 uv) {
+  vec2 boxOrigin = vec2(.5 - u_originX, u_originY - .5);
+  float r = u_rotation * PI / 180.;
+  mat2 graphicRotation = mat2(cos(r), sin(r), -sin(r), cos(r));
+  vec2 graphicOffset = vec2(-u_offsetX, u_offsetY);
+
+  vec2 imageBoxSize;
+  if (u_fit == 1.) { // contain
+    imageBoxSize.x = min(u_resolution.x / u_imageAspectRatio, u_resolution.y) * u_imageAspectRatio;
+  } else if (u_fit == 2.) { // cover
+    imageBoxSize.x = max(u_resolution.x / u_imageAspectRatio, u_resolution.y) * u_imageAspectRatio;
+  } else {
+    imageBoxSize.x = min(10.0, 10.0 / u_imageAspectRatio * u_imageAspectRatio);
+  }
+  imageBoxSize.y = imageBoxSize.x / u_imageAspectRatio;
+  vec2 imageBoxScale = u_resolution.xy / imageBoxSize;
+
+  vec2 imageUV = uv;
+  imageUV *= imageBoxScale;
+  imageUV += boxOrigin * (imageBoxScale - 1.);
+  imageUV += graphicOffset;
+  imageUV /= u_scale;
+  imageUV.x *= u_imageAspectRatio;
+  imageUV = graphicRotation * imageUV;
+  imageUV.x /= u_imageAspectRatio;
+
+  imageUV += .5;
+  imageUV.y = 1. - imageUV.y;
+
+  return imageUV;
+}
+
+const int bayer2x2[4] = int[4](0, 2, 3, 1);
+const int bayer4x4[16] = int[16](
+0, 8, 2, 10,
+12, 4, 14, 6,
+3, 11, 1, 9,
+15, 7, 13, 5
+);
+
+const int bayer8x8[64] = int[64](
+0, 32, 8, 40, 2, 34, 10, 42,
+48, 16, 56, 24, 50, 18, 58, 26,
+12, 44, 4, 36, 14, 46, 6, 38,
+60, 28, 52, 20, 62, 30, 54, 22,
+3, 35, 11, 43, 1, 33, 9, 41,
+51, 19, 59, 27, 49, 17, 57, 25,
+15, 47, 7, 39, 13, 45, 5, 37,
+63, 31, 55, 23, 61, 29, 53, 21
+);
+
+float getBayerValue(vec2 uv, int size) {
+  ivec2 pos = ivec2(fract(uv / float(size)) * float(size));
+  int index = pos.y * size + pos.x;
+
+  if (size == 2) {
+    return float(bayer2x2[index]) / 4.0;
+  } else if (size == 4) {
+    return float(bayer4x4[index]) / 16.0;
+  } else if (size == 8) {
+    return float(bayer8x8[index]) / 64.0;
+  }
+  return 0.0;
+}
 
 void main() {
-  vec2 shape_uv = v_objectUV;
 
-  float l = length(shape_uv);
-  l = max(1e-4, l);
+  float pxSize = u_pxSize * u_pixelRatio;
+  vec2 pxSizeUV = gl_FragCoord.xy - .5 * u_resolution;
+  pxSizeUV /= pxSize;
+  vec2 canvasPixelizedUV = (floor(pxSizeUV) + .5) * pxSize;
+  vec2 normalizedUV = canvasPixelizedUV / u_resolution;
 
-  float t = u_time;
+  vec2 imageUV = getImageUV(normalizedUV);
+  vec2 ditheringNoiseUV = canvasPixelizedUV;
+  vec4 image = texture(u_image, imageUV);
+  float frame = getUvFrame(imageUV, pxSize / u_resolution);
 
-  float angle = ceil(u_bandCount) * atan(shape_uv.y, shape_uv.x) + t;
-  float angle_norm = angle / TWO_PI;
+  int type = int(floor(u_type));
+  float dithering = 0.0;
 
-  float twist = 3. * clamp(u_twist, 0., 1.);
-  float offset = pow(l, -twist) + angle_norm;
+  float lum = dot(vec3(.2126, .7152, .0722), image.rgb);
+  lum = u_inverted ? (1. - lum) : lum;
 
-  float shape = fract(offset);
-  shape = 1. - abs(2. * shape - 1.);
-  shape += u_noise * snoise(15. * pow(u_noiseFrequency, 2.) * shape_uv);
-
-  float mid = smoothstep(.2, .2 + .8 * u_center, pow(l, twist));
-  shape = mix(0., shape, mid);
-
-  float proportion = clamp(u_proportion, 0., 1.);
-  float exponent = mix(.25, 1., proportion * 2.);
-  exponent = mix(exponent, 10., max(0., proportion * 2. - 1.));
-  shape = pow(shape, exponent);
-
-  float mixer = shape * u_colorsCount;
-  vec4 gradient = u_colors[0];
-  gradient.rgb *= gradient.a;
-
-  float outerShape = 0.;
-  for (int i = 1; i < 11; i++) {
-    if (i > int(u_colorsCount)) break;
-
-    float m = clamp(mixer - float(i - 1), 0., 1.);
-    float aa = fwidth(m);
-    m = smoothstep(.5 - .5 * u_softness - aa, .5 + .5 * u_softness + aa, m);
-
-    if (i == 1) {
-      outerShape = m;
-    }
-
-    vec4 c = u_colors[i - 1];
-    c.rgb *= c.a;
-    gradient = mix(gradient, c, m);
+  switch (type) {
+    case 1: {
+      dithering = step(hash21(ditheringNoiseUV), lum);
+    } break;
+    case 2:
+    dithering = getBayerValue(pxSizeUV, 2);
+    break;
+    case 3:
+    dithering = getBayerValue(pxSizeUV, 4);
+    break;
+    default :
+    dithering = getBayerValue(pxSizeUV, 8);
+    break;
   }
 
-  float midAA = .1 * fwidth(pow(l, -twist));
-  float outerMid = smoothstep(.2, .2 + midAA, pow(l, twist));
-  outerShape = mix(0., outerShape, outerMid);
+  float colorSteps = max(floor(u_colorSteps), 1.);
+  vec3 color = vec3(0.0);
+  float opacity = 1.;
 
-  vec3 color = gradient.rgb * outerShape;
-  float opacity = gradient.a * outerShape;
+  dithering -= .5;
+  float brightness = clamp(lum + dithering / colorSteps, 0.0, 1.0);
+  brightness = mix(0.0, brightness, frame);
+  brightness = mix(0.0, brightness, image.a);
+  float quantLum = floor(brightness * colorSteps + 0.5) / colorSteps;
+  quantLum = mix(0.0, quantLum, frame);
 
-  vec3 bgColor = u_colorBack.rgb * u_colorBack.a;
-  color = color + bgColor * (1.0 - opacity);
-  opacity = opacity + u_colorBack.a * (1.0 - opacity);
+  if (u_originalColors == true) {
+    vec3 normColor = image.rgb / max(lum, 0.001);
+    color = normColor * quantLum;
 
-  ${COLOR_BANDING_FIX}
+    float quantAlpha = floor(image.a * colorSteps + 0.5) / colorSteps;
+    opacity = mix(quantLum, 1., quantAlpha);
+  } else {
+    vec3 fgColor = u_colorFront.rgb * u_colorFront.a;
+    float fgOpacity = u_colorFront.a;
+    vec3 bgColor = u_colorBack.rgb * u_colorBack.a;
+    float bgOpacity = u_colorBack.a;
+    vec3 hlColor = u_colorHighlight.rgb * u_colorHighlight.a;
+    float hlOpacity = u_colorHighlight.a;
+
+    fgColor = mix(fgColor, hlColor, step(1.02 - .02 * u_colorSteps, brightness));
+    fgOpacity = mix(fgOpacity, hlOpacity, step(1.02 - .02 * u_colorSteps, brightness));
+
+    color = fgColor * quantLum;
+    opacity = fgOpacity * quantLum;
+    color += bgColor * (1.0 - opacity);
+    opacity += bgOpacity * (1.0 - opacity);
+  }
 
   fragColor = vec4(color, opacity);
 }`;
@@ -282,7 +294,6 @@ void main() {
   gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
 
   const U = {
-    u_time: gl.getUniformLocation(prog, 'u_time'),
     u_resolution: gl.getUniformLocation(prog, 'u_resolution'),
     u_pixelRatio: gl.getUniformLocation(prog, 'u_pixelRatio'),
     u_imageAspectRatio: gl.getUniformLocation(prog, 'u_imageAspectRatio'),
@@ -295,37 +306,22 @@ void main() {
     u_rotation: gl.getUniformLocation(prog, 'u_rotation'),
     u_offsetX: gl.getUniformLocation(prog, 'u_offsetX'),
     u_offsetY: gl.getUniformLocation(prog, 'u_offsetY'),
+    u_image: gl.getUniformLocation(prog, 'u_image'),
+    u_colorFront: gl.getUniformLocation(prog, 'u_colorFront'),
     u_colorBack: gl.getUniformLocation(prog, 'u_colorBack'),
-    u_colors: gl.getUniformLocation(prog, 'u_colors'),
-    u_colorsCount: gl.getUniformLocation(prog, 'u_colorsCount'),
-    u_bandCount: gl.getUniformLocation(prog, 'u_bandCount'),
-    u_twist: gl.getUniformLocation(prog, 'u_twist'),
-    u_center: gl.getUniformLocation(prog, 'u_center'),
-    u_proportion: gl.getUniformLocation(prog, 'u_proportion'),
-    u_softness: gl.getUniformLocation(prog, 'u_softness'),
-    u_noise: gl.getUniformLocation(prog, 'u_noise'),
-    u_noiseFrequency: gl.getUniformLocation(prog, 'u_noiseFrequency'),
+    u_colorHighlight: gl.getUniformLocation(prog, 'u_colorHighlight'),
+    u_type: gl.getUniformLocation(prog, 'u_type'),
+    u_pxSize: gl.getUniformLocation(prog, 'u_pxSize'),
+    u_originalColors: gl.getUniformLocation(prog, 'u_originalColors'),
+    u_inverted: gl.getUniformLocation(prog, 'u_inverted'),
+    u_colorSteps: gl.getUniformLocation(prog, 'u_colorSteps'),
   };
-
-  const colorData = new Float32Array(40);
-  PARAMS.colors.forEach((hex, i) => {
-    const rgba = hex2rgba(hex);
-    colorData.set(rgba, i * 4);
-  });
-  for (let i = PARAMS.colors.length; i < 10; i++) {
-    colorData.set([0, 0, 0, 1], i * 4);
-  }
-
-  container.classList.add('is-shader-active');
 
   let width = 0;
   let height = 0;
   let renderScale = 1;
-  let rafId = 0;
-  let currentFrame = 0;
-  let lastTime = 0;
-  let animating = PARAMS.speed !== 0;
-  let docVisible = !document.hidden;
+  let imageAspectRatio = 1;
+  let textureReady = false;
 
   function resize() {
     const rect = container.getBoundingClientRect();
@@ -337,7 +333,7 @@ void main() {
     const nextW = Math.max(1, Math.round(targetW * scaleDown));
     const nextH = Math.max(1, Math.round(targetH * scaleDown));
 
-    if (nextW === width && nextH === height) return;
+    if (nextW === width && nextH === height) return false;
 
     width = nextW;
     height = nextH;
@@ -345,19 +341,19 @@ void main() {
     canvas.width = width;
     canvas.height = height;
     gl.viewport(0, 0, width, height);
+    return true;
   }
 
   function setStaticUniforms() {
+    gl.uniform1i(U.u_image, 0);
+    gl.uniform4fv(U.u_colorFront, hex2rgba(PARAMS.colorFront));
     gl.uniform4fv(U.u_colorBack, hex2rgba(PARAMS.colorBack));
-    gl.uniform4fv(U.u_colors, colorData);
-    gl.uniform1f(U.u_colorsCount, PARAMS.colors.length);
-    gl.uniform1f(U.u_bandCount, PARAMS.bandCount);
-    gl.uniform1f(U.u_twist, PARAMS.twist);
-    gl.uniform1f(U.u_center, PARAMS.center);
-    gl.uniform1f(U.u_proportion, PARAMS.proportion);
-    gl.uniform1f(U.u_softness, PARAMS.softness);
-    gl.uniform1f(U.u_noise, PARAMS.noise);
-    gl.uniform1f(U.u_noiseFrequency, PARAMS.noiseFrequency);
+    gl.uniform4fv(U.u_colorHighlight, hex2rgba(PARAMS.colorHighlight));
+    gl.uniform1f(U.u_type, PARAMS.type);
+    gl.uniform1f(U.u_pxSize, PARAMS.pxSize);
+    gl.uniform1i(U.u_originalColors, PARAMS.originalColors ? 1 : 0);
+    gl.uniform1i(U.u_inverted, PARAMS.inverted ? 1 : 0);
+    gl.uniform1f(U.u_colorSteps, PARAMS.colorSteps);
     gl.uniform1f(U.u_originX, PARAMS.originX);
     gl.uniform1f(U.u_originY, PARAMS.originY);
     gl.uniform1f(U.u_worldWidth, PARAMS.worldWidth);
@@ -367,66 +363,54 @@ void main() {
     gl.uniform1f(U.u_rotation, PARAMS.rotation);
     gl.uniform1f(U.u_offsetX, PARAMS.offsetX);
     gl.uniform1f(U.u_offsetY, PARAMS.offsetY);
-    gl.uniform1f(U.u_imageAspectRatio, 1);
   }
 
-  function draw(now) {
-    rafId = 0;
-
-    if (animating && docVisible) {
-      const dt = lastTime ? now - lastTime : 0;
-      lastTime = now;
-      currentFrame += dt * PARAMS.speed;
-    } else {
-      lastTime = now;
-    }
+  function draw() {
+    if (!textureReady) return;
 
     gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     gl.uniform2f(U.u_resolution, width, height);
     gl.uniform1f(U.u_pixelRatio, renderScale);
-    gl.uniform1f(U.u_time, currentFrame * 0.001);
+    gl.uniform1f(U.u_imageAspectRatio, imageAspectRatio);
 
     gl.drawArrays(gl.TRIANGLES, 0, 6);
-
-    if (animating && docVisible) {
-      rafId = requestAnimationFrame(draw);
-    }
   }
 
-  function start() {
-    if (rafId) return;
-    lastTime = 0;
-    rafId = requestAnimationFrame(draw);
-  }
+  const texture = gl.createTexture();
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
 
-  function stop() {
-    if (!rafId) return;
-    cancelAnimationFrame(rafId);
-    rafId = 0;
-  }
+  const img = new Image();
+  img.onload = () => {
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+    imageAspectRatio = img.naturalWidth / img.naturalHeight;
+    textureReady = true;
+    container.classList.add('is-shader-active');
+    draw();
+  };
+  img.onerror = () => {
+    console.error('hero-shader: failed to load', PARAMS.image);
+  };
+  img.src = PARAMS.image;
 
   resize();
   setStaticUniforms();
-  draw(performance.now());
-
-  if (animating) {
-    start();
-  }
 
   if ('ResizeObserver' in window) {
-    const ro = new ResizeObserver(resize);
+    const ro = new ResizeObserver(() => {
+      if (resize()) draw();
+    });
     ro.observe(container);
   } else {
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', () => {
+      if (resize()) draw();
+    });
   }
-
-  document.addEventListener('visibilitychange', () => {
-    docVisible = !document.hidden;
-    if (animating) {
-      if (docVisible) start();
-      else stop();
-    }
-  });
 })();

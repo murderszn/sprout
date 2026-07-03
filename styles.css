@@ -501,7 +501,7 @@ a {
   font-style: normal;
   color: var(--black);
   text-decoration: underline;
-  text-decoration-color: #BE123C;
+  text-decoration-color: var(--black);
   text-decoration-thickness: 0.12em;
   text-underline-offset: 0.12em;
 }
