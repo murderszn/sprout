@@ -468,7 +468,7 @@ a {
   font-style: normal;
   color: var(--black);
   text-decoration: underline;
-  text-decoration-color: rgba(101, 163, 13, 0.45);
+  text-decoration-color: #BE123C;
   text-decoration-thickness: 0.12em;
   text-underline-offset: 0.12em;
 }
