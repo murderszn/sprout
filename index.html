@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" id="top">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sprout | Install-fixer CLI for developer tools</title>
+  <meta name="description" content="Sprout diagnoses and fixes local install, config, and PATH problems for developer tools on your machine. Detect, plan, confirm, verify — not a general coding agent.">
+  <meta name="keywords" content="Sprout, sprout-cli, install fixer, developer tools, PATH, package manager, CLI agent, Pollinations">
+  <meta name="author" content="Sprout">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#65A30D">
+  <link rel="canonical" href="https://murderszn.github.io/sprout/">
+  <meta property="og:title" content="Sprout | Install-fixer CLI">
+  <meta property="og:description" content="Tell Sprout what to install — it detects your machine, proposes a plan, runs it step by step with your confirmation, and proves the result.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://murderszn.github.io/sprout/">
+  <meta property="og:site_name" content="Sprout">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://murderszn.github.io/sprout/public/og-image.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://murderszn.github.io/sprout/public/og-image.svg">
+  <meta name="twitter:title" content="Sprout | Install-fixer CLI">
+  <meta name="twitter:description" content="Diagnose and fix local install/config/PATH problems for developer tools. MIT licensed.">
+  <link rel="icon" href="public/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="public/favicon.svg">
+  <link rel="manifest" href="public/site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=Quicksand:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=7">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Sprout",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "macOS, Linux",
+    "description": "Diagnose and fix local install, config, and PATH problems for developer tools.",
+    "url": "https://murderszn.github.io/sprout/",
+    "license": "https://opensource.org/licenses/MIT",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="icon-cli" viewBox="0 0 24 24"><path fill="currentColor" d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1 2v10h14V7H5zm2.3 2.3 3.4 3.4-3.4 3.4 1.4 1.4 4.8-4.8-4.8-4.8-1.4 1.4zm4.7 6.7v2h6v-2h-6z"/></symbol>
+    <symbol id="icon-detect" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="icon-plan" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></symbol>
+    <symbol id="icon-confirm" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="icon-verify" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m22 4-10 10.01-3-3"/></symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+    <symbol id="icon-narrow" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></symbol>
+    <symbol id="icon-install" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></symbol>
+    <symbol id="icon-diagnose" viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></symbol>
+    <symbol id="icon-config" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+    <symbol id="icon-status" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
+    <symbol id="icon-dryrun" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="icon-env" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></symbol>
+    <symbol id="icon-open" viewBox="0 0 24 24"><path d="M12 22v-9"/><path d="M15.17 2.21a1.67 1.67 0 0 1 1.63 0L21 4.57a1.93 1.93 0 0 1 0 3.36L8.82 14.79a1.655 1.655 0 0 1-1.64 0L3 12.43a1.93 1.93 0 0 1 0-3.36z"/><path d="M20 13v3.87a2.06 2.06 0 0 1-1.11 1.83l-6 3.08a1.93 1.93 0 0 1-1.78 0l-6-3.08A2.06 2.06 0 0 1 4 16.87V13"/><path d="M21 12.43a1.93 1.93 0 0 0 0-3.36L8.83 2.2a1.64 1.64 0 0 0-1.63 0L3 4.57a1.93 1.93 0 0 0 0 3.36l12.18 6.86a1.636 1.636 0 0 0 1.63 0z"/></symbol>
+  </svg>
+
+  <a href="#install" class="skip-link">Skip to install</a>
+
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <nav class="nav" id="nav">
+    <a href="#top" class="nav-logo" aria-label="Sprout — back to top">
+      <span class="nav-logo-dot" aria-hidden="true"></span>
+      <span class="nav-logo-text">SPROUT</span>
+      <span class="nav-logo-sub">// install-fixer cli</span>
+    </a>
+    <div class="nav-links">
+      <a href="https://github.com/murderszn/sprout/blob/main/README.md" target="_blank" rel="noopener noreferrer">Docs</a>
+      <a href="#install" data-scroll-target="install">Install</a>
+      <a href="#commands" data-scroll-target="commands">Commands</a>
+      <a href="#features" data-scroll-target="features">Features</a>
+    </div>
+  </nav>
+
+  <div class="scroll-spacer" id="scroll-spacer" aria-hidden="true"></div>
+
+  <div class="overlay" id="overlay">
+    <div class="overlay-bg" id="overlay-bg" aria-hidden="true"></div>
+    <header class="hero">
+      <div class="hero-layout">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            <span class="hero-title-ghost" aria-hidden="true">Sprout</span>
+            <span class="hero-title-text">Sprout</span>
+          </h1>
+          <p class="hero-tagline">
+            Diagnose and fix install, config, and PATH problems for developer tools —
+            on <em>this</em> machine. Detect, plan, confirm each step, then verify with a real command.
+          </p>
+          <div class="hero-actions">
+            <a href="#install" class="btn btn-hero-primary btn-mono" data-scroll-target="install">./install</a>
+            <a href="https://github.com/murderszn/sprout" class="btn btn-hero-outline btn-mono" target="_blank" rel="noopener noreferrer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              View source
+            </a>
+          </div>
+          <p class="hero-powered">Powered by <a href="https://enter.pollinations.ai" target="_blank" rel="noopener noreferrer">Pollinations</a> · bring your own <code class="inline-code inline-code--hero">sk_</code> key</p>
+        </div>
+
+        <div class="hero-terminal" id="demo">
+          <div class="terminal-block terminal-block--session terminal-block--hero">
+            <div class="terminal-header">
+              <span class="terminal-dot"></span>
+              <span class="terminal-dot"></span>
+              <span class="terminal-dot"></span>
+              <span class="terminal-label">sprout install gh · macOS · zsh</span>
+            </div>
+            <div class="terminal-session" aria-label="Example sprout install gh session">
+              <div class="t-line t-cmd"><span class="t-prompt">$</span> sprout install gh</div>
+
+              <div class="t-box">
+                <div class="t-box-line"><span class="t-brand">🌱 <strong>sprout</strong></span> <span class="t-dim">·</span> <strong>install gh</strong></div>
+                <div class="t-box-line t-dim">model gpt-5.4-mini · gen.pollinations.ai</div>
+              </div>
+
+              <div class="t-line t-card"><span class="t-brand">⏺</span> <strong>environment</strong></div>
+              <div class="t-line t-elbow t-dim">⎿ macOS 14.6 (arm64) <span class="t-faint">·</span> zsh <span class="t-faint">·</span> rc ~/.zshrc</div>
+              <div class="t-line t-elbow t-dim">⎿ managers: brew, npm, pip3</div>
+              <div class="t-line t-elbow t-dim">⎿ knowledge base: curated entry for GitHub CLI</div>
+
+              <div class="t-line t-prose">I'll probe for <code>gh</code>, install via Homebrew if missing, then verify with <code>gh --version</code>.</div>
+
+              <div class="t-line t-card"><span class="t-brand">⏺</span> <strong>run_shell</strong> <span class="t-dim">· step 1</span></div>
+              <div class="t-line t-indent"><span class="t-accent">$</span> <span class="t-accent t-bold">command -v gh</span></div>
+              <div class="t-line t-elbow"><span class="t-dim">⎿</span> <span class="t-fail">✗ exit 1</span> <span class="t-dim">· 0.0s</span></div>
+
+              <div class="t-line t-card"><span class="t-brand">⏺</span> <strong>run_shell</strong> <span class="t-dim">· step 2</span></div>
+              <div class="t-line t-indent"><span class="t-accent">$</span> <span class="t-accent t-bold">brew install gh</span></div>
+              <div class="t-line t-confirm">Run this command? <span class="t-brand">yes</span></div>
+              <div class="t-line t-elbow"><span class="t-dim">⎿</span> <span class="t-ok">✓ exit 0</span> <span class="t-dim">· 11.8s</span></div>
+
+              <div class="t-line t-card"><span class="t-brand">⏺</span> <strong>run_shell</strong> <span class="t-dim">· step 3</span></div>
+              <div class="t-line t-indent"><span class="t-accent">$</span> <span class="t-accent t-bold">gh --version</span></div>
+              <div class="t-line t-elbow t-dim">⎿ gh version 2.63.1 (2024-11-13)</div>
+              <div class="t-line t-elbow"><span class="t-dim">⎿</span> <span class="t-ok t-bold">✓ verified</span></div>
+
+              <div class="t-box">
+                <div class="t-box-line t-brand t-bold">🌱 run summary</div>
+                <div class="t-box-line"><span class="t-ok">✓</span> command -v gh</div>
+                <div class="t-box-line"><span class="t-ok">✓</span> brew install gh</div>
+                <div class="t-box-line"><span class="t-ok">✓</span> gh --version</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <button class="scroll-cue" id="scroll-cue" aria-label="Scroll to install">
+      <span class="scroll-cue-text">Scroll</span>
+      <svg class="scroll-cue-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </button>
+
+    <div class="overlay-edge" aria-hidden="true"></div>
+  </div>
+
+  <main class="under-page" id="under-page">
+    <section id="install" class="install">
+      <div class="install-inner reveal-on-scroll">
+        <header class="install-header">
+          <div class="section-label">// INSTALL</div>
+          <h2 class="section-title">One command to get started</h2>
+          <p class="section-desc">Install globally with npm, try without installing via <code class="inline-code">npx</code>, or build from source. On first run, Sprout prompts for your Pollinations API key and offers to save it to <code class="inline-code">~/.sprout/config.json</code>.</p>
+        </header>
+
+        <div class="install-stack">
+          <div class="install-group">
+            <div class="install-group-label">
+              <span>method.select</span>
+              <span>npm · npx · source</span>
+            </div>
+            <div class="platform-list" role="radiogroup" aria-label="Choose install method">
+              <article class="platform-card active" data-platform="npm" role="radio" aria-checked="true" tabindex="0">
+                <div class="platform-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1.5 1.5h21v21h-21V1.5zm3 3v15h15V4.5h-15zm2.25 2.25h10.5v1.5H6.75v-1.5zm0 3h10.5v1.5H6.75v-1.5zm0 3h7.5v1.5h-7.5v-1.5z"/></svg>
+                </div>
+                <div class="platform-card-main">
+                  <h3>npm global</h3>
+                  <span class="platform-meta">Recommended · Node 20+</span>
+                </div>
+                <span class="platform-select" aria-pressed="true">Selected</span>
+              </article>
+
+              <article class="platform-card" data-platform="npx" role="radio" aria-checked="false" tabindex="0">
+                <div class="platform-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zm0 7.5L4.5 7 12 4.5 19.5 7 12 9.5zm-8 3.5v5l8 4.5 8-4.5v-5l-8 4.5-8-4.5z"/></svg>
+                </div>
+                <div class="platform-card-main">
+                  <h3>npx</h3>
+                  <span class="platform-meta">No global install</span>
+                </div>
+                <span class="platform-select" aria-pressed="false">Select</span>
+              </article>
+
+              <article class="platform-card" data-platform="source" role="radio" aria-checked="false" tabindex="0">
+                <div class="platform-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+                </div>
+                <div class="platform-card-main">
+                  <h3>From source</h3>
+                  <span class="platform-meta">Git checkout</span>
+                </div>
+                <span class="platform-select" aria-pressed="false">Select</span>
+              </article>
+            </div>
+          </div>
+
+          <div class="terminal-block">
+            <div class="terminal-header">
+              <span class="terminal-dot"></span>
+              <span class="terminal-dot"></span>
+              <span class="terminal-dot"></span>
+              <span class="terminal-label">Terminal</span>
+            </div>
+            <div class="terminal-body">
+              <div class="command-panel active" id="cmd-npm">
+                <div class="command-line">
+                  <span class="prompt" aria-hidden="true">$</span>
+                  <code class="install-command">npm install -g sprout-cli</code>
+                </div>
+                <button class="copy-btn" data-copy="npm install -g sprout-cli" aria-label="Copy command">
+                  <span class="copy-text" aria-live="polite">Copy</span>
+                </button>
+              </div>
+              <div class="command-panel" id="cmd-npx">
+                <div class="command-line">
+                  <span class="prompt" aria-hidden="true">$</span>
+                  <code class="install-command">npx sprout-cli install gh</code>
+                </div>
+                <button class="copy-btn" data-copy="npx sprout-cli install gh" aria-label="Copy command">
+                  <span class="copy-text" aria-live="polite">Copy</span>
+                </button>
+              </div>
+              <div class="command-panel" id="cmd-source">
+                <div class="command-line">
+                  <span class="prompt" aria-hidden="true">$</span>
+                  <code class="install-command">git clone https://github.com/murderszn/sprout.git && cd sprout && npm install && npm run build && npm link</code>
+                </div>
+                <button class="copy-btn" data-copy="git clone https://github.com/murderszn/sprout.git && cd sprout && npm install && npm run build && npm link" aria-label="Copy command">
+                  <span class="copy-text" aria-live="polite">Copy</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="install-group">
+            <div class="install-group-label">
+              <span>api.key</span>
+              <span>first run</span>
+            </div>
+            <div class="gh-command">
+              <code>Get a key at enter.pollinations.ai → sprout config --set-key → sprout install gh</code>
+              <button class="copy-btn copy-btn-sm" data-copy="sprout config --set-key" aria-label="Copy command">
+                <span class="copy-text" aria-live="polite">Copy</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="shader-banner" aria-hidden="true">
+      <canvas class="shader-banner-canvas"></canvas>
+    </div>
+
+    <section id="commands" class="channels">
+      <div class="channels-inner reveal-on-scroll">
+        <header class="channels-header">
+          <div class="section-label">// COMMANDS</div>
+          <h2 class="section-title section-title--channels">What you run</h2>
+          <p class="section-desc section-desc--channels">Sprout's whole world is package managers, PATH, and shell rc files — nothing else.</p>
+        </header>
+
+        <div class="channels-body">
+          <div class="install-group-label channels-group-label">
+            <span>cli.entrypoints</span>
+            <span>unix-first v1</span>
+          </div>
+
+          <div class="channel-grid" role="list">
+            <div class="channel-item" role="listitem">
+              <svg class="channel-icon" width="20" height="20" aria-hidden="true"><use href="#icon-install"/></svg>
+              <span class="channel-name">install &lt;tool&gt;</span>
+            </div>
+            <div class="channel-item" role="listitem">
+              <svg class="channel-icon" width="20" height="20" aria-hidden="true"><use href="#icon-diagnose"/></svg>
+              <span class="channel-name">diagnose</span>
+            </div>
+            <div class="channel-item" role="listitem">
+              <svg class="channel-icon" width="20" height="20" aria-hidden="true"><use href="#icon-config"/></svg>
+              <span class="channel-name">config</span>
+            </div>
+            <div class="channel-item" role="listitem">
+              <svg class="channel-icon" width="20" height="20" aria-hidden="true"><use href="#icon-status"/></svg>
+              <span class="channel-name">status</span>
+            </div>
+            <div class="channel-item" role="listitem">
+              <svg class="channel-icon" width="20" height="20" aria-hidden="true"><use href="#icon-dryrun"/></svg>
+              <span class="channel-name">--dry-run</span>
+            </div>
+            <div class="channel-item" role="listitem">
+              <svg class="channel-icon" width="20" height="20" aria-hidden="true"><use href="#icon-env"/></svg>
+              <span class="channel-name">env</span>
+            </div>
+            <div class="channel-item" role="listitem">
+              <svg class="channel-icon" width="20" height="20" aria-hidden="true"><use href="#icon-cli"/></svg>
+              <span class="channel-name">--yes</span>
+            </div>
+          </div>
+
+          <div class="channels-actions">
+            <a href="https://github.com/murderszn/sprout/blob/main/README.md#usage" class="btn btn-discord btn-mono" target="_blank" rel="noopener noreferrer">Read the README</a>
+            <a href="#install" class="btn btn-discord-ghost btn-mono" data-scroll-target="install">Install first →</a>
+          </div>
+        </div>
+
+        <p class="channels-note">Seeded recipes for git, node, python, docker, gh, aws, kubectl, brew, jq, ripgrep, terraform — anything else is reasoned live. <a href="https://github.com/murderszn/sprout/blob/main/README.md#usage">Full usage →</a></p>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <div class="features-header reveal-on-scroll">
+        <div class="features-header-main">
+          <span class="section-label section-label--dark">// HOW IT WORKS</span>
+          <h2 class="features-title features-title--header">Detect → plan → confirm → verify</h2>
+        </div>
+        <p class="features-header-aside">A narrow CLI agent — not a general coding assistant. It orchestrates brew, apt, npm, pip, and friends instead of reimplementing them.</p>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card reveal-on-scroll">
+          <div class="feature-card-head">
+            <span class="feature-num">01</span>
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-detect"/></svg>
+          </div>
+          <span class="feature-tag">DETECT</span>
+          <h3 class="feature-headline">Read this machine</h3>
+          <p class="feature-desc">OS, shell, rc file, architecture, package managers, PATH — one typed snapshot everything downstream uses.</p>
+        </article>
+
+        <article class="feature-card reveal-on-scroll">
+          <div class="feature-card-head">
+            <span class="feature-num">02</span>
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-plan"/></svg>
+          </div>
+          <span class="feature-tag">PLAN</span>
+          <h3 class="feature-headline">Plain English first</h3>
+          <p class="feature-desc">The model states what it'll check, install, and verify — before any command runs.</p>
+        </article>
+
+        <article class="feature-card reveal-on-scroll">
+          <div class="feature-card-head">
+            <span class="feature-num">03</span>
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-confirm"/></svg>
+          </div>
+          <span class="feature-tag">CONFIRM</span>
+          <h3 class="feature-headline">You approve each step</h3>
+          <p class="feature-desc">Every command shows as an argv array with a reason. Sudo, system package managers, and rc edits ask <code class="inline-code">[y/N]</code> — default No.</p>
+        </article>
+
+        <article class="feature-card reveal-on-scroll">
+          <div class="feature-card-head">
+            <span class="feature-num">04</span>
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-verify"/></svg>
+          </div>
+          <span class="feature-tag">VERIFY</span>
+          <h3 class="feature-headline">Prove it worked</h3>
+          <p class="feature-desc">Sprout runs the tool's verify command itself and shows real output. Done means the verify passed.</p>
+        </article>
+
+        <article class="feature-card reveal-on-scroll">
+          <div class="feature-card-head">
+            <span class="feature-num">05</span>
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-shield"/></svg>
+          </div>
+          <span class="feature-tag">SAFETY</span>
+          <h3 class="feature-headline">Hard guardrails</h3>
+          <p class="feature-desc">No <code class="inline-code">curl | bash</code>, ever. Destructive patterns are blocked before confirmation — <code class="inline-code">--yes</code> can't override them.</p>
+        </article>
+
+        <article class="feature-card reveal-on-scroll">
+          <div class="feature-card-head">
+            <span class="feature-num">06</span>
+            <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-narrow"/></svg>
+          </div>
+          <span class="feature-tag">NARROW</span>
+          <h3 class="feature-headline">One job only</h3>
+          <p class="feature-desc">Won't write your code, review PRs, or answer unrelated questions. Install and repair tooling — that's it.</p>
+        </article>
+      </div>
+
+      <div class="features-brain reveal-on-scroll">
+        <div class="features-brain-info">
+          <span class="brain-merge-tag">// BRAIN</span>
+          <h3 class="features-brain-title">Bring your own Pollinations key</h3>
+          <p class="features-brain-desc">
+            Sprout never ships or proxies an API key. Inference goes to
+            <a href="https://gen.pollinations.ai" target="_blank" rel="noopener noreferrer">Pollinations</a> via its OpenAI-compatible API —
+            your <code class="inline-code">sk_</code> key, stored in <code class="inline-code">~/.sprout/config.json</code> (chmod 600)
+            or exported as <code class="inline-code">SPROUT_API_KEY</code>.
+          </p>
+          <div class="features-brain-meta" role="list">
+            <div class="brain-meta-item" role="listitem">
+              <span class="meta-label">default.model</span>
+              <span class="meta-value">gpt-5.4-mini</span>
+            </div>
+            <div class="brain-meta-item" role="listitem">
+              <span class="meta-label">provider</span>
+              <span class="meta-value">gen.pollinations.ai</span>
+            </div>
+            <div class="brain-meta-item" role="listitem">
+              <span class="meta-label">key.source</span>
+              <span class="meta-value">enter.pollinations.ai</span>
+            </div>
+            <div class="brain-meta-item" role="listitem">
+              <span class="meta-label">override</span>
+              <span class="meta-value">--model · sprout config</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="features-brain-models">
+          <span class="brain-merge-tag">// SEEDED TOOLS</span>
+          <h4 class="models-title">Curated install recipes</h4>
+          <p class="models-desc">Per-OS install and verify commands for common tooling — the agent adapts when reality doesn't match the script.</p>
+          <div class="models-list">
+            <span class="model-badge">git</span>
+            <span class="model-badge">node (nvm)</span>
+            <span class="model-badge">python (pyenv)</span>
+            <span class="model-badge">docker</span>
+            <span class="model-badge">gh</span>
+            <span class="model-badge">aws-cli</span>
+            <span class="model-badge">kubectl</span>
+            <span class="model-badge">homebrew</span>
+            <span class="model-badge">jq</span>
+            <span class="model-badge">ripgrep</span>
+            <span class="model-badge">terraform</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer reveal-on-scroll">
+      <div class="footer-scene">
+        <div class="footer-inner">
+          <h2 class="footer-headline">Ready to install.</h2>
+          <p class="footer-tagline">Tell Sprout what you need. It figures out the rest — on your machine, with your confirmation.</p>
+          <div class="footer-actions">
+            <a href="#install" class="btn btn-primary btn-lg btn-mono" data-scroll-target="install">npm install -g sprout-cli</a>
+            <a href="https://github.com/murderszn/sprout" class="btn btn-dark btn-lg btn-mono" target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+          <nav class="footer-links" aria-label="Footer">
+            <a href="https://github.com/murderszn/sprout/blob/main/README.md" target="_blank" rel="noopener noreferrer">README</a>
+            <a href="https://github.com/murderszn/sprout/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contributing</a>
+            <a href="https://www.npmjs.com/package/sprout-cli" target="_blank" rel="noopener noreferrer">npm</a>
+            <a href="https://enter.pollinations.ai" target="_blank" rel="noopener noreferrer">Pollinations</a>
+            <a href="https://github.com/murderszn/sprout/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a>
+          </nav>
+        </div>
+        <p class="footer-copy">© 2026 Sprout. Open source under MIT.</p>
+      </div>
+    </footer>
+  </main>
+
+  <script src="shader-banner.js" defer></script>
+  <script src="main.js" defer></script>
+</body>
+</html>

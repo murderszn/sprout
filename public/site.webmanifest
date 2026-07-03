@@ -1,0 +1,16 @@
+{
+  "name": "Sprout",
+  "short_name": "Sprout",
+  "description": "Install-fixer CLI for developer tools",
+  "start_url": "/sprout/",
+  "display": "standalone",
+  "background_color": "#1A1D13",
+  "theme_color": "#65A30D",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
