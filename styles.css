@@ -515,17 +515,12 @@ a {
 .hero-layout--centered .hero-actions {
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 0.75rem;
-  margin: 0 auto clamp(1.25rem, 3vh, 1.75rem);
+  margin: 0 0 clamp(1.25rem, 3vh, 1.75rem);
   width: auto;
   max-width: 28rem;
-}
-
-.hero-layout--centered .hero-terminal-group .hero-actions {
-  margin-top: clamp(0.5rem, 1.5vh, 0.75rem);
-  margin-bottom: 0.25rem;
 }
 
 .hero-layout--centered .hero-command-cta {
@@ -2664,6 +2659,11 @@ a {
 
   .hero-headline {
     margin: 0 auto 0.75rem;
+  }
+
+  .hero-layout--centered .hero-actions {
+    justify-content: center;
+    margin: 0 auto clamp(1rem, 2.5vh, 1.25rem);
   }
 
   .hero-terminal-group {
