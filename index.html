@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=Quicksand:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=21">
+  <link rel="stylesheet" href="styles.css?v=22">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -153,30 +153,26 @@
     <header class="hero">
       <div class="hero-layout">
         <div class="hero-content">
-          <p class="hero-eyebrow">// how tf do i install this $#!+?!</p>
-          <h1 class="hero-title">
-            <span class="hero-title-ghost" aria-hidden="true">Sprout</span>
-            <span class="hero-title-text">Sprout<span class="hero-title-emoji" aria-hidden="true">🌱</span></span>
-          </h1>
-          <div class="hero-badges">
-            <span class="hero-badge">Not a coding agent</span>
-            <a href="https://enter.pollinations.ai" class="hero-badge hero-badge--link" target="_blank" rel="noopener noreferrer">Pollinations</a>
-            <a href="https://github.com/murderszn/sprout/blob/main/LICENSE" class="hero-badge hero-badge--link" target="_blank" rel="noopener noreferrer">MIT license</a>
+          <div class="hero-content-inner">
+            <p class="hero-eyebrow">// how tf do i install this $#!+?!</p>
+            <h1 class="hero-headline">Fix installs on <em>this</em> machine.</h1>
+            <p class="hero-subline">Detect → plan → confirm → verify.</p>
+            <div class="hero-actions">
+              <div class="hero-command-cta">
+                <code class="hero-command-text">npm install -g sprout-cli</code>
+                <button type="button" class="copy-btn copy-btn-hero" data-copy="npm install -g sprout-cli" aria-label="Copy install command">
+                  <span class="copy-text" aria-live="polite">Copy</span>
+                </button>
+              </div>
+              <a href="https://github.com/murderszn/sprout" class="btn btn-hero-outline btn-mono hero-github-btn" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+            <p class="hero-demo-cta">
+              <a href="#demo" class="hero-demo-link btn-mono" data-scroll-target="demo">
+                <svg class="ui-icon ui-icon--sm" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-terminal"/></svg>
+                See it work in the terminal ↓
+              </a>
+            </p>
           </div>
-          <p class="hero-punch">Fix installs on <em>this</em> machine.</p>
-          <p class="hero-support">Detect → plan → confirm → verify — real commands, your approval, proof it worked.</p>
-          <div class="hero-command-cta">
-            <code class="hero-command-text">npm install -g sprout-cli</code>
-            <button type="button" class="copy-btn copy-btn-hero" data-copy="npm install -g sprout-cli" aria-label="Copy install command">
-              <span class="copy-text" aria-live="polite">Copy</span>
-            </button>
-          </div>
-          <p class="hero-demo-cta">
-            <a href="#demo" class="hero-demo-link btn-mono" data-scroll-target="demo">
-              <svg class="ui-icon ui-icon--sm" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-terminal"/></svg>
-              See it work in the terminal ↓
-            </a>
-          </p>
         </div>
 
         <div class="hero-terminal" id="demo">
