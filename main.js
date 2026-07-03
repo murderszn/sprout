@@ -1,5 +1,5 @@
 const overlay = document.getElementById('overlay');
-const overlayBg = document.getElementById('overlay-bg');
+const overlayBg = document.getElementById('hero-terminal-bg');
 const scrollSpacer = document.getElementById('scroll-spacer');
 const nav = document.getElementById('nav');
 const scrollProgress = document.getElementById('scroll-progress');

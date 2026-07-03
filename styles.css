@@ -179,23 +179,17 @@ a {
   pointer-events: none;
 }
 
-.overlay-bg {
+.hero-terminal-bg {
   position: absolute;
   inset: -6% -10% 6% 10%;
-  background-color: #84CC16;
-  background-image:
-    radial-gradient(ellipse 80% 70% at 30% 50%, rgba(101, 163, 13, 0.6) 0%, transparent 60%),
-    linear-gradient(160deg, rgba(15, 17, 11, 0.08) 0%, transparent 50%);
+  background-image: url('public/hero-sprout.jpg');
+  background-size: cover;
+  background-position: center;
   will-change: transform;
   z-index: 1;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.45);
-}
-
-.overlay-bg.is-shader-active {
-  background-color: #FFFFFF;
-  background-image: none;
 }
 
 .overlay-bg-canvas {
@@ -2525,7 +2519,7 @@ a {
     display: none;
   }
 
-  .overlay-bg {
+  .hero-terminal-bg {
     background-position: 70% center;
   }
 
@@ -2857,7 +2851,7 @@ a {
   }
 
   .overlay,
-  .overlay-bg {
+  .hero-terminal-bg {
     will-change: auto;
   }
 
