@@ -14,6 +14,7 @@ import { lookupTool } from "../src/knowledge/index.js";
 
 type Msg = OpenAI.Chat.Completions.ChatCompletionMessageParam;
 
+/** Emits scripted turns as OpenAI streaming chunks — matches what runAgent consumes. */
 function fakeClient(script: Array<{ content?: string; toolCalls?: Array<{ name: string; args: object }> }>, transcript: Msg[][]) {
   let turn = 0;
   return {
@@ -23,21 +24,22 @@ function fakeClient(script: Array<{ content?: string; toolCalls?: Array<{ name: 
           transcript.push([...req.messages]);
           const step = script[turn++];
           if (!step) throw new Error("fake client ran out of scripted turns");
-          return {
-            choices: [
-              {
-                message: {
-                  role: "assistant",
-                  content: step.content ?? null,
-                  tool_calls: step.toolCalls?.map((tc, i) => ({
-                    id: `call_${turn}_${i}`,
-                    type: "function",
-                    function: { name: tc.name, arguments: JSON.stringify(tc.args) },
-                  })),
-                },
-              },
-            ],
-          };
+          const id = turn;
+          async function* chunks() {
+            if (step!.content) {
+              // Split into two deltas to exercise stream reassembly.
+              const mid = Math.ceil(step!.content.length / 2);
+              yield { choices: [{ delta: { content: step!.content.slice(0, mid) } }] };
+              yield { choices: [{ delta: { content: step!.content.slice(mid) } }] };
+            }
+            for (const [i, tc] of (step!.toolCalls ?? []).entries()) {
+              const args = JSON.stringify(tc.args);
+              const mid = Math.ceil(args.length / 2);
+              yield { choices: [{ delta: { tool_calls: [{ index: i, id: `call_${id}_${i}`, function: { name: tc.name, arguments: args.slice(0, mid) } }] } }] };
+              yield { choices: [{ delta: { tool_calls: [{ index: i, function: { arguments: args.slice(mid) } }] } }] };
+            }
+          }
+          return chunks();
         },
       },
     },

@@ -32,11 +32,21 @@ import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
 import { execa } from "execa";
-import chalk from "chalk";
 import type OpenAI from "openai";
 import { detectEnvironment } from "../env/detect.js";
 import { checkCommand, checkWritePath } from "../guardrails/patterns.js";
-import { confirm, printProposedStep, printBlocked, printCommandResult } from "../ui/prompts.js";
+import {
+  confirm,
+  printProposedStep,
+  printFileCard,
+  printBlocked,
+  printCommandResult,
+  printDryRun,
+  printSkipped,
+  printNote,
+  renderDiff,
+} from "../ui/prompts.js";
+import { color, glyph } from "../ui/theme.js";
 
 export const TOOL_DEFINITIONS: OpenAI.Chat.Completions.ChatCompletionTool[] = [
   {
@@ -152,7 +162,7 @@ export async function executeToolCall(
       return writeFileTool(args as { path: string; content: string; reason: string }, options, steps);
     case "detect_environment": {
       const snapshot = await detectEnvironment();
-      console.log(chalk.dim("  (re-ran environment detection)"));
+      printNote("re-ran environment detection");
       return JSON.stringify(snapshot);
     }
     default:
@@ -186,16 +196,16 @@ async function runShell(
   }
 
   if (options.dryRun) {
-    console.log(chalk.magenta("  ⧗ dry-run: not executed"));
+    printDryRun();
     steps.push({ command, reason, outcome: "dry-run" });
     return "DRY RUN: step recorded, not executed (no real output exists). Move on to the NEXT step in your plan — do not repeat this one. End with the verify command, then a summary.";
   }
 
   const mustConfirm = args.requiresConfirmation !== false || isInherentlyRisky(command);
   if (mustConfirm && !options.autoYes) {
-    const ok = await confirm("  Run this step?");
+    const ok = await confirm("Run this step?");
     if (!ok) {
-      console.log(chalk.yellow("  skipped by user"));
+      printSkipped();
       steps.push({ command, reason, outcome: "declined" });
       return "USER DECLINED this step. Ask what they'd prefer, or adapt the plan without it. Do not retry the identical command.";
     }
@@ -209,7 +219,7 @@ async function runShell(
       stdin: "inherit", // lets sudo/interactive installers prompt on the tty
     });
     const exitCode = result.exitCode ?? -1;
-    printCommandResult(exitCode, result.stdout ?? "", result.stderr ?? "");
+    printCommandResult(exitCode, result.stdout ?? "", result.stderr ?? "", (result as { durationMs?: number }).durationMs);
     steps.push({ command, reason, outcome: "ran", exitCode });
     return JSON.stringify({
       exitCode,
@@ -218,7 +228,7 @@ async function runShell(
     });
   } catch (err) {
     const message = (err as Error).message;
-    console.log(chalk.red(`  ✗ failed to launch: ${message}`));
+    console.log(color.danger(`  ${glyph.elbow} ${glyph.fail} failed to launch: ${message}`));
     steps.push({ command, reason, outcome: "ran", exitCode: -1 });
     return JSON.stringify({ exitCode: -1, error: message });
   }
@@ -228,7 +238,7 @@ function readFileTool(rawPath: string): string {
   const filePath = expandHome(rawPath);
   try {
     const content = fs.readFileSync(filePath, "utf8");
-    console.log(chalk.dim(`  (read ${filePath}, ${content.length} bytes)`));
+    printNote(`read ${filePath} (${content.length} bytes)`);
     return clipForModel(content, 65_536);
   } catch (err) {
     return `ERROR reading ${filePath}: ${(err as Error).message}`;
@@ -242,11 +252,9 @@ async function writeFileTool(
 ): Promise<string> {
   const filePath = expandHome(args.path);
   const pseudoCommand = ["write_file", filePath];
+  const exists = fs.existsSync(filePath);
 
-  console.log("");
-  console.log(chalk.bold(`Step ${steps.length + 1}`) + chalk.yellow("  [file edit]"));
-  console.log(`  ${chalk.cyan("✎")} ${filePath}`);
-  console.log(`  ${chalk.dim("why:")} ${args.reason}`);
+  printFileCard(steps.length + 1, filePath, args.reason, !exists);
 
   const verdict = checkWritePath(filePath);
   if (verdict.verdict !== "allow") {
@@ -255,22 +263,21 @@ async function writeFileTool(
     return `BLOCKED: ${verdict.reason}`;
   }
 
-  const exists = fs.existsSync(filePath);
-  const preview = args.content.split("\n").slice(0, 20).join("\n");
-  console.log(chalk.dim("  new content" + (exists ? " (existing file will be backed up)" : " (new file)") + ":"));
-  console.log(chalk.dim(preview.split("\n").map((l) => "    │ " + l).join("\n")));
-  if (args.content.split("\n").length > 20) console.log(chalk.dim("    │ …"));
+  // Show the change as a diff against what's on disk, not a blind preview.
+  const oldContent = exists ? fs.readFileSync(filePath, "utf8") : null;
+  console.log(renderDiff(oldContent, args.content));
 
   if (options.dryRun) {
-    console.log(chalk.magenta("  ⧗ dry-run: not written"));
+    printDryRun();
     steps.push({ command: pseudoCommand, reason: args.reason, outcome: "dry-run" });
     return "DRY RUN: file NOT written. Assume success and continue.";
   }
 
   // rc-file writes are always confirmed, even under --yes: an unwanted rc
   // edit outlives the session, and reviewing ~10 lines is cheap.
-  const ok = await confirm("  Write this file?");
+  const ok = await confirm("Write this file?");
   if (!ok) {
+    printSkipped();
     steps.push({ command: pseudoCommand, reason: args.reason, outcome: "declined" });
     return "USER DECLINED the file write. Adapt or ask.";
   }
@@ -282,7 +289,7 @@ async function writeFileTool(
   }
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, args.content, "utf8");
-  console.log(chalk.green(`  ✓ wrote ${filePath}`) + (backup ? chalk.dim(`  (backup: ${backup})`) : ""));
+  console.log(`  ${color.dim(glyph.elbow)} ${color.brand(`${glyph.ok} wrote ${filePath}`)}${backup ? color.dim(`  (backup: ${backup})`) : ""}`);
   steps.push({ command: pseudoCommand, reason: args.reason, outcome: "ran", exitCode: 0 });
   return `Wrote ${filePath}.${backup ? ` Previous version backed up to ${backup}.` : ""}`;
 }

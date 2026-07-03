@@ -18,14 +18,13 @@
  *             knowledge base's verify command and prints the real output.
  */
 
-import chalk from "chalk";
-import ora from "ora";
 import { execa } from "execa";
 import type OpenAI from "openai";
 import type { EnvironmentSnapshot } from "../env/detect.js";
 import type { KnowledgeEntry } from "../knowledge/index.js";
 import { TOOL_DEFINITIONS, executeToolCall, type ExecutorOptions, type ExecutedStep } from "./tools.js";
-import { heading } from "../ui/prompts.js";
+import { heading, Thinker, ProseStream } from "../ui/prompts.js";
+import { color, glyph } from "../ui/theme.js";
 
 const MAX_TURNS = 30;
 
@@ -83,39 +82,19 @@ export async function runAgent(input: AgentRunInput): Promise<AgentRunResult> {
   let finalMessage = "";
 
   for (let turn = 0; turn < MAX_TURNS; turn++) {
-    const spinner = ora({ text: "thinking…", discardStdin: false }).start();
-    let response: OpenAI.Chat.Completions.ChatCompletion;
-    try {
-      response = await input.client.chat.completions.create({
-        model: input.model,
-        messages,
-        tools: TOOL_DEFINITIONS,
-        tool_choice: "auto",
-      });
-    } catch (err) {
-      spinner.fail("inference request failed");
-      throw new Error(`Pollinations request failed: ${(err as Error).message}`);
-    }
-    spinner.stop();
+    const { content, toolCalls } = await streamTurn(input.client, input.model, messages);
 
-    const choice = response.choices[0];
-    if (!choice) throw new Error("Pollinations returned no choices.");
-    const msg = choice.message;
+    if (content.trim()) finalMessage = content.trim();
 
-    // Whatever the model says out loud — the upfront plan, progress notes,
-    // the final summary — goes straight to the user.
-    if (msg.content?.trim()) {
-      console.log("\n" + msg.content.trim());
-      finalMessage = msg.content.trim();
-    }
+    messages.push({
+      role: "assistant",
+      content: content || null,
+      ...(toolCalls.length > 0 ? { tool_calls: toolCalls } : {}),
+    } as OpenAI.Chat.Completions.ChatCompletionMessageParam);
 
-    messages.push(msg as OpenAI.Chat.Completions.ChatCompletionMessageParam);
-
-    const toolCalls = msg.tool_calls ?? [];
     if (toolCalls.length === 0) break; // model is done (or refusing) — loop ends
 
     for (const call of toolCalls) {
-      if (call.type !== "function") continue;
       let args: Record<string, unknown> = {};
       try {
         args = JSON.parse(call.function.arguments || "{}") as Record<string, unknown>;
@@ -131,15 +110,81 @@ export async function runAgent(input: AgentRunInput): Promise<AgentRunResult> {
   return { steps, finalMessage };
 }
 
+interface AssembledToolCall {
+  id: string;
+  type: "function";
+  function: { name: string; arguments: string };
+}
+
+/**
+ * One streamed model turn. Prose deltas render live (line-at-a-time, styled);
+ * tool-call deltas are assembled by index into complete calls. The thinking
+ * indicator runs only until the first token arrives.
+ */
+async function streamTurn(
+  client: OpenAI,
+  model: string,
+  messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[]
+): Promise<{ content: string; toolCalls: AssembledToolCall[] }> {
+  const thinker = new Thinker();
+  thinker.start();
+
+  let stream: AsyncIterable<OpenAI.Chat.Completions.ChatCompletionChunk>;
+  try {
+    stream = await client.chat.completions.create({
+      model,
+      messages,
+      tools: TOOL_DEFINITIONS,
+      tool_choice: "auto",
+      stream: true,
+    });
+  } catch (err) {
+    thinker.stop();
+    throw new Error(`Pollinations request failed: ${(err as Error).message}`);
+  }
+
+  const prose = new ProseStream();
+  const calls: AssembledToolCall[] = [];
+  let content = "";
+  let firstToken = true;
+
+  try {
+    for await (const chunk of stream) {
+      const delta = chunk.choices?.[0]?.delta;
+      if (!delta) continue;
+      if (firstToken && (delta.content || delta.tool_calls)) {
+        thinker.stop();
+        firstToken = false;
+      }
+      if (delta.content) {
+        content += delta.content;
+        prose.feed(delta.content);
+      }
+      for (const tc of delta.tool_calls ?? []) {
+        const slot = (calls[tc.index] ??= { id: "", type: "function", function: { name: "", arguments: "" } });
+        if (tc.id) slot.id = tc.id;
+        if (tc.function?.name) slot.function.name += tc.function.name;
+        if (tc.function?.arguments) slot.function.arguments += tc.function.arguments;
+      }
+    }
+  } finally {
+    thinker.stop();
+    prose.end();
+  }
+
+  return { content, toolCalls: calls.filter((c) => c.id && c.function.name) };
+}
+
 /**
  * Ground-truth verification, independent of anything the model claimed.
  * Runs the knowledge base's verify command and shows the real output; the
  * "done" message the user trusts is this, not the model's summary.
  */
 export async function runVerification(entry: KnowledgeEntry, dryRun: boolean): Promise<boolean> {
-  heading(`Verifying: ${entry.verify.command.join(" ")}`);
+  heading(`verify`);
+  console.log(`  ${color.accent("$")} ${color.accent.bold(entry.verify.command.join(" "))}`);
   if (dryRun) {
-    console.log(chalk.magenta("  ⧗ dry-run: verification skipped"));
+    console.log(`  ${color.magic(glyph.elbow)} ${color.magic("dry-run — verification skipped")}`);
     return false;
   }
   try {
@@ -148,13 +193,19 @@ export async function runVerification(entry: KnowledgeEntry, dryRun: boolean): P
       timeout: 30_000,
     });
     const output = `${result.stdout ?? ""}\n${result.stderr ?? ""}`.trim();
-    console.log(output.split("\n").map((l) => "  " + l).join("\n"));
+    const lines = output.split("\n");
+    if (lines[0]) console.log(`  ${color.dim(glyph.elbow)} ${lines[0]}`);
+    for (const line of lines.slice(1)) console.log(`    ${line}`);
     const passed = (result.exitCode ?? 1) === 0 && new RegExp(entry.verify.expectedPattern, "m").test(output);
-    console.log(passed ? chalk.green.bold("  ✓ verified") : chalk.red.bold(`  ✗ output did not match expected pattern /${entry.verify.expectedPattern}/ (exit ${result.exitCode})`));
+    console.log(
+      passed
+        ? `  ${color.dim(glyph.elbow)} ${color.brand.bold(`${glyph.ok} verified`)}`
+        : `  ${color.dim(glyph.elbow)} ${color.danger.bold(`${glyph.fail} output did not match /${entry.verify.expectedPattern}/ (exit ${result.exitCode})`)}`
+    );
     return passed;
   } catch (err) {
-    console.log(chalk.red(`  ✗ verify command failed to run: ${(err as Error).message}`));
-    console.log(chalk.dim("  (If the install just changed PATH, a new shell may be required — try `exec $SHELL -l` and re-run the verify command.)"));
+    console.log(`  ${color.danger(glyph.elbow)} ${color.danger(`${glyph.fail} verify command failed to run: ${(err as Error).message}`)}`);
+    console.log(color.dim("    if the install just changed PATH, open a new shell (`exec $SHELL -l`) and re-run it"));
     return false;
   }
 }

@@ -21,7 +21,9 @@ import { lookupTool, seededToolNames } from "./knowledge/index.js";
 import { createClient, checkModelStatus, POLLINATIONS_BASE_URL } from "./agent/pollinations.js";
 import { runAgent, runVerification } from "./agent/plan.js";
 import { resolveApiKey, resolveModel, readConfig, writeConfig, maskKey, configFilePath, DEFAULT_MODEL } from "./config/store.js";
-import { promptForApiKey, promptYesNo, heading } from "./ui/prompts.js";
+import { promptForApiKey, promptYesNo, banner } from "./ui/prompts.js";
+import { box, color, glyph } from "./ui/theme.js";
+import type { EnvironmentSnapshot } from "./env/detect.js";
 import type { ExecutorOptions, ExecutedStep } from "./agent/tools.js";
 
 const program = new Command();
@@ -60,14 +62,27 @@ function executorOptions(opts: GlobalOpts): ExecutorOptions {
 
 function printRunSummary(steps: ExecutedStep[], dryRun: boolean): void {
   if (steps.length === 0) return;
-  heading(dryRun ? "Dry run — commands that WOULD run:" : "Run summary");
-  for (const s of steps) {
+  const title = dryRun ? `${glyph.sprout} dry run — commands that WOULD run` : `${glyph.sprout} run summary`;
+  const rows = steps.map((s) => {
     const badge =
-      s.outcome === "ran" ? (s.exitCode === 0 ? chalk.green("ok ") : chalk.red(`err(${s.exitCode})`)) :
-      s.outcome === "dry-run" ? chalk.magenta("dry") :
-      s.outcome === "declined" ? chalk.yellow("skip") : chalk.red("BLOCKED");
-    console.log(`  ${badge}  ${s.command.join(" ")}`);
-  }
+      s.outcome === "ran" ? (s.exitCode === 0 ? color.brand(` ${glyph.ok} `) : color.danger(` ${glyph.fail} `)) :
+      s.outcome === "dry-run" ? color.magic(" ⧗ ") :
+      s.outcome === "declined" ? color.warn(" ⤳ ") : color.danger(" ⛔");
+    const note =
+      s.outcome === "ran" && s.exitCode !== 0 ? color.dim(` (exit ${s.exitCode})`) :
+      s.outcome === "declined" ? color.dim(" (skipped)") :
+      s.outcome === "blocked" ? color.danger(" (blocked)") : "";
+    return `${badge} ${s.command.join(" ")}${note}`;
+  });
+  console.log("\n" + box([color.brand.bold(title), ...rows]));
+}
+
+function printDetection(snapshot: EnvironmentSnapshot, kbNote: string, dryRun: boolean): void {
+  console.log(`${color.brand(glyph.dot)} ${chalk.bold("environment")}`);
+  console.log(`  ${color.dim(glyph.elbow)} ${snapshot.osVersion} (${snapshot.arch}) ${color.dim("·")} ${snapshot.shell.name} ${color.dim("·")} rc ${snapshot.shell.rcFile.replace(snapshot.homeDir, "~")}`);
+  console.log(`  ${color.dim(glyph.elbow)} managers: ${snapshot.packageManagers.length ? snapshot.packageManagers.map((m) => m.name).join(", ") : color.warn("none found")}`);
+  console.log(`  ${color.dim(glyph.elbow)} ${color.dim(kbNote)}`);
+  if (dryRun) console.log(`  ${color.magic(glyph.elbow)} ${color.magic("dry run — nothing will execute")}`);
 }
 
 program
@@ -78,16 +93,14 @@ program
     const apiKey = await requireApiKey();
     const model = resolveModel(opts.model);
 
-    heading(`Detecting environment…`);
+    banner(`install ${tool}`, [`model ${model} · gen.pollinations.ai`]);
     const snapshot = await detectEnvironment();
-    console.log(`  ${snapshot.osVersion} (${snapshot.arch}) · shell: ${snapshot.shell.name} · rc: ${snapshot.shell.rcFile}`);
-    console.log(`  package managers: ${snapshot.packageManagers.map((m) => m.name).join(", ") || chalk.yellow("none found")}`);
-
     const kbEntry = lookupTool(tool);
-    console.log(kbEntry
-      ? chalk.dim(`  knowledge base: found entry for ${kbEntry.displayName}`)
-      : chalk.dim(`  knowledge base: no entry for '${tool}' — the model will reason live and say so`));
-    if (opts.dryRun) console.log(chalk.magenta("  mode: DRY RUN — nothing will execute"));
+    printDetection(
+      snapshot,
+      kbEntry ? `knowledge base: curated entry for ${kbEntry.displayName}` : `knowledge base: no entry for '${tool}' — the model reasons live and says so`,
+      opts.dryRun
+    );
 
     const { steps } = await runAgent({
       client: createClient(apiKey),
@@ -129,11 +142,14 @@ program
     const apiKey = await requireApiKey();
     const model = resolveModel(opts.model);
 
-    heading("Detecting environment…");
+    banner("diagnose", [`model ${model} · gen.pollinations.ai`]);
     const snapshot = await detectEnvironment();
-    console.log(`  ${snapshot.osVersion} (${snapshot.arch}) · shell: ${snapshot.shell.name}`);
-
     const kbEntry = cmdOpts.tool ? lookupTool(cmdOpts.tool) : null;
+    printDetection(
+      snapshot,
+      kbEntry ? `knowledge base: curated entry for ${kbEntry.displayName}` : "diagnosing from the pasted log",
+      opts.dryRun
+    );
 
     const { steps } = await runAgent({
       client: createClient(apiKey),
