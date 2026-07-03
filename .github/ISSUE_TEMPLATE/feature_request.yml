@@ -1,0 +1,36 @@
+name: Feature request
+description: Propose a change that stays inside Sprout's install-fixer scope
+title: "[feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Sprout is **not** a general coding agent. Features should relate to installs, PATH, shell config, package managers, or diagnosis of failed installs.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What install or config pain are you hitting?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - install flow
+        - diagnose flow
+        - guardrails / safety
+        - CLI / UX
+        - knowledge base
+        - docs / site
+        - other
+    validations:
+      required: true

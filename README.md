@@ -1,10 +1,34 @@
 # 🌱 Sprout
 
+[![npm version](https://img.shields.io/npm/v/sprout-cli?style=flat-square&logo=npm&logoColor=white&label=npm)](https://www.npmjs.com/package/sprout-cli)
+[![CI](https://img.shields.io/github/actions/workflow/status/murderszn/sprout/ci.yml?branch=main&style=flat-square&label=ci)](https://github.com/murderszn/sprout/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-65A30D?style=flat-square)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%3E%3D20-84CC16?style=flat-square&logo=node.js&logoColor=white)](package.json)
+[![Website](https://img.shields.io/badge/website-murderszn.github.io%2Fsprout-A3E635?style=flat-square)](https://murderszn.github.io/sprout/)
+[![Discord](https://img.shields.io/badge/discord-join_community-5865F2?style=flat-square&logo=discord&logoColor=white)](https://github.com/murderszn/sprout/blob/main/COMMUNITY.md#discord)
+
+**Install-fixer CLI for developer tools** — macOS & Linux
+
 Sprout diagnoses and fixes local install/config/PATH problems for developer tools. You tell it what you want installed (or paste a broken install attempt); it detects what *this* machine actually has, proposes a plain-English plan, runs it step by step with your confirmation, and proves the result with a real verification command — instead of assuming a generic script works everywhere.
 
 It is deliberately **not** a general coding agent. Its entire world is package managers, PATH, and shell rc files. It won't write your code, review your PRs, or answer unrelated questions — and it orchestrates existing package managers (brew, apt, dnf, npm, pip, …) rather than reimplementing them.
 
 **v1 is Unix-first**: macOS and Linux. Windows (PowerShell, winget/choco/scoop) is a planned fast-follow; the types already leave room for it.
+
+<p align="center">
+  <a href="https://murderszn.github.io/sprout/">
+    <img src="docs/public/og-image.png" alt="Sprout — detect, plan, confirm, verify" width="640">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://murderszn.github.io/sprout/#install"><strong>Get started</strong></a> ·
+  <a href="https://github.com/murderszn/sprout/blob/main/COMMUNITY.md">Community</a> ·
+  <a href="https://github.com/murderszn/sprout/blob/main/CONTRIBUTING.md">Contributing</a> ·
+  <a href="https://github.com/murderszn/sprout/issues">Issues</a>
+</p>
+
+---
 
 ## Install
 
@@ -68,6 +92,15 @@ Seeded knowledge base (curated per-OS install + verify recipes): git, node (nvm)
 - `--dry-run` produces the exact command list with zero side effects.
 - Commands run as argv arrays via execa — no string interpolation, no shell expansion.
 
+## Community
+
+Questions, broken install logs, and knowledge-base ideas belong in [Discord](https://github.com/murderszn/sprout/blob/main/COMMUNITY.md#discord) (invite link in [COMMUNITY.md](COMMUNITY.md)) or [GitHub Issues](https://github.com/murderszn/sprout/issues).
+
+- [COMMUNITY.md](COMMUNITY.md) — Discord setup, channels, branding assets
+- [CONTRIBUTING.md](CONTRIBUTING.md) — add install recipes
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- [SECURITY.md](SECURITY.md)
+
 ## Development
 
 ```sh
@@ -79,3 +112,9 @@ npm run build
 Copy `env.example` to `.env` for local development; `dotenv` picks it up.
 
 To add a tool to the knowledge base, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+---
+
+<p align="center">
+  <sub>Built by <a href="https://github.com/murderszn">murderszn</a> · MIT · Powered by <a href="https://enter.pollinations.ai">Pollinations</a></sub>
+</p>

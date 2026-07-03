@@ -2,6 +2,25 @@
   "name": "sprout-cli",
   "version": "0.1.0",
   "description": "Diagnose and fix local install/config/PATH problems for developer tools. Not a general coding agent.",
+  "author": "murderszn",
+  "homepage": "https://murderszn.github.io/sprout/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/murderszn/sprout.git"
+  },
+  "bugs": {
+    "url": "https://github.com/murderszn/sprout/issues"
+  },
+  "keywords": [
+    "cli",
+    "install",
+    "developer-tools",
+    "path",
+    "package-manager",
+    "homebrew",
+    "diagnostics",
+    "pollinations"
+  ],
   "type": "module",
   "license": "MIT",
   "bin": {

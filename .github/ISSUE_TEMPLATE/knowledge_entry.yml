@@ -1,0 +1,38 @@
+name: Knowledge-base entry
+description: Request or propose a seeded install recipe for a tool
+title: "[knowledge]: "
+labels: ["knowledge-base"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The fastest path is a PR adding `src/knowledge/tools/<tool>.json` — see [CONTRIBUTING.md](../../CONTRIBUTING.md).
+        Use this template if you want to discuss the recipe first.
+  - type: input
+    id: tool
+    attributes:
+      label: Tool / binary name
+      placeholder: gh, ripgrep, terraform
+    validations:
+      required: true
+  - type: textarea
+    id: platforms
+    attributes:
+      label: Platforms you care about
+      description: macOS version, Linux distro, architecture if relevant
+    validations:
+      required: true
+  - type: textarea
+    id: install-notes
+    attributes:
+      label: How you install it today
+      description: Preferred package manager, gotchas, verify command
+    validations:
+      required: true
+  - type: textarea
+    id: failures
+    attributes:
+      label: Common failures you've seen
+      placeholder: PATH not updated, wrong package name, needs auth step after install
+    validations:
+      required: false

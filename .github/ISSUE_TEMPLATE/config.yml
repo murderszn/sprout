@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord community
+    url: https://github.com/murderszn/sprout/blob/main/COMMUNITY.md#discord
+    about: Chat, get help, and share broken install logs (invite link in COMMUNITY.md)
+  - name: Contributing guide
+    url: https://github.com/murderszn/sprout/blob/main/CONTRIBUTING.md
+    about: Add knowledge-base entries and run the test suite
