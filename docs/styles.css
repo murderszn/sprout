@@ -650,7 +650,7 @@ a {
   flex: 1;
   min-width: 0;
   font-family: var(--font-mono);
-  font-size: clamp(0.9375rem, 1.5vw, 1.1875rem);
+  font-size: clamp(0.875rem, 1.35vw, 1.0625rem);
   font-weight: 600;
   color: var(--accent-pale);
   white-space: nowrap;
