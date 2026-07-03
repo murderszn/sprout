@@ -7,7 +7,6 @@
 }
 
 :root {
-  --hero-terminal-reveal: 0;
   /* Matcha Latte — Chromaverse */
   --yellow: #65A30D;
   --yellow-bright: #D9F99D;
@@ -152,10 +151,10 @@ a {
   outline-color: var(--black);
 }
 
-/* Scroll driver — extra length gives room to reveal the terminal */
+/* Scroll driver */
 .scroll-spacer {
-  height: 140vh;
-  height: 140dvh;
+  height: 100vh;
+  height: 100dvh;
   pointer-events: none;
 }
 
@@ -379,17 +378,18 @@ a {
 }
 
 .hero-layout--centered {
-  --hero-stage-width: min(40rem, calc(100vw - 2 * var(--section-pad-x)));
+  --hero-stage-width: min(56vw, calc(100vw - 2 * var(--section-pad-x)));
+  --hero-terminal-peek: 0.52;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  gap: clamp(1.25rem, 3vw, 1.75rem);
+  justify-content: center;
+  gap: clamp(1.5rem, 4vh, 2.5rem);
   min-height: 100%;
   padding:
-    calc(var(--nav-height) + 1rem)
+    calc(var(--nav-height) + clamp(1.5rem, 6vh, 3.5rem))
     max(var(--section-pad-x), env(safe-area-inset-right))
-    2rem
+    clamp(0.5rem, 2vh, 1.25rem)
     max(var(--section-pad-x), env(safe-area-inset-left));
 }
 
@@ -404,15 +404,11 @@ a {
   position: relative;
   width: var(--hero-stage-width);
   min-width: 0;
+  height: calc(var(--hero-stage-width) * 10 / 16 * var(--hero-terminal-peek));
+  overflow: hidden;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  margin-top: clamp(0.5rem, 2vh, 1.25rem);
-  transform:
-    translateY(calc((1 - var(--hero-terminal-reveal)) * 52%))
-    scale(calc(0.94 + var(--hero-terminal-reveal) * 0.06));
-  opacity: calc(0.45 + var(--hero-terminal-reveal) * 0.55);
-  will-change: transform, opacity;
 }
 
 .hero-terminal .mac-terminal {
@@ -514,7 +510,8 @@ a {
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 1rem;
-  width: var(--hero-stage-width);
+  width: auto;
+  max-width: 28rem;
   margin-left: auto;
   margin-right: auto;
 }
@@ -635,10 +632,6 @@ a {
     0 28px 80px rgba(0, 0, 0, 0.52),
     0 0 0 2px rgba(132, 204, 22, 0.28);
   transition: box-shadow 0.35s ease;
-}
-
-.hero-terminal.is-highlighted {
-  opacity: 1;
 }
 
 /* Shared stroke icon pack */
@@ -2455,9 +2448,10 @@ a {
   }
 
   .hero-layout--centered {
-    --hero-stage-width: min(100%, calc(100vw - 2 * var(--section-pad-x)));
-    padding-top: calc(var(--nav-height) + 1rem);
-    padding-bottom: 3.5rem;
+    --hero-stage-width: min(92vw, calc(100vw - 2 * var(--section-pad-x)));
+    --hero-terminal-peek: 0.48;
+    padding-top: calc(var(--nav-height) + clamp(1rem, 5vh, 2rem));
+    padding-bottom: 1rem;
     gap: 1.25rem;
   }
 
@@ -2721,10 +2715,6 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :root {
-    --hero-terminal-reveal: 1;
-  }
-
   html {
     scroll-behavior: auto;
   }
