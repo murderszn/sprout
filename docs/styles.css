@@ -389,6 +389,8 @@ a {
   justify-content: center;
   z-index: 2;
   overflow: visible;
+  padding-left: max(var(--section-pad-x), env(safe-area-inset-left));
+  padding-right: max(var(--section-pad-x), env(safe-area-inset-right));
 }
 
 .hero-layout {
@@ -409,11 +411,8 @@ a {
   min-height: 100%;
   max-width: var(--page-max);
   margin: 0 auto;
-  padding:
-    calc(var(--nav-height) + clamp(2rem, 5vh, 3.5rem))
-    max(var(--section-pad-x), env(safe-area-inset-right))
-    clamp(1.5rem, 4vh, 2.75rem)
-    max(var(--section-pad-x), env(safe-area-inset-left));
+  padding-top: calc(var(--nav-height) + clamp(2rem, 5vh, 3.5rem));
+  padding-bottom: clamp(1.5rem, 4vh, 2.75rem);
 }
 
 .hero-subgrid {
