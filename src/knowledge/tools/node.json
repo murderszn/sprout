@@ -1,0 +1,37 @@
+{
+  "name": "node",
+  "displayName": "Node.js (via nvm)",
+  "aliases": ["nodejs", "node.js", "nvm"],
+  "description": "JavaScript runtime. Preferred install path is nvm so versions can be switched per-project without sudo.",
+  "verify": { "command": ["node", "--version"], "expectedPattern": "^v\\d+\\.\\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "nvm",
+      "installs": [
+        {
+          "manager": "nvm",
+          "command": ["curl", "-fsSL", "https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh", "-o", "/tmp/nvm-install.sh"],
+          "requiresSudo": false,
+          "notes": "Two-step: download the script, show it to the user for review (never pipe curl to bash), then run `bash /tmp/nvm-install.sh`. Afterwards nvm requires a new shell or `source ~/.nvm/nvm.sh`, then `nvm install --lts`."
+        },
+        { "manager": "brew", "command": ["brew", "install", "node"], "requiresSudo": false, "notes": "Simpler but pins one global version; fine if the user doesn't need version switching." }
+      ]
+    },
+    "linux": {
+      "preferredManager": "nvm",
+      "installs": [
+        {
+          "manager": "nvm",
+          "command": ["curl", "-fsSL", "https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh", "-o", "/tmp/nvm-install.sh"],
+          "requiresSudo": false,
+          "notes": "Same two-step review flow as macOS. Distro `nodejs` packages are often years out of date — avoid unless the user asks."
+        }
+      ]
+    }
+  },
+  "commonFailures": [
+    "nvm is a shell function, not a binary — it will not appear in PATH or `which` output; the rc file must source ~/.nvm/nvm.sh and the current shell must be restarted or re-sourced.",
+    "Installing nvm does not install node: `nvm install --lts` is a required follow-up step.",
+    "Ubuntu's default `nodejs` apt package is heavily outdated and may not ship `npm`."
+  ]
+}

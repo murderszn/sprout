@@ -1,0 +1,32 @@
+{
+  "name": "docker",
+  "displayName": "Docker",
+  "aliases": ["docker-desktop", "docker engine"],
+  "description": "Container runtime. On macOS this means Docker Desktop (or colima); on Linux, Docker Engine.",
+  "verify": { "command": ["docker", "--version"], "expectedPattern": "Docker version \\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew",
+      "installs": [
+        { "manager": "brew", "command": ["brew", "install", "--cask", "docker-desktop"], "requiresSudo": false, "notes": "Installs the Docker Desktop app. The user must launch it once (`open -a Docker`) before `docker` commands work; first launch asks for privileged-helper approval." },
+        { "manager": "brew", "command": ["brew", "install", "colima", "docker"], "requiresSudo": false, "notes": "Lighter alternative: colima provides the Linux VM, `colima start` replaces Docker Desktop." }
+      ]
+    },
+    "linux": {
+      "preferredManager": "apt-get",
+      "installs": [
+        {
+          "manager": "apt-get",
+          "command": ["sudo", "apt-get", "install", "-y", "docker.io"],
+          "requiresSudo": true,
+          "notes": "Distro package; simplest. Docker's own apt repo (docker-ce) is newer but requires adding a repo + GPG key — offer it only if the user needs current versions."
+        }
+      ]
+    }
+  },
+  "commonFailures": [
+    "`docker: command not found` right after Docker Desktop install on macOS — the app was never launched, so the CLI symlinks were never created.",
+    "`Cannot connect to the Docker daemon` — the daemon isn't running (Desktop/colima not started, or `sudo systemctl start docker` on Linux).",
+    "On Linux, `permission denied on /var/run/docker.sock` — the user isn't in the `docker` group; fix is `sudo usermod -aG docker $USER` plus a re-login, and that group grants root-equivalent access, which is worth saying out loud."
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "kubectl",
+  "displayName": "kubectl",
+  "aliases": ["kubernetes-cli", "k8s cli"],
+  "description": "Kubernetes command-line client.",
+  "verify": { "command": ["kubectl", "version", "--client"], "expectedPattern": "Client Version" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew",
+      "installs": [
+        { "manager": "brew", "command": ["brew", "install", "kubectl"], "requiresSudo": false }
+      ]
+    },
+    "linux": {
+      "preferredManager": "official-installer",
+      "installs": [
+        {
+          "manager": "official-installer",
+          "command": ["curl", "-fsSLo", "/tmp/kubectl", "https://dl.k8s.io/release/v1.33.0/bin/linux/amd64/kubectl"],
+          "requiresSudo": true,
+          "notes": "Then `sudo install -m 0755 /tmp/kubectl /usr/local/bin/kubectl`. Resolve the latest stable version first via https://dl.k8s.io/release/stable.txt, and swap amd64 for arm64 on ARM. Alternatively install without sudo to ~/.local/bin if it's on PATH."
+        },
+        { "manager": "apt-get", "command": ["sudo", "apt-get", "install", "-y", "kubectl"], "requiresSudo": true, "notes": "Only exists after adding the Kubernetes apt repo (pkgs.k8s.io keyring + sources entry) — not in stock Ubuntu/Debian repos." }
+      ]
+    }
+  },
+  "commonFailures": [
+    "`kubectl version` without --client tries to reach a cluster and errors — that's a missing kubeconfig, not a broken install.",
+    "Binary downloaded but not executable or not on PATH; the `install -m 0755` step is what fixes both.",
+    "Client more than one minor version away from the cluster server causes subtle API failures."
+  ]
+}

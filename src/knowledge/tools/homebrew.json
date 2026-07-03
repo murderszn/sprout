@@ -1,0 +1,36 @@
+{
+  "name": "brew",
+  "displayName": "Homebrew",
+  "aliases": ["homebrew"],
+  "description": "The de-facto macOS package manager (also works on Linux). Frequently the missing prerequisite for everything else.",
+  "verify": { "command": ["brew", "--version"], "expectedPattern": "Homebrew \\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "official-installer",
+      "installs": [
+        {
+          "manager": "official-installer",
+          "command": ["curl", "-fsSL", "https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh", "-o", "/tmp/brew-install.sh"],
+          "requiresSudo": true,
+          "notes": "Two-step review flow: download, show the script, then `/bin/bash /tmp/brew-install.sh`. The script itself invokes sudo to create /opt/homebrew (Apple Silicon) or /usr/local (Intel). After install, PATH needs `eval \"$(/opt/homebrew/bin/brew shellenv)\"` in the rc file — the installer prints this and users routinely skip it."
+        }
+      ]
+    },
+    "linux": {
+      "preferredManager": "official-installer",
+      "installs": [
+        {
+          "manager": "official-installer",
+          "command": ["curl", "-fsSL", "https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh", "-o", "/tmp/brew-install.sh"],
+          "requiresSudo": false,
+          "notes": "Same review flow. Installs to /home/linuxbrew/.linuxbrew; needs build tools (`build-essential` on Debian/Ubuntu) and the same shellenv rc line."
+        }
+      ]
+    }
+  },
+  "commonFailures": [
+    "`brew: command not found` immediately after a successful install — the shellenv line was never added to the rc file, or the shell wasn't restarted. This is the single most common Homebrew issue.",
+    "On Apple Silicon, an old Intel-era /usr/local Homebrew coexisting with /opt/homebrew causes formula/arch mismatches.",
+    "Install fails early if Xcode Command Line Tools are missing; `xcode-select --install` is the prerequisite."
+  ]
+}

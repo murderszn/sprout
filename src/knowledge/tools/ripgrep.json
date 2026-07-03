@@ -1,0 +1,26 @@
+{
+  "name": "rg",
+  "displayName": "ripgrep",
+  "aliases": ["ripgrep"],
+  "description": "Fast recursive grep. Note the package name (ripgrep) differs from the binary name (rg).",
+  "verify": { "command": ["rg", "--version"], "expectedPattern": "ripgrep \\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew",
+      "installs": [
+        { "manager": "brew", "command": ["brew", "install", "ripgrep"], "requiresSudo": false }
+      ]
+    },
+    "linux": {
+      "preferredManager": "apt-get",
+      "installs": [
+        { "manager": "apt-get", "command": ["sudo", "apt-get", "install", "-y", "ripgrep"], "requiresSudo": true },
+        { "manager": "dnf", "command": ["sudo", "dnf", "install", "-y", "ripgrep"], "requiresSudo": true },
+        { "manager": "cargo", "command": ["cargo", "install", "ripgrep"], "requiresSudo": false, "notes": "Builds from source; ~/.cargo/bin must be on PATH." }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Users try `apt-get install rg` / `brew install rg` and fail — the package is `ripgrep`, the binary is `rg`."
+  ]
+}

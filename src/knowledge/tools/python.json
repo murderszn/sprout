@@ -1,0 +1,38 @@
+{
+  "name": "python",
+  "displayName": "Python (via pyenv)",
+  "aliases": ["python3", "pyenv"],
+  "description": "Python interpreter. Preferred install path is pyenv so versions are user-local and switchable.",
+  "verify": { "command": ["python3", "--version"], "expectedPattern": "^Python 3\\." },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "pyenv",
+      "installs": [
+        {
+          "manager": "brew",
+          "command": ["brew", "install", "pyenv"],
+          "requiresSudo": false,
+          "notes": "After install, pyenv needs shell init lines in the rc file (`eval \"$(pyenv init -)\"` plus PYENV_ROOT/PATH exports), then `pyenv install 3.12` and `pyenv global 3.12`."
+        },
+        { "manager": "brew", "command": ["brew", "install", "python"], "requiresSudo": false, "notes": "Single global version, no init dance." }
+      ]
+    },
+    "linux": {
+      "preferredManager": "pyenv",
+      "installs": [
+        {
+          "manager": "pyenv",
+          "command": ["curl", "-fsSL", "https://pyenv.run", "-o", "/tmp/pyenv-install.sh"],
+          "requiresSudo": false,
+          "notes": "Two-step review flow (never pipe curl to bash). pyenv builds Python from source, so build deps are prerequisites: on Debian/Ubuntu `sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libffi-dev liblzma-dev`."
+        },
+        { "manager": "apt-get", "command": ["sudo", "apt-get", "install", "-y", "python3", "python3-pip", "python3-venv"], "requiresSudo": true }
+      ]
+    }
+  },
+  "commonFailures": [
+    "pyenv shims don't take effect until the rc-file init lines exist and the shell restarts — `python3` keeps resolving to the system interpreter.",
+    "pyenv `install` fails mid-build with cryptic errors when build dependencies (openssl, zlib, readline headers) are missing.",
+    "On macOS, `python` (no 3) does not exist by default; scripts expecting it need an alias or pyenv global."
+  ]
+}

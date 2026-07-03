@@ -1,0 +1,81 @@
+# 🌱 Sprout
+
+Sprout diagnoses and fixes local install/config/PATH problems for developer tools. You tell it what you want installed (or paste a broken install attempt); it detects what *this* machine actually has, proposes a plain-English plan, runs it step by step with your confirmation, and proves the result with a real verification command — instead of assuming a generic script works everywhere.
+
+It is deliberately **not** a general coding agent. Its entire world is package managers, PATH, and shell rc files. It won't write your code, review your PRs, or answer unrelated questions — and it orchestrates existing package managers (brew, apt, dnf, npm, pip, …) rather than reimplementing them.
+
+**v1 is Unix-first**: macOS and Linux. Windows (PowerShell, winget/choco/scoop) is a planned fast-follow; the types already leave room for it.
+
+## Install
+
+```sh
+npm install -g sprout-cli    # or run without installing: npx sprout-cli install gh
+```
+
+From a checkout:
+
+```sh
+npm install && npm run build && npm link
+```
+
+## Setup — bring your own Pollinations key
+
+Sprout never ships, proxies, or phones home with an API key. Inference goes to [Pollinations](https://gen.pollinations.ai) via its OpenAI-compatible API, using **your** key.
+
+1. Get a secret key (`sk_...`) at **https://enter.pollinations.ai**.
+2. Run any Sprout command. On first run it prompts for the key (input hidden) and offers to save it to `~/.sprout/config.json` (chmod 600). Alternatively, export `SPROUT_API_KEY` and nothing is stored.
+
+Key resolution order: `SPROUT_API_KEY` env var → `~/.sprout/config.json` → interactive prompt. The key is never printed back; anywhere it's redisplayed it appears masked (`sk_a****xyz`).
+
+Default model: `gpt-5.4-mini` (override per-run with `--model`, or persistently with `sprout config --model <id>`).
+
+## Usage
+
+```sh
+sprout install gh              # main flow: detect → plan → confirm each step → verify
+sprout install ripgrep
+sprout --dry-run install node  # exact command list, zero side effects
+sprout --yes install jq        # skip per-step [y/N] prompts (hard guardrails still block)
+
+sprout diagnose < broken.log   # pipe a failed install attempt, get a diagnosis + fix plan
+brew install foo 2>&1 | sprout diagnose --tool foo
+sprout diagnose                # interactive: paste the log, end with Ctrl-D
+
+sprout config                  # show masked key + model + config path
+sprout config --set-key        # store a new key (input hidden)
+sprout config --clear-key
+sprout config --model gpt-5.4
+
+sprout status                  # confirm the key works and the model is awake
+sprout env                     # print the environment snapshot the agent sees
+```
+
+Seeded knowledge base (curated per-OS install + verify recipes): git, node (nvm), python (pyenv), docker, GitHub CLI, AWS CLI, kubectl, Homebrew, jq, ripgrep, terraform. Anything else works too — the model reasons it out live and **tells you** it's doing so rather than pretending it came from the curated data.
+
+## How a run works
+
+1. **Detect** — OS/version, shell + rc file, architecture, which package managers exist, PATH entries. One typed snapshot; everything downstream uses it.
+2. **Plan** — the model states a short plain-English plan *before* any tool call.
+3. **Confirm/execute** — each step shows the exact command (an argv array, executed with no shell) and the model's reason. Anything touching sudo, a system package manager, or an rc file asks `[y/N]` — default No. Results feed back to the model so it adapts to reality ("already installed", "permission denied") instead of replaying a script.
+4. **Verify** — after the plan, Sprout runs the tool's verify command itself and shows the real output. "Done" means the verify passed, not that the model said so.
+
+## Safety
+
+- **No `curl | bash`, ever.** Remote scripts are downloaded to a file, shown to you, and only run after you confirm the script itself.
+- **Hard-blocked patterns** — recursive deletes outside temp space, disk formatting, raw device writes, `/etc/passwd`-class files, fork bombs, power control — are refused before a confirmation prompt is even shown, and `--yes` does not override them.
+- **sudo is exceptional**: only when a step genuinely requires it, with the reason surfaced before the prompt.
+- **rc-file edits** always show the new content, always confirm (even under `--yes`), and back up the previous version next to the file.
+- `--dry-run` produces the exact command list with zero side effects.
+- Commands run as argv arrays via execa — no string interpolation, no shell expansion.
+
+## Development
+
+```sh
+npm run dev -- install jq      # run from source (tsx)
+npm test                       # node:test suite (guardrails, knowledge base, agent loop with a scripted fake model)
+npm run build
+```
+
+Copy `env.example` to `.env` for local development; `dotenv` picks it up.
+
+To add a tool to the knowledge base, see [CONTRIBUTING.md](CONTRIBUTING.md).

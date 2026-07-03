@@ -1,0 +1,29 @@
+{
+  "name": "git",
+  "displayName": "Git",
+  "aliases": ["git-scm"],
+  "description": "Distributed version control system.",
+  "verify": { "command": ["git", "--version"], "expectedPattern": "git version \\d+\\.\\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew",
+      "installs": [
+        { "manager": "brew", "command": ["brew", "install", "git"], "requiresSudo": false },
+        { "manager": "xcode-select", "command": ["xcode-select", "--install"], "requiresSudo": false, "notes": "Apple's Command Line Tools bundle an older git; fine if the user just needs *a* git." }
+      ]
+    },
+    "linux": {
+      "preferredManager": "apt-get",
+      "installs": [
+        { "manager": "apt-get", "command": ["sudo", "apt-get", "install", "-y", "git"], "requiresSudo": true },
+        { "manager": "dnf", "command": ["sudo", "dnf", "install", "-y", "git"], "requiresSudo": true },
+        { "manager": "pacman", "command": ["sudo", "pacman", "-S", "--noconfirm", "git"], "requiresSudo": true }
+      ]
+    }
+  },
+  "commonFailures": [
+    "On macOS, running `git` without Command Line Tools installed pops a GUI install dialog instead of failing cleanly.",
+    "Homebrew git can be shadowed by /usr/bin/git if /opt/homebrew/bin (or /usr/local/bin on Intel) comes later in PATH — check `which git` after install.",
+    "On Debian/Ubuntu, `apt-get install` fails with stale package lists; run `sudo apt-get update` first."
+  ]
+}

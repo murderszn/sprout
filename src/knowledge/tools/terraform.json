@@ -1,0 +1,30 @@
+{
+  "name": "terraform",
+  "displayName": "Terraform",
+  "aliases": ["tf"],
+  "description": "HashiCorp infrastructure-as-code CLI.",
+  "verify": { "command": ["terraform", "--version"], "expectedPattern": "Terraform v\\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew",
+      "installs": [
+        { "manager": "brew", "command": ["brew", "install", "hashicorp/tap/terraform"], "requiresSudo": false, "notes": "HashiCorp's official tap; the core `terraform` formula was frozen at 1.5 over licensing, so the tap is the right source." }
+      ]
+    },
+    "linux": {
+      "preferredManager": "apt-get",
+      "installs": [
+        {
+          "manager": "apt-get",
+          "command": ["sudo", "apt-get", "install", "-y", "terraform"],
+          "requiresSudo": true,
+          "notes": "Requires HashiCorp's apt repo first (GPG keyring + sources.list entry per developer.hashicorp.com docs) — not in stock repos. Walk through repo-setup steps individually."
+        }
+      ]
+    }
+  },
+  "commonFailures": [
+    "brew's core `terraform` formula is stuck on 1.5.x (license change); versions past that need the hashicorp/tap.",
+    "`apt-get install terraform` finds nothing without the HashiCorp repo added first."
+  ]
+}

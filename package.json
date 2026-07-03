@@ -1,0 +1,35 @@
+{
+  "name": "sprout-cli",
+  "version": "0.1.0",
+  "description": "Diagnose and fix local install/config/PATH problems for developer tools. Not a general coding agent.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "sprout": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc && mkdir -p dist/knowledge/tools && cp src/knowledge/tools/*.json dist/knowledge/tools/",
+    "dev": "tsx src/cli.ts",
+    "test": "node --import tsx --test test/*.test.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "dotenv": "^16.4.7",
+    "execa": "^9.5.2",
+    "openai": "^4.90.0",
+    "ora": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}

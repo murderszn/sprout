@@ -1,0 +1,25 @@
+{
+  "name": "jq",
+  "displayName": "jq",
+  "aliases": [],
+  "description": "Command-line JSON processor. Small, dependency-free — a good low-risk first install to test Sprout itself.",
+  "verify": { "command": ["jq", "--version"], "expectedPattern": "jq-\\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew",
+      "installs": [
+        { "manager": "brew", "command": ["brew", "install", "jq"], "requiresSudo": false }
+      ]
+    },
+    "linux": {
+      "preferredManager": "apt-get",
+      "installs": [
+        { "manager": "apt-get", "command": ["sudo", "apt-get", "install", "-y", "jq"], "requiresSudo": true },
+        { "manager": "dnf", "command": ["sudo", "dnf", "install", "-y", "jq"], "requiresSudo": true }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Essentially none — if jq install fails, the package manager itself is the problem, which makes it a useful canary."
+  ]
+}

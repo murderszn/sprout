@@ -1,0 +1,31 @@
+{
+  "name": "gh",
+  "displayName": "GitHub CLI",
+  "aliases": ["github-cli", "github cli"],
+  "description": "GitHub's official command-line tool.",
+  "verify": { "command": ["gh", "--version"], "expectedPattern": "gh version \\d+" },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew",
+      "installs": [
+        { "manager": "brew", "command": ["brew", "install", "gh"], "requiresSudo": false }
+      ]
+    },
+    "linux": {
+      "preferredManager": "apt-get",
+      "installs": [
+        {
+          "manager": "apt-get",
+          "command": ["sudo", "apt-get", "install", "-y", "gh"],
+          "requiresSudo": true,
+          "notes": "Available in Ubuntu 23.04+/Debian 12+ default repos. Older releases need GitHub's own apt repo (keyring + sources.list entry) first — walk the user through those steps individually rather than a combined one-liner."
+        },
+        { "manager": "dnf", "command": ["sudo", "dnf", "install", "-y", "gh"], "requiresSudo": true }
+      ]
+    }
+  },
+  "commonFailures": [
+    "Installed fine but `gh auth login` was never run — most 'gh is broken' reports are actually missing auth.",
+    "On older Ubuntu, `apt-get install gh` finds nothing because the package only exists in GitHub's third-party repo."
+  ]
+}

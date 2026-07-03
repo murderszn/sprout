@@ -1,0 +1,32 @@
+{
+  "name": "aws",
+  "displayName": "AWS CLI v2",
+  "aliases": ["aws-cli", "awscli", "aws cli"],
+  "description": "Amazon Web Services command-line interface, version 2.",
+  "verify": { "command": ["aws", "--version"], "expectedPattern": "aws-cli/2\\." },
+  "platforms": {
+    "darwin": {
+      "preferredManager": "brew",
+      "installs": [
+        { "manager": "brew", "command": ["brew", "install", "awscli"], "requiresSudo": false }
+      ]
+    },
+    "linux": {
+      "preferredManager": "official-installer",
+      "installs": [
+        {
+          "manager": "official-installer",
+          "command": ["curl", "-fsSL", "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip", "-o", "/tmp/awscliv2.zip"],
+          "requiresSudo": true,
+          "notes": "Multi-step: download the zip (swap x86_64 for aarch64 on ARM), `unzip -o /tmp/awscliv2.zip -d /tmp`, then `sudo /tmp/aws/install`. The installer itself needs sudo because it writes to /usr/local. `unzip` may need installing first."
+        },
+        { "manager": "pip3", "command": ["pip3", "install", "--user", "awscli"], "requiresSudo": false, "notes": "Installs v1, not v2 — only offer if the user explicitly wants pip. ~/.local/bin must be on PATH." }
+      ]
+    }
+  },
+  "commonFailures": [
+    "pip-installed v1 shadows or conflicts with a v2 install; `aws --version` disambiguates.",
+    "`aws: command not found` after the official installer usually means /usr/local/bin is missing from PATH (common in minimal containers).",
+    "Installed but every call fails with credential errors — `aws configure` (or SSO setup) is a required post-install step Sprout should mention, not perform."
+  ]
+}
