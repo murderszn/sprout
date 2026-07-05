@@ -40,7 +40,7 @@
   --font-body: 'Quicksand', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
   --nav-height: 80px;
-  --hero-ticker-h: 3.5rem;
+  --hero-ticker-h: 2.25rem;
   --page-max: 1280px;
   --section-pad-y: clamp(5rem, 10vw, 8.5rem);
   --section-pad-x: clamp(1.75rem, 5vw, 3.5rem);
@@ -387,6 +387,7 @@ a {
   z-index: 2;
   overflow: visible;
   padding-top: calc(var(--hero-ticker-h) + var(--nav-height));
+  padding-bottom: calc(var(--hero-ticker-h) + var(--nav-height));
   padding-left: max(var(--section-pad-x), env(safe-area-inset-left));
   padding-right: max(var(--section-pad-x), env(safe-area-inset-right));
 }
@@ -2363,7 +2364,7 @@ a {
   padding:
     clamp(5rem, 12vh, 8rem)
     var(--section-pad-x)
-    max(clamp(5rem, 12vh, 8rem), env(safe-area-inset-bottom));
+    max(calc(clamp(5rem, 12vh, 8rem) - var(--nav-height)), 2.5rem, env(safe-area-inset-bottom));
 }
 
 .footer-inner {
@@ -2510,7 +2511,7 @@ a {
 @media (max-width: 768px) {
   :root {
     --nav-height: 72px;
-    --hero-ticker-h: 3rem;
+    --hero-ticker-h: 2rem;
     --section-pad-y: clamp(3.5rem, 8vw, 5rem);
     --section-pad-x: 1.25rem;
   }
@@ -2690,7 +2691,7 @@ a {
     padding:
       clamp(4rem, 14vw, 6rem)
       var(--section-pad-x)
-      max(clamp(4rem, 14vw, 6rem), env(safe-area-inset-bottom));
+      max(calc(clamp(4rem, 14vw, 6rem) - var(--nav-height)), 2rem, env(safe-area-inset-bottom));
   }
 
   .footer-inner {
@@ -2822,7 +2823,7 @@ a {
 
 @media (max-height: 700px) {
   :root {
-    --hero-ticker-h: 2.75rem;
+    --hero-ticker-h: 1.85rem;
   }
 
   .hero-layout--centered {
