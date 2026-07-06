@@ -50,6 +50,7 @@ const navSections = [
 ].filter((s) => s.el);
 
 function updateNavTheme() {
+  if (!nav) return;
   const scrollY = window.scrollY;
   const heroHeight = window.innerHeight;
   const features = document.getElementById('features');
@@ -99,7 +100,7 @@ function updateNavActive(offset) {
 
 function init() {
   document.documentElement.classList.add('js');
-  nav.classList.add('nav--light');
+  if (nav) nav.classList.add('nav--light');
   handleScroll();
   updateNavTheme();
 
