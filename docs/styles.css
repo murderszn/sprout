@@ -562,7 +562,7 @@ a {
   right: -4%;
   bottom: -4%;
   height: 0.22em;
-  background: var(--accent-bright);
+  background: #FF5500;
   z-index: -1;
   transform: rotate(-1.8deg) skewX(-10deg);
   border-radius: 4px 8px 3px 6px / 3px 4px 2px 3px;
