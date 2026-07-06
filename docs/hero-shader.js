@@ -19,10 +19,10 @@
     grain: 0.0,
     loop: 16.0, // Loop cycle time in seconds (increased to slow down)
     colors: [
-      '#ffffff', // u_c0
-      '#95ff00', // u_c1
-      '#b0ff1f', // u_c2
-      '#ffffff'  // u_c3
+      '#FAFDF6', // u_c0 (light cream)
+      '#C6E87B', // u_c1 (bright light green/yellow)
+      '#9CD654', // u_c2 (vibrant avocado green)
+      '#FFFFFF'  // u_c3 (pure white)
     ]
   };
 

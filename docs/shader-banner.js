@@ -167,8 +167,8 @@ void main(){
 
   const PARAMS = {
     seed: 2251,
-    yellow: '#A3E635',
-    black: '#0F110B',
+    yellow: '#C7E38B',
+    black: '#FAFDF6',
     scale: 0.5,
     density: 0.55,
   };
