@@ -550,11 +550,24 @@ a {
 
 .hero-headline em {
   font-style: normal;
+  position: relative;
+  display: inline-block;
   color: var(--black);
-  text-decoration: underline;
-  text-decoration-color: var(--black);
-  text-decoration-thickness: 0.08em;
-  text-underline-offset: 0.15em;
+}
+
+.hero-headline em::after {
+  content: '';
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  bottom: 8%;
+  height: 0.22em;
+  background: var(--accent-bright);
+  z-index: -1;
+  transform: rotate(-1.8deg) skewX(-10deg);
+  border-radius: 4px 8px 3px 6px / 3px 4px 2px 3px;
+  pointer-events: none;
+  opacity: 0.95;
 }
 
 .hero-eyebrow,
