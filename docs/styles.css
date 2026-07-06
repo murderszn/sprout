@@ -40,7 +40,7 @@
   --font-body: 'Quicksand', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
   --nav-height: 80px;
-  --hero-ticker-h: 2.25rem;
+  --hero-ticker-h: 0px;
   --page-max: 1280px;
   --section-pad-y: clamp(5rem, 10vw, 8.5rem);
   --section-pad-x: clamp(1.75rem, 5vw, 3.5rem);
@@ -738,6 +738,7 @@ a {
 
 /* Hero ticker — dark band slicing across the swirl */
 .hero-ticker {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -2558,7 +2559,7 @@ a {
 @media (max-width: 768px) {
   :root {
     --nav-height: 72px;
-    --hero-ticker-h: 2rem;
+    --hero-ticker-h: 0px;
     --section-pad-y: clamp(3.5rem, 8vw, 5rem);
     --section-pad-x: 1.25rem;
   }
@@ -2870,7 +2871,7 @@ a {
 
 @media (max-height: 700px) {
   :root {
-    --hero-ticker-h: 1.85rem;
+    --hero-ticker-h: 0px;
   }
 
   .hero-layout--centered {
