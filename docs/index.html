@@ -101,7 +101,79 @@
       }
     ]
   }
-  </script>
+  <style>
+    /* Hero Redesign: Centered Stack Layout Override */
+    .hero {
+      min-height: 100vh;
+      min-height: 100dvh;
+      height: auto !important;
+      padding-top: calc(var(--nav-height) + 1.5rem);
+      padding-bottom: 4rem;
+    }
+    .hero-layout--centered {
+      gap: 1.5rem !important;
+      height: auto !important;
+    }
+    .hero-subgrid {
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 1.25rem !important;
+      width: 100% !important;
+    }
+    .hero-intro {
+      width: 100% !important;
+      flex: 0 0 auto !important;
+      text-align: center !important;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .hero-headline {
+      font-size: clamp(2.25rem, 6.5vw, 4.25rem) !important;
+      line-height: 1.1 !important;
+      max-width: 800px !important;
+      margin: 0 auto 0.5rem !important;
+      font-weight: 800;
+      text-align: center;
+    }
+    .hero-subline {
+      display: none !important; /* Hide subline to focus on single line dramatic header */
+    }
+    .hero-actions {
+      width: 100% !important;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 0.25rem !important;
+    }
+    .hero-command-cta {
+      max-width: 460px;
+      width: 100%;
+    }
+    .hero-trust {
+      justify-content: center !important;
+      margin-top: 0 !important;
+      margin-bottom: 1rem !important;
+    }
+    .hero-terminal-group {
+      width: 100% !important;
+      flex: 0 0 auto !important;
+      max-width: 860px !important;
+      align-self: center !important;
+    }
+    .terminal-card-container {
+      aspect-ratio: 16 / 10 !important;
+    }
+    @media (max-width: 768px) {
+      .hero {
+        padding-top: calc(var(--nav-height) + 1rem);
+      }
+      .terminal-card-container {
+        aspect-ratio: 4 / 3 !important;
+        padding: 0.75rem !important;
+      }
+    }
+  </style>
 </head>
 <body>
   <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
@@ -162,7 +234,7 @@
       <div class="hero-layout hero-layout--centered">
         <div class="hero-subgrid">
           <div class="hero-intro">
-            <h1 class="hero-headline">Fix app installs on <em>this</em> PC.</h1>
+            <h1 class="hero-headline">Fix broken app installs on <em>this</em> PC now.</h1>
             <p class="hero-subline">Detects your PC, plans the steps, asks before every command — then proves it with a real verify run.</p>
             <div class="hero-actions">
               <div class="hero-command-cta">
