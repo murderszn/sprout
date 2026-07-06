@@ -391,51 +391,41 @@ a {
   padding-left: max(var(--section-pad-x), env(safe-area-inset-left));
   padding-right: max(var(--section-pad-x), env(safe-area-inset-right));
 }
-/* Hero Scroll Button (Flat Black) */
-.hero-scroll-btn-flat {
+
+/* Hero Scroll Icon (Flat Monochromatic) */
+.hero-scroll-icon-only {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  background: #0F110B;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 0.75rem 1.35rem;
-  border-radius: 100px;
-  color: rgba(255, 255, 255, 0.9);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.45);
+  transition: color 0.3s ease, transform 0.3s ease;
   pointer-events: auto;
-  margin-top: 0.5rem;
+  margin-top: 1.25rem;
   z-index: 10;
+  text-decoration: none;
 }
 
-.hero-scroll-btn-flat:hover {
-  background: #1A1D14;
-  border-color: rgba(255, 255, 255, 0.25);
+.hero-scroll-icon-only:hover {
   color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transform: translateY(2px);
 }
 
-.hero-scroll-btn-flat:active {
-  transform: translateY(0);
+.hero-scroll-icon-only .ui-icon {
+  width: 32px;
+  height: 32px;
+  stroke-width: 1.5;
+  animation: scroll-icon-bounce 2s infinite;
 }
 
-.hero-scroll-btn-flat .scroll-arrow-icon {
-  display: block;
-  animation: bounce-arrow 1.6s infinite;
-}
-
-@keyframes bounce-arrow {
-  0%, 100% {
+@keyframes scroll-icon-bounce {
+  0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
   }
-  50% {
-    transform: translateY(3px);
+  40% {
+    transform: translateY(-6px);
+  }
+  60% {
+    transform: translateY(-3px);
   }
 }
 
