@@ -391,60 +391,51 @@ a {
   padding-left: max(var(--section-pad-x), env(safe-area-inset-left));
   padding-right: max(var(--section-pad-x), env(safe-area-inset-right));
 }
-
-/* Hero Scroll Button */
-.hero-scroll-btn {
-  position: absolute;
-  bottom: clamp(1.5rem, 5vh, 3rem);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 44px;
-  height: 44px;
-  display: flex;
+/* Hero Scroll Button (Flat Black) */
+.hero-scroll-btn-flat {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.85);
-  z-index: 10;
+  gap: 0.75rem;
+  background: #0F110B;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.75rem 1.35rem;
+  border-radius: 100px;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-decoration: none;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  animation: hero-bounce 2s infinite;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   pointer-events: auto;
+  margin-top: 0.5rem;
+  z-index: 10;
 }
 
-.hero-scroll-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.35);
+.hero-scroll-btn-flat:hover {
+  background: #1A1D14;
+  border-color: rgba(255, 255, 255, 0.25);
   color: #ffffff;
-  transform: translateX(-50%) translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
-.hero-scroll-btn:active {
-  transform: translateX(-50%) translateY(0);
+.hero-scroll-btn-flat:active {
+  transform: translateY(0);
 }
 
-.hero-scroll-btn svg {
+.hero-scroll-btn-flat .scroll-arrow-icon {
   display: block;
-  transition: transform 0.3s ease;
+  animation: bounce-arrow 1.6s infinite;
 }
 
-.hero-scroll-btn:hover svg {
-  transform: translateY(1px);
-}
-
-@keyframes hero-bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateX(-50%) translateY(0);
+@keyframes bounce-arrow {
+  0%, 100% {
+    transform: translateY(0);
   }
-  40% {
-    transform: translateX(-50%) translateY(-6px);
-  }
-  60% {
-    transform: translateX(-50%) translateY(-3px);
+  50% {
+    transform: translateY(3px);
   }
 }
 
