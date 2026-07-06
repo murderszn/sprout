@@ -386,8 +386,8 @@ a {
   justify-content: center;
   z-index: 2;
   overflow: visible;
-  padding-top: calc(var(--hero-ticker-h) + var(--nav-height));
-  padding-bottom: calc(var(--hero-ticker-h) + var(--nav-height));
+  padding-top: var(--nav-height);
+  padding-bottom: 0;
   padding-left: max(var(--section-pad-x), env(safe-area-inset-left));
   padding-right: max(var(--section-pad-x), env(safe-area-inset-right));
 }
