@@ -398,7 +398,7 @@ a {
   align-items: center;
   justify-content: center;
   color: rgba(255, 255, 255, 0.45);
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: auto;
   margin-top: 1.25rem;
   z-index: 10;
@@ -407,7 +407,7 @@ a {
 
 .hero-scroll-icon-only:hover {
   color: #ffffff;
-  transform: translateY(2px);
+  transform: translateY(4px);
 }
 
 .hero-scroll-icon-only .ui-icon {
@@ -541,7 +541,7 @@ a {
   font-size: clamp(2.5rem, 5.5vw, 4.25rem);
   font-weight: 800;
   line-height: 1.12;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em;
   color: var(--black);
   margin: 0 0 0.75rem;
   text-wrap: balance;
@@ -663,9 +663,10 @@ a {
 
 .hero-command-cta:hover {
   transform: translateY(-2px);
+  border-color: rgba(255, 85, 0, 0.24);
   box-shadow:
     0 24px 48px rgba(15, 17, 11, 0.35),
-    0 0 0 1px rgba(217, 249, 157, 0.2);
+    0 0 0 2px rgba(255, 85, 0, 0.12);
 }
 
 .hero-demo-cta {
@@ -729,6 +730,12 @@ a {
 .copy-btn-hero:hover {
   background: rgba(217, 249, 157, 0.18);
   color: var(--white);
+}
+
+.copy-btn-hero.copied {
+  background: rgba(255, 85, 0, 0.15);
+  border-color: rgba(255, 85, 0, 0.35);
+  color: #FF5500;
 }
 
 .hero-terminal.is-highlighted .mac-terminal {
