@@ -37,7 +37,7 @@
   <link rel="manifest" href="public/site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=Quicksand:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=44">
   <script type="application/ld+json">
   {
@@ -102,23 +102,41 @@
     ]
   </script>
   <style>
+    /* Global Typography Override for authority and strength */
+    :root {
+      --font-body: 'Plus Jakarta Sans', system-ui, sans-serif !important;
+    }
+    
+    /* Slightly lighter bold pastel avocado green background for hero */
+    .overlay {
+      background-color: #a9e24a !important;
+      background-image: none !important;
+    }
+    
     /* Hero Redesign: Centered Stack Layout Override */
     .hero {
       min-height: 100vh;
       min-height: 100dvh;
       height: auto !important;
-      padding-top: calc(var(--nav-height) + 1.5rem);
-      padding-bottom: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: calc(var(--nav-height) + 3rem);
+      padding-bottom: 5rem;
     }
     .hero-layout--centered {
-      gap: 1.5rem !important;
+      gap: 0 !important; /* Managed by individual element margins for absolute control */
       height: auto !important;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
     .hero-subgrid {
       flex-direction: column !important;
       align-items: center !important;
       justify-content: center !important;
-      gap: 1.25rem !important;
+      gap: 0 !important; /* Managed by children */
       width: 100% !important;
     }
     .hero-intro {
@@ -129,44 +147,146 @@
       flex-direction: column;
       align-items: center;
     }
+    
+    /* Hero Brand Title */
+    .hero-brand {
+      font-family: var(--font-brand);
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.25em;
+      color: #223112 !important; /* Always black/dark green */
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      animation: hero-enter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .hero-brand-emoji {
+      font-size: 1.35rem;
+    }
+    
     .hero-headline {
-      font-size: clamp(2.25rem, 6.5vw, 4.25rem) !important;
-      line-height: 1.1 !important;
-      max-width: 800px !important;
-      margin: 0 auto 0.5rem !important;
+      font-size: clamp(2.5rem, 6vw, 4rem) !important;
+      line-height: 1.15 !important;
+      max-width: 900px !important;
+      margin: 0 auto 1.5rem !important; /* Precise margin below headline */
       font-weight: 800;
       text-align: center;
+      letter-spacing: -0.02em; /* Tighter letter-spacing for premium display look */
     }
     .hero-subline {
-      display: none !important; /* Hide subline to focus on single line dramatic header */
+      display: none !important;
     }
     .hero-actions {
       width: 100% !important;
-      display: flex;
-      justify-content: center;
-      margin-bottom: 0.25rem !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      align-self: center !important; /* Force center inside hero-intro */
+      margin-left: auto !important;
+      margin-right: auto !important;
+      margin-top: 0 !important;
+      margin-bottom: 1.125rem !important; /* Precise margin below CTA */
     }
-    .hero-command-cta {
-      max-width: 460px;
-      width: 100%;
+    
+    /* Premium simplified call to action design */
+    .dramatic-cta {
+      display: flex !important;
+      align-items: center !important;
+      align-self: center !important; /* Force center */
+      margin-left: auto !important;
+      margin-right: auto !important;
+      background: var(--black-raised) !important;
+      border: 2px solid var(--yellow) !important;
+      border-radius: 10px !important;
+      padding: 0.375rem 0.375rem 0.375rem 1rem !important; /* Tighter aligned padding */
+      max-width: 420px !important; /* Compact width to fit text exactly */
+      width: 100% !important;
+      height: 50px !important; /* Sleeker height */
+      box-shadow: 0 12px 36px rgba(108, 142, 50, 0.12) !important;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      position: relative !important;
     }
+    .dramatic-cta:hover {
+      border-color: var(--accent-bright) !important;
+      box-shadow: 0 16px 48px rgba(78, 115, 31, 0.18) !important;
+      transform: translateY(-2px);
+    }
+    .dramatic-cta .hero-command-text {
+      font-size: 0.95rem !important; /* Slightly smaller for precision */
+      color: var(--white) !important;
+      flex: 1;
+      text-align: left;
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+    .dramatic-copy-btn {
+      background: var(--accent-bright) !important;
+      color: #FAFDF6 !important; /* light cream text */
+      font-family: var(--font-brand);
+      font-weight: 700;
+      border: none !important;
+      border-radius: 6px !important;
+      padding: 0 1rem !important;
+      height: 38px !important; /* Tighter button height */
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: all 0.2s ease !important;
+      cursor: pointer !important;
+      font-size: 0.9rem !important;
+      box-shadow: 0 4px 10px rgba(78, 115, 31, 0.12);
+    }
+    .dramatic-copy-btn:hover {
+      background: var(--yellow-deep-rgb) !important;
+      transform: scale(1.02);
+    }
+    
     .hero-trust {
       justify-content: center !important;
       margin-top: 0 !important;
-      margin-bottom: 1rem !important;
+      margin-bottom: 3rem !important; /* Generous precise breathing room before terminal */
+      font-size: 0.95rem;
+      color: var(--gray);
     }
     .hero-terminal-group {
       width: 100% !important;
       flex: 0 0 auto !important;
-      max-width: 860px !important;
+      max-width: 1140px !important; /* Large, matching wide monitors beautifully */
       align-self: center !important;
+      margin-bottom: 1.5rem !important;
     }
     .terminal-card-container {
-      aspect-ratio: 16 / 10 !important;
+      aspect-ratio: 16 / 9.5 !important; /* Wider aspect ratio to show more horizontal detail */
+      padding: 2.5% !important; /* Precise, consistent border padding */
+      border-radius: 20px !important;
+      box-shadow: 0 60px 140px rgba(0, 0, 0, 0.45); /* Premium depth shadow */
+    }
+    .hero-scroll-icon-only {
+      color: rgba(34, 49, 18, 0.55) !important; /* Visible dark-green/black on light avocado background */
+    }
+    .hero-scroll-icon-only:hover {
+      color: #223112 !important;
+    }
+    @media (max-width: 1024px) {
+      .hero-terminal-group {
+        max-width: 90% !important;
+      }
     }
     @media (max-width: 768px) {
       .hero {
-        padding-top: calc(var(--nav-height) + 1rem);
+        padding-top: calc(var(--nav-height) + 1.5rem);
+        padding-bottom: 3rem;
+      }
+      .hero-headline {
+        font-size: 2.25rem !important;
+      }
+      .hero-actions {
+        display: none !important; /* Hide install command on mobile */
+      }
+      .hero-trust {
+        margin-bottom: 1.75rem !important;
       }
       .terminal-card-container {
         aspect-ratio: 4 / 3 !important;
@@ -229,17 +349,19 @@
   </nav>
 
   <div class="overlay" id="overlay">
-    <canvas class="overlay-bg-canvas" id="hero-shader-canvas"></canvas>
+    <!-- <canvas class="overlay-bg-canvas" id="hero-shader-canvas"></canvas> -->
     <header class="hero">
       <div class="hero-layout hero-layout--centered">
         <div class="hero-subgrid">
           <div class="hero-intro">
-            <h1 class="hero-headline">Fix broken app installs on <em>this</em> PC now.</h1>
-            <p class="hero-subline">Detects your PC, plans the steps, asks before every command — then proves it with a real verify run.</p>
+            <div class="hero-brand" id="hero-brand-title">
+              <span class="hero-brand-emoji">🌱</span> Sprout
+            </div>
+            <h1 class="hero-headline">Fix broken developer tool installations on <em>this</em> PC now.</h1>
             <div class="hero-actions">
-              <div class="hero-command-cta">
+              <div class="hero-command-cta dramatic-cta">
                 <code class="hero-command-text">npm install -g sprout-install</code>
-                <button type="button" class="copy-btn copy-btn-hero" data-copy="npm install -g sprout-install" aria-label="Copy install command">
+                <button type="button" class="copy-btn copy-btn-hero dramatic-copy-btn" data-copy="npm install -g sprout-install" aria-label="Copy install command">
                   <span class="copy-text" aria-live="polite">Copy</span>
                 </button>
               </div>
@@ -725,9 +847,7 @@
             <a href="https://discord.gg/h9aXFuKqsv" target="_blank" rel="noopener noreferrer" aria-label="Discord">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
             </a>
-          </nav>
-          <nav class="footer-links" aria-label="Footer links" style="margin-top: 1.5rem; display: flex; gap: 1.5rem; justify-content: center; font-family: var(--font-mono); font-size: 0.9rem;">
-            <a href="blog/pioneering-the-pollen-ecosystem.html" style="color: var(--gray); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--yellow)'" onmouseout="this.style.color='var(--gray)'">Blog</a>
+            <a href="blog/pioneering-the-pollen-ecosystem.html" style="font-family: var(--font-mono); font-size: 0.9rem; font-weight: 600; text-decoration: none; letter-spacing: 0.05em; margin-left: 0.25rem;">Blog</a>
           </nav>
         </div>
       </div>
