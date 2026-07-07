@@ -550,6 +550,19 @@ a {
   }
 }
 
+.hero-brand {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--yellow);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .hero-headline {
   font-family: var(--font-display);
   font-size: clamp(2.5rem, 5.5vw, 4.25rem);
@@ -557,7 +570,7 @@ a {
   line-height: 1.12;
   letter-spacing: -0.04em;
   color: var(--white);
-  margin: 0 0 0.75rem;
+  margin: 0 0 1.5rem;
   text-wrap: balance;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
@@ -615,7 +628,7 @@ a {
   flex-direction: column;
   align-items: stretch;
   gap: 0.625rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.75rem;
   max-width: 34rem;
 }
 
@@ -2935,5 +2948,178 @@ a {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+}
+
+/* Sprout Demos / Clips Player styles */
+.sprout-clips-container {
+  margin: 3.5rem 0 2rem 0;
+  width: 100%;
+}
+
+.clips-title {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--yellow);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.1em;
+  opacity: 0.85;
+}
+
+.sprout-clips-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .sprout-clips-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .sprout-clips-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.clip-card {
+  background: var(--black-raised);
+  border: 1px solid var(--border-panel);
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.clip-card:hover {
+  border-color: rgba(254, 188, 46, 0.4); /* subtle yellow/brand border highlight on hover */
+  background: rgba(254, 188, 46, 0.02);
+}
+
+.clip-card .terminal-block {
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid var(--border-panel);
+  margin-bottom: 0;
+}
+
+.clip-card .terminal-header {
+  background: var(--black-darker);
+  border-bottom: 1px solid var(--border-panel);
+}
+
+.clip-terminal-session {
+  background: var(--black-darker) !important;
+  height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  text-align: left;
+  font-size: clamp(0.7rem, 1.3cqw, 0.8rem);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--accent-bright-rgb), 0.35) transparent;
+}
+
+.clip-terminal-session::-webkit-scrollbar {
+  width: 6px;
+}
+
+.clip-terminal-session::-webkit-scrollbar-thumb {
+  background: rgba(254, 188, 46, 0.25);
+  border-radius: 3px;
+}
+
+.clip-info {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.clip-info h4 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 0.25rem;
+}
+
+.clip-info p {
+  font-size: 0.85rem;
+  color: var(--gray);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Recipe Contribution Styles */
+.channels-footer {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-panel);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2.5rem;
+  text-align: left;
+}
+
+.channels-note {
+  flex: 1.2;
+  font-size: 0.85rem;
+  color: var(--gray);
+  line-height: 1.6;
+  margin: 0 !important;
+}
+
+.recipe-invite {
+  flex: 1;
+  background: rgba(254, 188, 46, 0.02);
+  border: 1px dashed rgba(254, 188, 46, 0.2);
+  border-radius: var(--radius-panel);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: flex-start;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.recipe-invite:hover {
+  background: rgba(254, 188, 46, 0.04);
+  border-color: rgba(254, 188, 46, 0.35);
+}
+
+.recipe-invite-content {
+  font-size: 0.8rem;
+  color: var(--gray-light);
+  line-height: 1.5;
+}
+
+.recipe-invite-content code {
+  color: var(--yellow);
+  font-family: var(--font-mono);
+  background: rgba(0, 0, 0, 0.25);
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+.btn-xs {
+  padding: 6px 12px;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 900px) {
+  .channels-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
   }
 }

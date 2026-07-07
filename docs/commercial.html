@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sprout Commercial | The Loop (Updated)</title>
+  <meta name="description" content="Experience 'The Loop' — the retro-futuristic cyberpunk commercial for Sprout. Watch the interactive storyboard, hear the procedural 80s synth-wave track, and see how Sprout diagnoses and fixes local install, config, and PATH problems.">
+  <meta name="keywords" content="Sprout, sprout-install, PATH, developer tools, CLI, package manager, shell config, dry-run, diagnostics">
+  <meta name="author" content="murderszn">
+  
+  <link rel="icon" href="public/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="public/apple-touch-icon.png" type="image/png" sizes="180x180">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #070a13;
+      --bg-panel: #0e1324;
+      --border-color: rgba(57, 255, 20, 0.2);
+      --neon-green: #39ff14;
+      --neon-green-glow: rgba(57, 255, 20, 0.4);
+      --neon-pink: #ff007f;
+      --neon-pink-glow: rgba(255, 0, 127, 0.4);
+      --neon-blue: #00f0ff;
+      --white: #f1f5f9;
+      --gray: #64748b;
+      --gray-muted: #475569;
+      --font-display: 'Syne', system-ui, sans-serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-dark);
+      color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(255, 0, 127, 0.05) 0%, transparent 40%);
+    }
+
+    /* CRT screen flicker */
+    @keyframes crt-flicker {
+      0% { opacity: 0.985; }
+      50% { opacity: 1; }
+      100% { opacity: 0.99; }
+    }
+
+    /* Scanlines effect */
+    .scanlines {
+      position: relative;
+      overflow: hidden;
+    }
+    .scanlines::before {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      z-index: 10;
+      background-size: 100% 4px, 6px 100%;
+      pointer-events: none;
+    }
+
+    header.nav {
+      height: 80px;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(14, 19, 36, 0.8);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--neon-green);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-shadow: 0 0 10px var(--neon-green-glow);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--neon-green);
+      text-shadow: 0 0 8px var(--neon-green-glow);
+    }
+
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--neon-green);
+      box-shadow: 0 0 8px var(--neon-green-glow);
+    }
+
+    main {
+      flex: 1;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      text-align: center;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    
+    .page-title span {
+      background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(57, 255, 20, 0.2);
+    }
+
+    .page-subtitle {
+      text-align: center;
+      color: var(--gray);
+      max-width: 600px;
+      margin: 0 auto 1.5rem auto;
+      font-size: 1.05rem;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Cinematic Viewfinder / Video Emulator */
+    .viewfinder-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .viewfinder-header {
+      background: rgba(7, 10, 19, 0.8);
+      padding: 0.75rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .viewfinder-title {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--neon-green);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--neon-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--neon-green);
+      animation: pulse 1.5s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
+    }
+
+    .viewfinder-aspect {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 Aspect Ratio */
+      background: #000;
+      overflow: hidden;
+      container-type: inline-size;
+    }
+
+    .viewfinder-screen {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: crt-flicker 0.15s infinite;
+    }
+
+    /* Scenes styling */
+    .scene-container {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #000;
+    }
+
+    .scene-container.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Scene 1: The Swamp */
+    #scene-swamp {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('public/swamp_developer.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 2rem;
+    }
+
+    .swamp-overlay-grid {
+      position: absolute;
+      top: 10%;
+      left: 10%;
+      right: 10%;
+      bottom: 25%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 1rem;
+      pointer-events: none;
+    }
+
+    .notification-mock {
+      background: rgba(14, 19, 36, 0.9);
+      border: 1px solid var(--neon-pink);
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.4s ease;
+      box-shadow: 0 4px 15px rgba(255, 0, 127, 0.15);
+      backdrop-filter: blur(4px);
+    }
+
+    .notification-mock.visible {
+      transform: translateY(0) rotate(var(--rot, 0deg));
+      opacity: 1;
+    }
+
+    .notification-header {
+      font-weight: bold;
+      color: var(--neon-pink);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .notification-body {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Scene 2: The Intro - Seed the Terminal */
+    #scene-seed {
+      background: #000;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .green-terminal-logo {
+      font-family: var(--font-mono);
+      color: var(--neon-green);
+      font-size: clamp(8px, 1.8cqw, 18px);
+      line-height: 1.1;
+      white-space: pre;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 8px var(--neon-green-glow);
+      opacity: 0;
+      transform: scale(0.95);
+      transition: all 0.5s ease;
+    }
+
+    .green-terminal-logo.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .cursor-blink-line {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      color: var(--neon-green);
+      text-shadow: 0 0 8px var(--neon-green-glow);
+    }
+
+    .blinking-cursor::after {
+      content: '▋';
+      animation: char-blink 0.8s infinite;
+    }
+
+    @keyframes char-blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Scene 3: The Core Features - Speedrun */
+    #scene-speedrun {
+      background: #05070c;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 1.5rem;
+    }
+
+    .terminal-speedrun-container {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      background: #020306;
+      border: 1px solid rgba(57, 255, 20, 0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .term-titlebar {
+      background: #090c14;
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid rgba(57, 255, 20, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .term-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gray-muted);
+    }
+
+    .term-window-title {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--gray);
+      flex: 1;
+      text-align: center;
+    }
+
+    .term-body {
+      flex: 1;
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--white);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: left;
+    }
+
+    .t-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .t-row.visible {
+      opacity: 1;
+    }
+
+    .prompt-prefix {
+      color: var(--neon-green);
+      font-weight: bold;
+    }
+
+    .term-jql-box {
+      background: rgba(57, 255, 20, 0.05);
+      border: 1px solid rgba(57, 255, 20, 0.2);
+      border-radius: 6px;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      color: var(--neon-green);
+    }
+
+    .term-success {
+      color: var(--neon-green);
+      font-weight: bold;
+    }
+    
+    .term-fail {
+      color: var(--neon-pink);
+      font-weight: bold;
+    }
+    
+    .term-warning {
+      color: var(--neon-blue);
+    }
+
+    /* Scene 4: Human-in-the-loop */
+    #scene-human {
+      background: #040508;
+      padding: 1.5rem;
+      flex-direction: column;
+    }
+
+    /* Scene 5: Outro */
+    #scene-outro {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('public/crt_terminal.jpg');
+      background-size: cover;
+      background-position: center;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .outro-logo {
+      font-family: var(--font-mono);
+      color: var(--neon-green);
+      font-size: clamp(7.5px, 1.6cqw, 16px);
+      line-height: 1.1;
+      white-space: pre;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 12px var(--neon-green-glow);
+      animation: crt-pulse 2s infinite alternate;
+    }
+
+    @keyframes crt-pulse {
+      0% { text-shadow: 0 0 8px var(--neon-green-glow); filter: brightness(0.9); }
+      100% { text-shadow: 0 0 18px var(--neon-green), 0 0 30px var(--neon-green-glow); filter: brightness(1.1); }
+    }
+
+    .outro-install-box {
+      background: rgba(14, 19, 36, 0.9);
+      border: 2px solid var(--neon-green);
+      border-radius: 10px;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      box-shadow: 0 10px 30px rgba(57, 255, 20, 0.2);
+      max-width: 500px;
+      width: 100%;
+      margin-top: 1rem;
+      animation: border-flicker 4s infinite;
+    }
+
+    @keyframes border-flicker {
+      0%, 100% { border-color: var(--neon-green); box-shadow: 0 0 15px rgba(57, 255, 20, 0.2); }
+      50% { border-color: rgba(57, 255, 20, 0.5); box-shadow: 0 0 8px rgba(57, 255, 20, 0.1); }
+      52% { border-color: var(--neon-green); box-shadow: 0 0 20px rgba(57, 255, 20, 0.3); }
+    }
+
+    .outro-install-cmd {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: #fff;
+      flex: 1;
+    }
+
+    .outro-copy-btn {
+      background: var(--neon-green);
+      color: #000;
+      border: none;
+      padding: 0.5rem 1.25rem;
+      font-family: var(--font-display);
+      font-weight: bold;
+      font-size: 0.85rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .outro-copy-btn:hover {
+      background: #fff;
+      box-shadow: 0 0 15px #fff;
+      transform: scale(1.05);
+    }
+
+    /* Subtitles / Narration box overlay */
+    .narrator-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(7, 10, 19, 0.85);
+      border-top: 1px solid var(--border-color);
+      padding: 1rem 1.5rem;
+      z-index: 20;
+      backdrop-filter: blur(4px);
+    }
+
+    .narrator-voiceover-label {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      color: var(--neon-pink);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.25rem;
+      font-weight: 800;
+    }
+
+    .narrator-text {
+      font-size: 0.95rem;
+      color: var(--white);
+      min-height: 2.8em;
+    }
+
+    /* Viewfinder Control Bar */
+    .viewfinder-controls {
+      background: rgba(14, 19, 36, 0.95);
+      border-top: 1px solid var(--border-color);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      justify-content: space-between;
+    }
+
+    .playback-buttons {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btn-control {
+      background: none;
+      border: 1px solid var(--gray-muted);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--white);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-control:hover {
+      border-color: var(--neon-green);
+      color: var(--neon-green);
+      box-shadow: 0 0 10px var(--neon-green-glow);
+    }
+
+    .btn-control svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .timeline-slider-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .time-display {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--gray);
+      min-width: 40px;
+    }
+
+    .timeline-range {
+      flex: 1;
+      -webkit-appearance: none;
+      background: var(--gray-muted);
+      height: 6px;
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .timeline-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--neon-green);
+      box-shadow: 0 0 8px var(--neon-green);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    .timeline-range::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    /* Sound Control Panel */
+    .sound-control-panel {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .audio-toggle-btn {
+      background: rgba(57, 255, 20, 0.1);
+      border: 1px solid var(--neon-green);
+      color: var(--neon-green);
+      padding: 0.5rem 1rem;
+      font-family: var(--font-display);
+      font-weight: bold;
+      font-size: 0.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .audio-toggle-btn:hover {
+      background: var(--neon-green);
+      color: #000;
+      box-shadow: 0 0 15px var(--neon-green-glow);
+    }
+
+    .audio-toggle-btn.muted {
+      background: rgba(255, 0, 127, 0.1);
+      border-color: var(--neon-pink);
+      color: var(--neon-pink);
+    }
+
+    .audio-toggle-btn.muted:hover {
+      background: var(--neon-pink);
+      color: #000;
+      box-shadow: 0 0 15px var(--neon-pink-glow);
+    }
+
+    /* Interactive Script Column */
+    .script-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      max-height: 600px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .script-header {
+      background: rgba(7, 10, 19, 0.8);
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .script-header-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--white);
+    }
+
+    .script-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .script-item {
+      background: rgba(7, 10, 19, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .script-item:hover {
+      border-color: rgba(57, 255, 20, 0.2);
+      background: rgba(7, 10, 19, 0.6);
+    }
+
+    .script-item.active {
+      border-color: var(--neon-green);
+      background: rgba(57, 255, 20, 0.03);
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.05);
+    }
+
+    .script-item.active::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 4px;
+      background: var(--neon-green);
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+
+    .script-time {
+      font-family: var(--font-mono);
+      font-weight: bold;
+      font-size: 0.8rem;
+      color: var(--neon-green);
+      margin-bottom: 0.5rem;
+    }
+
+    .script-item.active .script-time {
+      text-shadow: 0 0 8px var(--neon-green-glow);
+    }
+
+    .script-heading {
+      font-family: var(--font-display);
+      font-weight: bold;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    .script-vo {
+      font-size: 0.85rem;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .script-cues {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .cue-badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+    }
+
+    .cue-visual {
+      background: rgba(0, 240, 255, 0.1);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      color: var(--neon-blue);
+    }
+
+    .cue-sfx {
+      background: rgba(255, 0, 127, 0.1);
+      border: 1px solid rgba(255, 0, 127, 0.3);
+      color: var(--neon-pink);
+    }
+
+    /* Info Section / Interactive features */
+    .features-panel {
+      grid-column: 1 / -1;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-top: 1rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      header.nav {
+        padding: 0 1rem;
+        height: 72px;
+      }
+      .nav-logo {
+        font-size: 1.25rem;
+      }
+      .nav-links {
+        gap: 1rem;
+      }
+      .nav-links a {
+        font-size: 0.75rem;
+      }
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      .viewfinder-controls {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+        padding: 0.75rem 1rem;
+      }
+      .sound-control-panel {
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .timeline-slider-container {
+        width: 100%;
+      }
+      .narrator-overlay {
+        padding: 0.5rem 1rem;
+      }
+      .narrator-text {
+        font-size: 0.75rem;
+        min-height: 2.2em;
+      }
+      .narrator-voiceover-label {
+        font-size: 0.6rem;
+      }
+      .outro-install-box {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        margin-top: 0.5rem;
+      }
+      .outro-install-cmd {
+        font-size: 0.85rem;
+        text-align: center;
+      }
+      .outro-copy-btn {
+        width: 100%;
+        padding: 0.4rem 1rem;
+      }
+      .swamp-overlay-grid {
+        top: 5%;
+        left: 5%;
+        right: 5%;
+        bottom: 22%;
+        gap: 0.5rem;
+      }
+      .notification-mock {
+        padding: 0.35rem 0.5rem;
+        font-size: 0.65rem;
+      }
+      .notification-body {
+        font-size: 0.6rem;
+      }
+    }
+
+    .feature-box {
+      background: rgba(7, 10, 19, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 1.5rem;
+      text-align: left;
+    }
+
+    .feature-box-icon {
+      font-size: 2rem;
+      color: var(--neon-green);
+      margin-bottom: 1rem;
+    }
+
+    .feature-box-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-box-desc {
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border-color);
+      color: var(--gray);
+      background: rgba(7, 10, 19, 0.8);
+      font-size: 0.85rem;
+      margin-top: auto;
+    }
+
+    footer a {
+      color: var(--neon-green);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Sound settings panel */
+    .speech-settings {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+
+    .speech-checkbox {
+      accent-color: var(--neon-green);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .speech-label {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 0;
+      background: var(--neon-green);
+      color: #000;
+      padding: 0.5rem 1rem;
+      z-index: 999;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+  </style>
+</head>
+<body class="scanlines">
+  
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="nav" id="nav">
+    <a href="index.html" class="nav-logo" aria-label="Sprout — back to landing">
+      <span>🌱 SPROUT</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#install">Install</a>
+      <a href="commercial.html" class="active" aria-current="page">Commercial</a>
+      <a href="https://github.com/murderszn/sprout/blob/main/README.md" target="_blank" rel="noopener noreferrer">Docs</a>
+      <a href="https://discord.gg/h9aXFuKqsv" class="nav-community" target="_blank" rel="noopener noreferrer">Community</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <h1 class="page-title">Experience <span>"The Loop"</span></h1>
+    <p class="page-subtitle">An interactive retro-futuristic cyberpunk storyboard commercial showcasing Sprout in action. Click Play to start, or select individual scenes.</p>
+
+    <div class="dashboard">
+      
+      <!-- Viewfinder (Cinematic Screen) -->
+      <div class="viewfinder-card">
+        <div class="viewfinder-header">
+          <div class="viewfinder-title">
+            <span class="status-dot"></span>
+            <span>VIEWFINDER // STORYBOARD_PLAYER.EXE</span>
+          </div>
+          <div class="viewfinder-title" style="color: var(--gray);">
+            <span id="scene-tag">SCENE 1: THE SWAMP</span>
+          </div>
+        </div>
+
+        <div class="viewfinder-aspect">
+          <div class="viewfinder-screen">
+            
+            <!-- Scene 1: The Swamp -->
+            <div class="scene-container active" id="scene-swamp">
+              <div class="swamp-overlay-grid">
+                <div class="notification-mock" id="swamp-notif-1" style="--rot: -2deg;">
+                  <div class="notification-header"><span>zsh error</span><span>12m ago</span></div>
+                  <div class="notification-body">command not found: node</div>
+                </div>
+                <div class="notification-mock" id="swamp-notif-2" style="--rot: 1.5deg;">
+                  <div class="notification-header"><span>pip error</span><span>Just Now</span></div>
+                  <div class="notification-body">externally-managed-environment: cannot install globally</div>
+                </div>
+                <div class="notification-mock" id="swamp-notif-3" style="--rot: -1deg;">
+                  <div class="notification-header"><span>Homebrew</span><span>1m ago</span></div>
+                  <div class="notification-body">Warning: /opt/homebrew/bin is not in your PATH</div>
+                </div>
+                <div class="notification-mock" id="swamp-notif-4" style="--rot: 3deg;">
+                  <div class="notification-header"><span>Stack Overflow</span><span>5m ago</span></div>
+                  <div class="notification-body">Why does npm install -g say EACCES permission denied?</div>
+                </div>
+                <div class="notification-mock" id="swamp-notif-5" style="--rot: -3deg;">
+                  <div class="notification-header"><span>Terminal</span><span>22m ago</span></div>
+                  <div class="notification-body">node --version -> exit code 127</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Scene 2: The Intro - Seed the Terminal -->
+            <div class="scene-container" id="scene-seed">
+              <div class="green-terminal-logo" id="seed-logo">  ____  ____  ____   ___  _   _  _____         ____ _     ___ 
+ / ___||  _ \|  _ \ / _ \| | | ||_   _|       / ___| |   |_ _|
+ \___ \| |_) | |_) | | | | | | |  | |  _____ | |   | |    | | 
+  ___) |  __/|  _ <| |_| | |_| |  | | |_____|| |___| |___  | | 
+ |____/|_|   |_| \_\\___/ \___/   |_|         \____|_____||___|</div>
+              <div class="cursor-blink-line"><span id="seed-command"></span><span class="blinking-cursor"></span></div>
+            </div>
+
+            <!-- Scene 3: Speedrun Terminal -->
+            <div class="scene-container" id="scene-speedrun">
+              <div class="terminal-speedrun-container">
+                <div class="term-titlebar">
+                  <div class="term-dot" style="background:#ff5f56"></div>
+                  <div class="term-dot" style="background:#ffbd2e"></div>
+                  <div class="term-dot" style="background:#27c93f"></div>
+                  <div class="term-window-title">zsh — sprout --dry-run</div>
+                </div>
+                <div class="term-body" id="speedrun-term-body">
+                  <!-- Dynamic lines will type here -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Scene 4: Human-in-the-loop -->
+            <div class="scene-container" id="scene-human">
+              <div class="terminal-speedrun-container">
+                <div class="term-titlebar">
+                  <div class="term-dot" style="background:#ff5f56"></div>
+                  <div class="term-dot" style="background:#ffbd2e"></div>
+                  <div class="term-dot" style="background:#27c93f"></div>
+                  <div class="term-window-title">zsh — sprout diagnose</div>
+                </div>
+                <div class="term-body" id="human-term-body">
+                  <!-- Dynamic human in the loop typing -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Scene 5: Outro -->
+            <div class="scene-container" id="scene-outro">
+              <div class="outro-logo">  ____  ____  ____   ___  _   _  _____         ____ _     ___ 
+ / ___||  _ \|  _ \ / _ \| | | ||_   _|       / ___| |   |_ _|
+ \___ \| |_) | |_) | | | | | | |  | |  _____ | |   | |    | | 
+  ___) |  __/|  _ <| |_| | |_| |  | | |_____|| |___| |___  | | 
+ |____/|_|   |_| \_\\___/ \___/   |_|         \____|_____||___|</div>
+              <div class="outro-install-box">
+                <div class="outro-install-cmd">npm install -g sprout-install</div>
+                <button class="outro-copy-btn" id="outro-copy-trigger" data-copy="npm install -g sprout-install">Copy</button>
+              </div>
+            </div>
+
+          </div>
+          
+          <!-- Narrator VO Overlay -->
+          <div class="narrator-overlay">
+            <div class="narrator-voiceover-label">Voiceover</div>
+            <div class="narrator-text" id="narrator-subtitles">Click Play to begin the commercial...</div>
+          </div>
+        </div>
+
+        <!-- Viewfinder Playback Controls -->
+        <div class="viewfinder-controls">
+          <div class="playback-buttons">
+            <button class="btn-control" id="btn-play-pause" aria-label="Play commercial">
+              <svg id="svg-play" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              <svg id="svg-pause" viewBox="0 0 24 24" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+            </button>
+            <button class="btn-control" id="btn-restart" aria-label="Restart commercial">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            </button>
+          </div>
+
+          <div class="timeline-slider-container">
+            <span class="time-display" id="time-current">0:00</span>
+            <input type="range" class="timeline-range" id="timeline-scrubber" min="0" max="60" value="0" aria-label="Timeline scrubber">
+            <span class="time-display">1:00</span>
+          </div>
+
+          <div class="sound-control-panel">
+            <button class="audio-toggle-btn muted" id="btn-audio-synth">
+              🔊 Synth Beat: OFF
+            </button>
+            <div class="speech-settings">
+              <input type="checkbox" id="chk-speech" class="speech-checkbox" checked>
+              <label for="chk-speech" class="speech-label" title="Uses standard browser SpeechSynthesis to speak the VO script aloud.">Voiceover Speech</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Script Storyboard Column (Right) -->
+      <div class="script-card">
+        <div class="script-header">
+          <h2 class="script-header-title">THE LOOP // 60s SCRIPT</h2>
+          <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--gray);">CLICK SCENE TO JUMP</div>
+        </div>
+
+        <div class="script-list" id="script-list-container">
+          <!-- Step 1 -->
+          <div class="script-item active" data-time="0" id="step-0">
+            <div class="script-time">[0:00 - 0:10] THE SWAMP</div>
+            <div class="script-heading">The Problem</div>
+            <div class="script-vo">"You’re just trying to install tools and configure your development path. But node --version exits with 127. Python is blocked by external environment policies. Homebrew warns you of a missing PATH. You've lost hours in Stack Overflow tabs."</div>
+            <div class="script-cues">
+              <span class="cue-badge cue-visual">VISUAL: Developer in dark room. Chaotic error logs.</span>
+              <span class="cue-badge cue-sfx">SFX: Heartbeat thump, typing, error beeps.</span>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="script-item" data-time="10" id="step-1">
+            <div class="script-time">[0:10 - 0:22] SEED THE TERMINAL</div>
+            <div class="script-heading">The Intro</div>
+            <div class="script-vo">"Stop drowning in config guides. Fix your local development environment right where it belongs: in the terminal. Meet Sprout."</div>
+            <div class="script-cues">
+              <span class="cue-badge cue-visual">VISUAL: Green ASCII logo CRT flicker.</span>
+              <span class="cue-badge cue-sfx">SFX: 80s Synthbeat drops. Mechanical keyboard clacks.</span>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="script-item" data-time="22" id="step-2">
+            <div class="script-time">[0:22 - 0:40] SPEEDRUN</div>
+            <div class="script-heading">Core Features (Dry Run)</div>
+            <div class="script-vo">"Sprout reads your environment, shell config, and active package managers. Want a safe setup? Run sprout with dry-run flag. It builds a precise, plain-English plan showing exactly what commands it would execute. Zero side-effects, total visibility."</div>
+            <div class="script-cues">
+              <span class="cue-badge cue-visual">VISUAL: sprout --dry-run install node command.</span>
+              <span class="cue-badge cue-sfx">SFX: Rapid keyboard clicks, synth sweep.</span>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="script-item" data-time="40" id="step-3">
+            <div class="script-time">[0:40 - 0:52] HUMAN-IN-THE-LOOP</div>
+            <div class="script-heading">Diagnose & Fix PATH</div>
+            <div class="script-vo">"Did an installer break? Run sprout diagnose and paste your log. Sprout targets path discrepancies, proposes shell rc repairs, and verifies. You confirm every action before it executes. Complete control, local-first."</div>
+            <div class="script-cues">
+              <span class="cue-badge cue-visual">VISUAL: sprout diagnose outputs path fixes. User confirms.</span>
+              <span class="cue-badge cue-sfx">SFX: Enter key punch, terminal success chime.</span>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="script-item" data-time="52" id="step-4">
+            <div class="script-time">[0:52 - 1:00] INSTALL NOW</div>
+            <div class="script-heading">Outro</div>
+            <div class="script-vo">"Reclaim your local configuration flow. Rebuild your environment. Run npm install -g sprout-install and grow your productivity today."</div>
+            <div class="script-cues">
+              <span class="cue-badge cue-visual">VISUAL: sprout logo pulses on CRT monitor.</span>
+              <span class="cue-badge cue-sfx">SFX: Synth echo note, cathode ray click off.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Features Overview -->
+    <div class="features-panel">
+      <h2 class="page-title" style="font-size: 1.8rem; text-align: left; margin-bottom: 1rem;">Why <span>Sprout</span>?</h2>
+      <p style="color: var(--gray); max-width: 800px; margin-bottom: 2rem;">As highlighted in "The Loop" commercial script, Sprout is built exclusively to solve the pain of broken tool installs, environment configuration, and path issues on your computer.</p>
+      
+      <div class="features-grid">
+        <div class="feature-box">
+          <div class="feature-box-icon">🔍</div>
+          <h3 class="feature-box-title">System-Aware Diagnostics</h3>
+          <p class="feature-box-desc">Detects your active shell (zsh, bash, powershell), environment path exports, and available package managers (brew, apt, winget, npm, pip) automatically.</p>
+        </div>
+        <div class="feature-box">
+          <div class="feature-box-icon">🛡️</div>
+          <h3 class="feature-box-title">Dry Run Visibility</h3>
+          <p class="feature-box-desc">Run Sprout with <code>--dry-run</code> to inspect proposed CLI installs step-by-step before making any modifications to your machine.</p>
+        </div>
+        <div class="feature-box">
+          <div class="feature-box-icon">🔒</div>
+          <h3 class="feature-box-title">Interactive Repair & PATH Fixes</h3>
+          <p class="feature-box-desc">Diagnose broken installation outputs, identify missing PATH exports, write configuration lines to shell rc files, and confirm every single step manually.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Sprout Project. Made with love for developers. View on <a href="https://github.com/murderszn/sprout" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+  </footer>
+
+  <script>
+    // Audio Synthesizer Class (Web Audio API)
+    class CyberpunkSynth {
+      constructor() {
+        this.ctx = null;
+        this.isPlaying = false;
+        this.tempo = 120; // BPM
+        this.beatInterval = null;
+        this.currentBeat = 0;
+        this.bassOsc = null;
+        this.gainNode = null;
+      }
+
+      start() {
+        try {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+          this.gainNode = this.ctx.createGain();
+          this.gainNode.gain.value = 0.35; // Global volume
+          this.gainNode.connect(this.ctx.destination);
+          
+          this.isPlaying = true;
+          this.currentBeat = 0;
+
+          // Bass groove loop
+          const beatDuration = 60 / this.tempo; // quarter note in seconds
+          const stepDuration = beatDuration / 2; // eighth note
+
+          this.beatInterval = setInterval(() => {
+            if (!this.isPlaying) return;
+            this.playStep(stepDuration);
+          }, stepDuration * 1000);
+        } catch (e) {
+          console.error("Failed to initialize Web Audio API", e);
+        }
+      }
+
+      stop() {
+        this.isPlaying = false;
+        if (this.beatInterval) {
+          clearInterval(this.beatInterval);
+          this.beatInterval = null;
+        }
+        if (this.ctx) {
+          this.ctx.close();
+          this.ctx = null;
+        }
+      }
+
+      playStep(duration) {
+        if (!this.ctx) return;
+        const time = this.ctx.currentTime;
+
+        // Kick drum on beats 1 and 3 (beat 0, 4)
+        if (this.currentBeat % 4 === 0) {
+          this.playKick(time);
+        }
+
+        // Hihat on offbeats (1, 3, 5, 7)
+        if (this.currentBeat % 2 === 1) {
+          this.playHihat(time);
+        }
+
+        // Cyberpunk synth bassline loop
+        // Bassline pattern notes (E2, G2, A2, D2) in Hz
+        const bassline = [82.41, 82.41, 98.00, 98.00, 110.00, 110.00, 73.42, 73.42];
+        const freq = bassline[this.currentBeat % 8];
+        this.playBassNote(freq, time, duration * 0.9);
+
+        this.currentBeat = (this.currentBeat + 1) % 8;
+      }
+
+      playKick(time) {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.connect(gain);
+        gain.connect(this.gainNode);
+
+        osc.frequency.setValueAtTime(150, time);
+        osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.15);
+
+        gain.gain.setValueAtTime(1.0, time);
+        gain.gain.exponentialRampToValueAtTime(0.01, time + 0.15);
+
+        osc.start(time);
+        osc.stop(time + 0.15);
+      }
+
+      playHihat(time) {
+        // Procedural noise for hihat
+        const bufferSize = this.ctx.sampleRate * 0.04;
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'highpass';
+        filter.frequency.setValueAtTime(7000, time);
+
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(0.12, time);
+        gain.gain.exponentialRampToValueAtTime(0.01, time + 0.04);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.gainNode);
+
+        noise.start(time);
+        noise.stop(time + 0.04);
+      }
+
+      playBassNote(freq, time, duration) {
+        const osc1 = this.ctx.createOscillator();
+        const osc2 = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+
+        // Cyberpunk style sawtooth warmth
+        osc1.type = 'sawtooth';
+        osc2.type = 'square'; // sub warmth
+        
+        osc1.frequency.setValueAtTime(freq, time);
+        osc2.frequency.setValueAtTime(freq / 2, time); // sub octave
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(400, time);
+        filter.frequency.exponentialRampToValueAtTime(120, time + duration);
+
+        gain.gain.setValueAtTime(0.4, time);
+        gain.gain.linearRampToValueAtTime(0.3, time + duration * 0.2);
+        gain.gain.exponentialRampToValueAtTime(0.001, time + duration);
+
+        osc1.connect(filter);
+        osc2.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.gainNode);
+
+        osc1.start(time);
+        osc2.start(time);
+        osc1.stop(time + duration);
+        osc2.stop(time + duration);
+      }
+
+      // Generate a synthesized key clack sound
+      playKeyClack() {
+        if (!this.ctx) return;
+        const time = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(1200 + Math.random() * 800, time);
+
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(1500, time);
+        filter.Q.setValueAtTime(8, time);
+
+        gain.gain.setValueAtTime(0.05, time);
+        gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.02);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.gainNode || this.ctx.destination);
+
+        osc.start(time);
+        osc.stop(time + 0.03);
+      }
+    }
+
+    const synth = new CyberpunkSynth();
+
+    // Animation timeout management to prevent interleaving/overlapping loops on seek
+    let activeTimeouts = [];
+    function safeTimeout(fn, delay) {
+      const id = setTimeout(fn, delay);
+      activeTimeouts.push(id);
+      return id;
+    }
+    function clearAllTimeouts() {
+      activeTimeouts.forEach(id => clearTimeout(id));
+      activeTimeouts = [];
+    }
+
+    // Script timeline data
+    const timelineData = [
+      {
+        start: 0,
+        end: 10,
+        title: "SCENE 1: THE SWAMP",
+        vo: "You’re just trying to install tools and configure your development path. But node --version exits with 127. Python is blocked by external environment policies. Homebrew warns you of a missing PATH. You've lost hours in Stack Overflow tabs.",
+        setup: (container) => {
+          // Reset notifications
+          const notifs = container.querySelectorAll('.notification-mock');
+          notifs.forEach(n => n.classList.remove('visible'));
+          
+          // Cascading popups
+          let delay = 300;
+          notifs.forEach((n, index) => {
+            safeTimeout(() => {
+              if (activeSceneIndex === 0 && isPlaying) {
+                n.classList.add('visible');
+                synth.playKeyClack();
+              }
+            }, delay);
+            delay += 1400;
+          });
+        }
+      },
+      {
+        start: 10,
+        end: 22,
+        title: "SCENE 2: THE INTRO - SEED THE TERMINAL",
+        vo: "Stop drowning in config guides. Fix your local development environment right where it belongs: in the terminal. Meet Sprout.",
+        setup: (container) => {
+          const logo = container.querySelector('#seed-logo');
+          const commandText = container.querySelector('#seed-command');
+          
+          logo.classList.remove('visible');
+          commandText.textContent = '';
+          
+          // Type out Sprout intro command
+          safeTimeout(() => {
+            if (activeSceneIndex === 1) {
+              typeWriterText(commandText, "npm install -g sprout-install", 50, () => {
+                safeTimeout(() => {
+                  if (activeSceneIndex === 1) {
+                    logo.classList.add('visible');
+                    // Play a heavier clack for the enter
+                    synth.playKeyClack();
+                  }
+                }, 500);
+              });
+            }
+          }, 400);
+        }
+      },
+      {
+        start: 22,
+        end: 40,
+        title: "SCENE 3: THE CORE FEATURES - SPEEDRUN",
+        vo: "Sprout reads your environment, shell config, and active package managers. Want a safe setup? Run sprout with dry-run flag. It builds a precise, plain-English plan showing exactly what commands it would execute. Zero side-effects, total visibility.",
+        setup: (container) => {
+          const body = container.querySelector('#speedrun-term-body');
+          body.innerHTML = '';
+
+          // Cut 1: sprout --dry-run install node (0s to 8s in scene)
+          safeTimeout(() => {
+            if (activeSceneIndex !== 2) return;
+            const r1 = appendTermLine(body, `<span class="prompt-prefix">$</span> `);
+            typeWriterText(r1.querySelector('.typed-text'), "sprout --dry-run install node", 40, () => {
+              safeTimeout(() => {
+                if (activeSceneIndex !== 2) return;
+                appendTermLine(body, `<div>🌱 <b>sprout</b> · <b>dry-run install node</b></div>`);
+                appendTermLine(body, `<div style="color:var(--gray)">model: gpt-5.4-mini · status: dry-run mode</div>`);
+                
+                safeTimeout(() => {
+                  if (activeSceneIndex !== 2) return;
+                  appendTermLine(body, `<div class="term-warning"><b>Probing environment...</b><br>⎿ OS: macOS 14.6 (arm64)<br>⎿ Shell: zsh (config: ~/.zshrc)<br>⎿ Managers: brew, npm</div>`);
+                  
+                  safeTimeout(() => {
+                    if (activeSceneIndex !== 2) return;
+                    appendTermLine(body, `<div style="color:var(--neon-blue)"><b>Proposed Dry Run Plan:</b></div>`);
+                    appendTermLine(body, `<div>  1. Check command: <code>command -v node</code> (Probing existing node)</div>`);
+                    appendTermLine(body, `<div>  2. Run installer: <code>brew install node</code> (Missing node on macOS)</div>`);
+                    appendTermLine(body, `<div>  3. Verify run: <code>node --version</code> (Verify exit 0)</div>`);
+                    appendTermLine(body, `<div class="term-success">✓ [Dry Run complete. No files or system paths modified]</div>`);
+                    synth.playKeyClack();
+                  }, 800);
+                }, 800);
+              }, 500);
+            });
+          }, 200);
+        }
+      },
+      {
+        start: 40,
+        end: 52,
+        title: "SCENE 4: HUMAN-IN-THE-LOOP (DIAGNOSE & PATH FIX)",
+        vo: "Did an installer break? Run sprout diagnose and paste your log. Sprout targets path discrepancies, proposes shell rc repairs, and verifies. You confirm every action before it executes. Complete control, local-first.",
+        setup: (container) => {
+          const body = container.querySelector('#human-term-body');
+          body.innerHTML = '';
+
+          // Step 1: Run sprout diagnose
+          safeTimeout(() => {
+            if (activeSceneIndex !== 3) return;
+            const r1 = appendTermLine(body, `<span class="prompt-prefix">$</span> `);
+            typeWriterText(r1.querySelector('.typed-text'), "sprout diagnose", 40, () => {
+              safeTimeout(() => {
+                if (activeSceneIndex !== 3) return;
+                appendTermLine(body, `<div>[Paste build log. Press Ctrl-D when done]</div>`);
+                appendTermLine(body, `<div style="color:var(--gray)"><i>brew install node completed but "node: command not found"</i></div>`);
+                
+                safeTimeout(() => {
+                  if (activeSceneIndex !== 3) return;
+                  appendTermLine(body, `<div style="color:var(--neon-pink)"><b>Diagnostic Output:</b></div>`);
+                  appendTermLine(body, `<div>⎿ Reason: /opt/homebrew/bin is missing from shell $PATH</div>`);
+                  appendTermLine(body, `<div>⎿ Action: Add export line to ~/.zshrc</div>`);
+                  
+                  safeTimeout(() => {
+                    if (activeSceneIndex !== 3) return;
+                    const promptRow = appendTermLine(body, `<span style="color:#ff007f">? Append export PATH to ~/.zshrc? (y/N):</span> `);
+                    
+                    // Simulation of developer confirming
+                    safeTimeout(() => {
+                      if (activeSceneIndex !== 3) return;
+                      typeWriterText(promptRow.querySelector('.typed-text'), "yes", 50, () => {
+                        safeTimeout(() => {
+                          if (activeSceneIndex !== 3) return;
+                          appendTermLine(body, `<div class="term-success">✓ Added line: export PATH="/opt/homebrew/bin:$PATH" to ~/.zshrc</div>`);
+                          appendTermLine(body, `<div><b>Verifying node install...</b></div>`);
+                          
+                          safeTimeout(() => {
+                            if (activeSceneIndex !== 3) return;
+                            appendTermLine(body, `<div class="term-success">✓ node --version -> v21.4.0 verified! Environment active.</div>`);
+                            synth.playKeyClack();
+                          }, 1000);
+                        }, 800);
+                      });
+                    }, 1000);
+                  }, 1200);
+                }, 1000);
+              }, 500);
+            });
+          }, 200);
+        }
+      },
+      {
+        start: 52,
+        end: 60,
+        title: "SCENE 5: OUTRO - INSTALL NOW",
+        vo: "Reclaim your local configuration flow. Rebuild your environment. Run npm install -g sprout-install and grow your productivity today.",
+        setup: (container) => {
+          synth.playKeyClack();
+        }
+      }
+    ];
+
+    // Helper functions for terminal typing simulation
+    function appendTermLine(body, html) {
+      const row = document.createElement('div');
+      row.className = 't-row visible';
+      row.innerHTML = html + `<span class="typed-text"></span>`;
+      body.appendChild(row);
+      body.scrollTop = body.scrollHeight;
+      return row;
+    }
+
+    function typeWriterText(element, text, speed, callback) {
+      let i = 0;
+      element.textContent = '';
+      function type() {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+          synth.playKeyClack();
+          safeTimeout(type, speed + Math.random() * 15);
+        } else if (callback) {
+          callback();
+        }
+      }
+      type();
+    }
+
+    // Playback state variables
+    let isPlaying = false;
+    let playhead = 0; // seconds
+    let activeSceneIndex = 0;
+    let timerInterval = null;
+    let spokenText = "";
+
+    // DOM Elements
+    const btnPlayPause = document.getElementById('btn-play-pause');
+    const svgPlay = document.getElementById('svg-play');
+    const svgPause = document.getElementById('svg-pause');
+    const btnRestart = document.getElementById('btn-restart');
+    const timelineScrubber = document.getElementById('timeline-scrubber');
+    const timeCurrent = document.getElementById('time-current');
+    const narratorSubtitles = document.getElementById('narrator-subtitles');
+    const sceneTag = document.getElementById('scene-tag');
+    const btnAudioSynth = document.getElementById('btn-audio-synth');
+    const chkSpeech = document.getElementById('chk-speech');
+    const scriptItems = document.querySelectorAll('.script-item');
+    const scriptContainer = document.getElementById('script-list-container');
+    const sceneContainers = document.querySelectorAll('.scene-container');
+
+    // Speech synthesis config
+    function speakNarration(text) {
+      if (!chkSpeech.checked) return;
+      window.speechSynthesis.cancel();
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1.05;
+      utterance.pitch = 0.95;
+      
+      // Attempt to set a cool male/confident voice if available
+      const voices = window.speechSynthesis.getVoices();
+      const preferredVoice = voices.find(v => v.name.includes("Google US English") || v.name.includes("Samantha") || v.lang.startsWith("en-"));
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+      
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Handle change of scenes
+    function triggerScene(index, force = false) {
+      if (!force && activeSceneIndex === index && sceneContainers[index].classList.contains('active')) return;
+      
+      clearAllTimeouts(); // Clear any running animation timeouts from previous/same scene
+      
+      activeSceneIndex = index;
+      const currentScene = timelineData[index];
+      
+      // Update UI active states
+      sceneContainers.forEach((c, i) => {
+        c.classList.toggle('active', i === index);
+      });
+
+      scriptItems.forEach((item, i) => {
+        item.classList.toggle('active', i === index);
+      });
+
+      // Scroll script item into view
+      const activeItem = document.getElementById(`step-${index}`);
+      if (activeItem) {
+        activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Update subtitle bar and voiceover
+      sceneTag.textContent = currentScene.title;
+      narratorSubtitles.textContent = currentScene.vo;
+      
+      if (isPlaying) {
+        speakNarration(currentScene.vo);
+      }
+
+      // Run scene setup animations
+      currentScene.setup(sceneContainers[index]);
+    }
+
+    // Playback state variables
+    function formatTime(sec) {
+      const minutes = Math.floor(sec / 60);
+      const seconds = sec % 60;
+      return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    // Core playback ticker
+    function tick() {
+      if (!isPlaying) return;
+      
+      playhead++;
+      if (playhead > 60) {
+        stopCommercial();
+        playhead = 0;
+        timelineScrubber.value = 0;
+        timeCurrent.textContent = formatTime(0);
+        return;
+      }
+
+      // Update timeline UI
+      timelineScrubber.value = playhead;
+      timeCurrent.textContent = formatTime(playhead);
+
+      // Find which scene we are in
+      const sceneIndex = timelineData.findIndex(s => playhead >= s.start && playhead < s.end);
+      if (sceneIndex !== -1 && sceneIndex !== activeSceneIndex) {
+        triggerScene(sceneIndex);
+      }
+    }
+
+    function startCommercial() {
+      isPlaying = true;
+      svgPlay.style.display = 'none';
+      svgPause.style.display = 'block';
+      
+      // Resume synth context if enabled
+      if (synth.isPlaying && synth.ctx && synth.ctx.state === 'suspended') {
+        synth.ctx.resume();
+      }
+
+      timerInterval = setInterval(tick, 1000);
+      
+      // Force initial scene trigger
+      const initialSceneIndex = timelineData.findIndex(s => playhead >= s.start && playhead < s.end);
+      triggerScene(initialSceneIndex === -1 ? 0 : initialSceneIndex);
+    }
+
+    function stopCommercial() {
+      isPlaying = false;
+      svgPlay.style.display = 'block';
+      svgPause.style.display = 'none';
+      
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      clearAllTimeouts(); // Clear any running animation timeouts
+      window.speechSynthesis.cancel();
+    }
+
+    function seekTo(seconds) {
+      playhead = seconds;
+      timelineScrubber.value = playhead;
+      timeCurrent.textContent = formatTime(playhead);
+      
+      const sceneIndex = timelineData.findIndex(s => playhead >= s.start && playhead < s.end);
+      if (sceneIndex !== -1) {
+        triggerScene(sceneIndex, true);
+      }
+    }
+
+    // Event Listeners
+    btnPlayPause.addEventListener('click', () => {
+      if (isPlaying) {
+        stopCommercial();
+      } else {
+        startCommercial();
+      }
+    });
+
+    btnRestart.addEventListener('click', () => {
+      stopCommercial();
+      seekTo(0);
+      startCommercial();
+    });
+
+    timelineScrubber.addEventListener('input', (e) => {
+      seekTo(parseInt(e.target.value, 10));
+    });
+
+    // Script clicks for quick seeking
+    scriptItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const time = parseInt(item.dataset.time, 10);
+        const wasPlaying = isPlaying;
+        stopCommercial();
+        seekTo(time);
+        if (wasPlaying) {
+          startCommercial();
+        }
+      });
+    });
+
+    // Audio Synth toggles
+    btnAudioSynth.addEventListener('click', () => {
+      if (synth.isPlaying) {
+        synth.stop();
+        btnAudioSynth.classList.add('muted');
+        btnAudioSynth.textContent = '🔊 Synth Beat: OFF';
+      } else {
+        synth.start();
+        btnAudioSynth.classList.remove('muted');
+        btnAudioSynth.textContent = '🔊 Synth Beat: ON';
+      }
+    });
+
+    // Copy to clipboard features
+    const outroCopyBtn = document.getElementById('outro-copy-trigger');
+    outroCopyBtn.addEventListener('click', async () => {
+      const code = outroCopyBtn.dataset.copy;
+      try {
+        await navigator.clipboard.writeText(code);
+        outroCopyBtn.textContent = 'Copied!';
+        outroCopyBtn.style.background = '#fff';
+        setTimeout(() => {
+          outroCopyBtn.textContent = 'Copy';
+          outroCopyBtn.style.background = 'var(--neon-green)';
+        }, 2000);
+      } catch (err) {
+        console.error("Failed to copy code", err);
+      }
+    });
+  </script>
+</body>
+</html>

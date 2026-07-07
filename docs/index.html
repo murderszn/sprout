@@ -357,7 +357,7 @@
             <div class="hero-brand" id="hero-brand-title">
               <span class="hero-brand-emoji">🌱</span> Sprout
             </div>
-            <h1 class="hero-headline">Fix broken developer tool installations on <em>this</em> PC now.</h1>
+            <h1 class="hero-headline">Fix broken dev environments with <em>one</em> CLI tool</h1>
             <div class="hero-actions">
               <div class="hero-command-cta dramatic-cta">
                 <code class="hero-command-text">npm install -g sprout-install</code>
@@ -649,13 +649,107 @@
             </div>
           </div>
 
+          <!-- Interactive Demos / Clips -->
+          <div class="sprout-clips-container">
+            <div class="clips-title">// INTERACTIVE FEATURE DEMOS</div>
+            <div class="sprout-clips-grid">
+              
+              <!-- Block 1: npm install -->
+              <div class="clip-card">
+                <div class="terminal-block">
+                  <div class="terminal-header">
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-label">bash: npm install</span>
+                  </div>
+                  <div class="terminal-session clip-terminal-session" id="clip-npminstall-body">
+                    <!-- Procedural terminal lines type here -->
+                  </div>
+                </div>
+                <div class="clip-info">
+                  <h4>01. App Installation</h4>
+                  <p>Install the Sprout runner globally from the npm registry to get the CLI tool ready on your machine.</p>
+                </div>
+              </div>
+
+              <!-- Block 2: sprout install -->
+              <div class="clip-card">
+                <div class="terminal-block">
+                  <div class="terminal-header">
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-label">sprout: install</span>
+                  </div>
+                  <div class="terminal-session clip-terminal-session" id="clip-sproutinstall-body">
+                    <!-- Procedural terminal lines type here -->
+                  </div>
+                </div>
+                <div class="clip-info">
+                  <h4>02. Tool Installation</h4>
+                  <p>Main installation flow: detects your OS, builds a step-by-step plan, asks permission, and verifies.</p>
+                </div>
+              </div>
+
+              <!-- Block 3: sprout --dry-run -->
+              <div class="clip-card">
+                <div class="terminal-block">
+                  <div class="terminal-header">
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-label">sprout: --dry-run</span>
+                  </div>
+                  <div class="terminal-session clip-terminal-session" id="clip-dryrun-body">
+                    <!-- Procedural terminal lines type here -->
+                  </div>
+                </div>
+                <div class="clip-info">
+                  <h4>03. Dry Run Simulation</h4>
+                  <p>Preview the installation sequence with zero side effects. No files or system paths are modified.</p>
+                </div>
+              </div>
+
+              <!-- Block 4: sprout diagnose -->
+              <div class="clip-card">
+                <div class="terminal-block">
+                  <div class="terminal-header">
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-label">sprout: diagnose</span>
+                  </div>
+                  <div class="terminal-session clip-terminal-session" id="clip-diagnose-body">
+                    <!-- Procedural terminal lines type here -->
+                  </div>
+                </div>
+                <div class="clip-info">
+                  <h4>04. PATH & Environment Repair</h4>
+                  <p>Paste failed build logs or shell errors to diagnose path conflicts and automatically repair shell configurations.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
           <div class="channels-actions">
             <a href="https://github.com/murderszn/sprout/blob/main/README.md#usage" class="btn btn-discord btn-mono" target="_blank" rel="noopener noreferrer">Read the README</a>
             <a href="#install" class="btn btn-discord-ghost btn-mono" data-scroll-target="install">Install first →</a>
           </div>
         </div>
 
-        <p class="channels-note">Seeded recipes for Claude Code, Codex, Antigravity, MiMo/Memo Code, OpenCode, Gemini, Qwen, Amp, plus git, node, python, docker, gh, aws, kubectl, brew, jq, ripgrep, terraform — anything else is reasoned live. <a href="https://github.com/murderszn/sprout/blob/main/README.md#usage">Full usage →</a></p>
+        <div class="channels-footer">
+          <p class="channels-note">
+            <strong>Seeded recipes</strong>: Claude Code, Codex, Antigravity, MiMo/Memo Code, OpenCode, Gemini, Qwen, Amp, plus git, node, python, docker, gh, aws, kubectl, brew, jq, ripgrep, terraform — anything else is reasoned live. <a href="https://github.com/murderszn/sprout/blob/main/README.md#usage" target="_blank" rel="noopener noreferrer">Full usage →</a>
+          </p>
+          <div class="recipe-invite">
+            <div class="recipe-invite-content">
+              <strong>💡 Missing a tool?</strong> Submit a recipe! Tools are defined in self-contained JSON files under <code>src/knowledge/tools/</code>. Submit a PR, and we (or our agents) will review and merge it.
+            </div>
+            <a href="https://github.com/murderszn/sprout/blob/main/CONTRIBUTING.md" class="btn btn-discord-ghost btn-xs btn-mono" target="_blank" rel="noopener noreferrer">Contribute recipe →</a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -858,5 +952,6 @@
   <script src="hero-terminal.js?v=43" defer></script>
   <script src="shader-banner.js?v=43" defer></script>
   <script src="main.js?v=43" defer></script>
+  <script src="feature-terminals.js" defer></script>
 </body>
 </html>
