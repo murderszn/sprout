@@ -132,6 +132,7 @@ Seeded knowledge base (curated per-OS install + verify recipes): Claude Code, Op
 Questions, broken install logs, and knowledge-base ideas belong in [Discord](https://discord.gg/h9aXFuKqsv) (invite link in [COMMUNITY.md](COMMUNITY.md)) or [GitHub Issues](https://github.com/murderszn/sprout/issues).
 
 - [COMMUNITY.md](COMMUNITY.md) — Discord setup, channels, branding assets
+- [ROADMAP.md](ROADMAP.md) — launch checklist and what’s next
 - [CONTRIBUTING.md](CONTRIBUTING.md) — add install recipes
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 - [SECURITY.md](SECURITY.md)
