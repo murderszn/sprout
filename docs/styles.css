@@ -560,6 +560,7 @@ a {
   margin-bottom: 1.25rem;
   display: flex;
   align-items: center;
+  align-self: center;
   gap: 0.5rem;
 }
 
@@ -2621,14 +2622,19 @@ a {
     --hero-terminal-stage: min(92vw, calc(100vw - 2 * var(--section-pad-x)));
     --hero-terminal-width: var(--hero-terminal-stage);
     --hero-terminal-peek: 0.72;
-    padding-top: calc(var(--nav-height) + clamp(1rem, 3vh, 1.75rem));
-    padding-bottom: max(clamp(1rem, 3vh, 1.75rem), env(safe-area-inset-bottom));
+    padding-top: 0;
+    padding-bottom: 0;
     gap: clamp(1.375rem, 3.5vh, 1.75rem);
   }
 
   .hero-headline {
     font-size: clamp(2.25rem, 11vw, 3.5rem);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     margin-bottom: 0.625rem;
+    overflow-wrap: normal;
+    text-wrap: pretty;
   }
 
   .hero-eyebrow {
@@ -2856,15 +2862,22 @@ a {
 
   .hero-intro {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
     flex: 0 0 auto;
     text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
   }
 
   .hero-headline {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     margin: 0 auto 0.75rem;
+    overflow-wrap: normal;
+    text-wrap: pretty;
   }
 
   .hero-subline {
@@ -2882,6 +2895,8 @@ a {
 
   .hero-terminal-group {
     width: var(--hero-terminal-width);
+    max-width: 100%;
+    margin-inline: auto;
     flex: 0 0 auto;
   }
 

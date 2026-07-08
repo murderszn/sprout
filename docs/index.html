@@ -145,7 +145,7 @@
       text-align: center !important;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: stretch;
     }
     
     /* Hero Brand Title */
@@ -158,6 +158,7 @@
       text-transform: uppercase;
       display: inline-flex;
       align-items: center;
+      align-self: center;
       gap: 0.5rem;
       margin-bottom: 1rem;
       animation: hero-enter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -169,11 +170,15 @@
     .hero-headline {
       font-size: clamp(2.5rem, 6vw, 4rem) !important;
       line-height: 1.15 !important;
+      width: 100% !important;
       max-width: 900px !important;
+      min-width: 0 !important;
       margin: 0 auto 1.5rem !important; /* Precise margin below headline */
       font-weight: 800;
       text-align: center;
       letter-spacing: -0.02em; /* Tighter letter-spacing for premium display look */
+      overflow-wrap: normal;
+      text-wrap: pretty;
     }
     .hero-subline {
       display: none !important;
@@ -276,21 +281,63 @@
     }
     @media (max-width: 768px) {
       .hero {
-        padding-top: calc(var(--nav-height) + 1.5rem);
-        padding-bottom: 3rem;
+        padding-top: calc(var(--nav-height) + 2rem);
+        padding-bottom: 2.5rem;
+        padding-left: max(1.25rem, env(safe-area-inset-left));
+        padding-right: max(1.25rem, env(safe-area-inset-right));
+        justify-content: center;
+      }
+      .hero-layout--centered {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        gap: 1.5rem !important;
+        width: 100%;
+      }
+      .hero-subgrid {
+        gap: 1.5rem !important;
+        align-items: center !important;
+        width: 100% !important;
+      }
+      .hero-intro {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        padding-inline: 0 !important;
+      }
+      .hero-brand {
+        justify-content: center;
+        width: 100%;
       }
       .hero-headline {
-        font-size: 2.25rem !important;
+        font-size: clamp(1.75rem, 8.5vw, 2.125rem) !important;
+        line-height: 1.2 !important;
+        max-width: 100% !important;
+        margin-inline: auto !important;
+        overflow-wrap: normal;
+        text-wrap: pretty;
       }
       .hero-actions {
         display: none !important; /* Hide install command on mobile */
       }
       .hero-trust {
-        margin-bottom: 1.75rem !important;
+        width: 100% !important;
+        margin-bottom: 1.5rem !important;
+        text-align: center;
+        justify-content: center !important;
+      }
+      .hero-terminal-group {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-inline: auto !important;
       }
       .terminal-card-container {
+        width: 100% !important;
+        max-width: 100% !important;
         aspect-ratio: 4 / 3 !important;
         padding: 0.75rem !important;
+      }
+      .hero-scroll-icon-only {
+        margin-top: 0.5rem;
       }
     }
   </style>
@@ -357,7 +404,7 @@
             <div class="hero-brand" id="hero-brand-title">
               <span class="hero-brand-emoji">🌱</span> Sprout
             </div>
-            <h1 class="hero-headline">Fix broken dev environments with <em>one</em> CLI tool</h1>
+            <h1 class="hero-headline">Fix broken development environments with <em>one</em> CLI.</h1>
             <div class="hero-actions">
               <div class="hero-command-cta dramatic-cta">
                 <code class="hero-command-text">npm install -g sprout-install</code>
@@ -367,8 +414,6 @@
               </div>
             </div>
             <p class="hero-trust">
-              <a href="https://github.com/murderszn/sprout" target="_blank" rel="noopener noreferrer">Open source</a>
-              <span class="hero-trust-sep" aria-hidden="true">·</span>
               <span>macOS · Linux · Windows</span>
               <span class="hero-trust-sep" aria-hidden="true">·</span>
               <a href="https://github.com/murderszn/sprout/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT</a>
