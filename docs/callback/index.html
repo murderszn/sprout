@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sprout · Pollinations sign-in</title>
+  <meta name="description" content="BYOP OAuth callback for Sprout — authorize Pollinations and connect your Pollen balance.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://murderszn.github.io/sprout/callback">
+  <link rel="icon" href="../public/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #a9e24a;
+      --card: #fafdf6;
+      --text: #223112;
+      --muted: #62754a;
+      --accent: #4e731f;
+      --accent-bright: #6c8e32;
+      --border: rgba(34, 49, 18, 0.12);
+      --error: #c23e3e;
+      --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --font-brand: 'Lexend', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    #byop-callback-root {
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .byop-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem 1.75rem;
+      box-shadow: 0 24px 64px rgba(34, 49, 18, 0.12);
+      text-align: center;
+    }
+
+    .byop-card--loading,
+    .byop-card--success,
+    .byop-card--error { text-align: left; }
+
+    .byop-brand {
+      font-family: var(--font-brand);
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .byop-card h1 {
+      font-family: var(--font-brand);
+      font-size: 1.5rem;
+      line-height: 1.25;
+      margin-bottom: 0.75rem;
+    }
+
+    .byop-card p {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .byop-hint {
+      font-size: 0.9rem;
+    }
+
+    .byop-hint code,
+    .byop-card code {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      background: rgba(108, 142, 50, 0.08);
+      padding: 0.15rem 0.35rem;
+      border-radius: 4px;
+    }
+
+    .byop-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: var(--font-brand);
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      color: #fafdf6;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 1.125rem;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .byop-btn:hover { background: var(--accent-bright); }
+
+    .byop-btn--ghost {
+      color: var(--text);
+      background: transparent;
+      border: 1.5px solid var(--border);
+    }
+
+    .byop-btn--ghost:hover { background: rgba(108, 142, 50, 0.08); }
+
+    .byop-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.625rem;
+      margin-top: 1.25rem;
+    }
+
+    .byop-key-box {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1rem 0;
+      padding: 0.875rem 1rem;
+      background: #f1f5eb;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .byop-key-box code {
+      flex: 1 1 auto;
+      min-width: 0;
+      word-break: break-all;
+      background: none;
+      padding: 0;
+    }
+
+    .byop-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(46, 139, 62, 0.15);
+      color: #2e8b3e;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .byop-card--error h1 { color: var(--error); }
+
+    .byop-spinner {
+      width: 2rem;
+      height: 2rem;
+      margin: 0 auto 1rem;
+      border: 3px solid rgba(78, 115, 31, 0.2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: byop-spin 0.8s linear infinite;
+    }
+
+    @keyframes byop-spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <main id="byop-callback-root" aria-live="polite">
+    <div class="byop-card byop-card--loading">
+      <div class="byop-spinner" aria-hidden="true"></div>
+      <p>Loading…</p>
+    </div>
+  </main>
+  <script src="../byop-callback.js" defer></script>
+</body>
+</html>
