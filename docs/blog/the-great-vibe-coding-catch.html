@@ -162,7 +162,10 @@
   </nav>
 
   <main class="blog-container">
-    <a href="../" class="back-home" id="back-home-link">← back to home</a>
+    <div style="display: flex; justify-content: space-between; margin-bottom: 2rem;">
+      <a href="../" class="back-home" id="back-home-link">← back to home</a>
+      <a href="./" class="back-home" id="back-blog-link">back to blog index →</a>
+    </div>
     
     <article>
       <header class="blog-header">
@@ -259,6 +262,15 @@
         <p>Early feedback from the community in <a href="https://discord.gg/h9aXFuKqsv" target="_blank" rel="noopener noreferrer">Discord</a> and on <a href="https://github.com/murderszn/sprout" target="_blank" rel="noopener noreferrer">GitHub Issues</a> has already shaped the knowledge base recipes and the guardrails. If you have a broken install, a tool recipe request, or a shell-edge case on Windows, come tell us.</p>
 
         <p><em>Sprout is MIT-licensed, local-first, and built on the Pollinations BYOP flow. Install it, authorize once, and never manually fix a PATH problem again.</em></p>
+
+        <!-- Read Next / Blog Navigation -->
+        <div style="margin-top: 4rem; border-top: 1.5px solid var(--border-dark); padding-top: 2rem;">
+          <h3 style="font-family: var(--font-brand); font-size: 1.15rem; color: var(--yellow); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;">Read Next</h3>
+          <a href="pioneering-the-pollen-ecosystem.html" style="display: block; text-decoration: none; border-bottom: none;">
+            <h4 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--white); margin: 0 0 0.5rem; line-height: 1.3; transition: color 0.2s;">Pioneering the Pollen Ecosystem: Why BYOP is the Future of AI App Payments &rarr;</h4>
+            <p style="font-size: 1.05rem; color: var(--gray-light); margin: 0; line-height: 1.6;">Explore why the Bring Your Own Pollen (BYOP) authorization and payment model represents a massive shift for open-source AI utilities.</p>
+          </a>
+        </div>
       </section>
     </article>
   </main>

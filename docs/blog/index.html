@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" id="top">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | Sprout</title>
+  <meta name="description" content="Read articles from the Sprout team about AI coding agents, verified installations, and developer workflow automation.">
+  <meta name="keywords" content="Sprout, vibe coding, AI CLI, installer-agent, developer tools, dev setup automation, PATH, shell config, verified installs, BYOP, Pollinations, local-first">
+  <meta name="author" content="murderszn">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://murderszn.github.io/sprout/blog/">
+  <link rel="icon" href="../public/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../public/apple-touch-icon.png" type="image/png" sizes="180x180">
+  <link rel="apple-touch-icon" href="../public/apple-touch-icon.png" sizes="180x180">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=Quicksand:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css?v=44">
+  
+  <style>
+    .blog-index-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: calc(var(--nav-height) + 4rem) 1.5rem 6rem;
+    }
+    
+    .blog-index-header {
+      margin-bottom: 4rem;
+      text-align: center;
+      border-bottom: 1.5px solid var(--border-dark);
+      padding-bottom: 3rem;
+    }
+    
+    .blog-index-badge {
+      font-family: var(--font-mono);
+      color: var(--yellow);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      display: inline-block;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      background: rgba(var(--yellow-rgb), 0.08);
+      padding: 0.25rem 0.75rem;
+      border-radius: 100px;
+      border: 1px solid rgba(var(--yellow-rgb), 0.15);
+    }
+    
+    .blog-index-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+    
+    .blog-index-subtitle {
+      font-family: var(--font-body);
+      font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+      color: var(--gray-light);
+      max-width: 60ch;
+      margin: 0 auto;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+    
+    .blog-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+    
+    .blog-card {
+      display: flex;
+      flex-direction: column;
+      padding: 2.5rem;
+      background: var(--black-raised);
+      border: 1px solid var(--border-panel);
+      border-radius: var(--radius-panel);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    .blog-card:hover {
+      transform: translateY(-4px);
+      background: rgba(var(--yellow-rgb), 0.06);
+      border-color: var(--yellow);
+      box-shadow: 0 12px 24px rgba(var(--yellow-rgb), 0.05);
+    }
+    
+    .blog-card-category {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--yellow);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+    }
+    
+    .blog-card-title {
+      font-family: var(--font-brand);
+      font-size: clamp(1.4rem, 3.5vw, 1.95rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.3;
+      margin-bottom: 1rem;
+      transition: color 0.2s ease;
+    }
+    
+    .blog-card:hover .blog-card-title {
+      color: var(--yellow);
+    }
+    
+    .blog-card-excerpt {
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      color: var(--gray-light);
+      line-height: 1.7;
+      margin-bottom: 1.75rem;
+    }
+    
+    .blog-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-top: auto;
+      border-top: 1px solid rgba(var(--yellow-rgb), 0.08);
+      padding-top: 1.25rem;
+    }
+    
+    .blog-card-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    
+    .blog-card-link {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--yellow);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-left: auto;
+      transition: gap 0.2s;
+    }
+    
+    .blog-card:hover .blog-card-link {
+      gap: 0.75rem;
+    }
+
+    .back-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--gray);
+      text-decoration: none;
+      margin-bottom: 2.5rem;
+      transition: color 0.2s;
+    }
+    .back-home:hover {
+      color: var(--yellow);
+    }
+
+    @media (max-width: 768px) {
+      .blog-index-container {
+        padding-top: calc(var(--nav-height) + 2rem);
+      }
+      .blog-card {
+        padding: 1.75rem;
+      }
+      .blog-card-meta {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .blog-card-link {
+        margin-left: 0;
+        margin-top: 1rem;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <a href="../#top" class="nav-logo" aria-label="Sprout — back to top">
+      <span class="nav-logo-text">SPROUT</span>
+    </a>
+    <div class="nav-links">
+      <a href="../#install">Install</a>
+      <a href="https://github.com/murderszn/sprout/blob/main/README.md" target="_blank" rel="noopener noreferrer">Docs</a>
+      <a href="https://discord.gg/h9aXFuKqsv" class="nav-community" target="_blank" rel="noopener noreferrer" data-discord-invite>Community</a>
+    </div>
+  </nav>
+
+  <main class="blog-index-container">
+    <a href="../" class="back-home">← back to home</a>
+    
+    <header class="blog-index-header">
+      <span class="blog-index-badge">The Log</span>
+      <h1 class="blog-index-title">Sprout Blog</h1>
+      <p class="blog-index-subtitle">Thoughts on local-first AI tooling, environment automation, and fixing terminal install friction.</p>
+    </header>
+
+    <div class="blog-list">
+      <!-- Article 1: The Great Vibe Coding Catch -->
+      <a href="the-great-vibe-coding-catch.html" class="blog-card">
+        <span class="blog-card-category">Opinion / Tech</span>
+        <h2 class="blog-card-title">The Great Vibe Coding Catch: Why Your AI Agent Still Can't Fix Your Terminal</h2>
+        <p class="blog-card-excerpt">AI coding agents everywhere are shipping complex codebases, but most still collapse when faced with a broken local install, a mangled PATH, or configuration conflicts. Here is why the installer-agent pattern, local-first guardrails, and Bring Your Own Pollen (BYOP) are the missing links to autonomous setups.</p>
+        <div class="blog-card-meta">
+          <span>By murderszn</span>
+          <span>•</span>
+          <time datetime="2026-07-10">July 10, 2026</time>
+          <span>•</span>
+          <span>6 min read</span>
+          <span class="blog-card-link">Read Article &rarr;</span>
+        </div>
+      </a>
+
+      <!-- Article 2: Pioneering the Pollen Ecosystem -->
+      <a href="pioneering-the-pollen-ecosystem.html" class="blog-card">
+        <span class="blog-card-category">Ecosystem</span>
+        <h2 class="blog-card-title">Pioneering the Pollen Ecosystem: Why BYOP is the Future of AI App Payments</h2>
+        <p class="blog-card-excerpt">Sprout is proud to be featured in the Pollinations.ai Greenhouse. Explore why the Bring Your Own Pollen (BYOP) authorization and payment model represents a massive shift for open-source AI utilities, allowing local-first tools to run on user-owned compute credentials.</p>
+        <div class="blog-card-meta">
+          <span>By murderszn</span>
+          <span>•</span>
+          <time datetime="2026-07-06">July 6, 2026</time>
+          <span>•</span>
+          <span>4 min read</span>
+          <span class="blog-card-link">Read Article &rarr;</span>
+        </div>
+      </a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-scene">
+      <div class="footer-inner">
+        <h2 class="footer-headline">Diagnose &amp; fix local installs.</h2>
+        <div class="footer-actions">
+          <a href="../#install" class="btn btn-primary btn-lg btn-mono">Get started with Sprout</a>
+        </div>
+        <nav class="footer-social" aria-label="Social links">
+          <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://github.com/murderszn/sprout" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
