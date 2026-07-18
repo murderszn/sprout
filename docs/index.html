@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sprout | Install-fixer CLI for Developer Tools</title>
-  <meta name="description" content="Sprout is an install-fixer CLI for macOS, Linux, and Windows. Diagnose and fix local install, config, and PATH problems for developer tools — detect your machine, plan steps, confirm each command, and verify with a real run. Not a general coding agent.">
-  <meta name="keywords" content="Sprout, sprout-install, install fixer, developer tools, CLI, PATH, Homebrew, apt, npm, package manager, shell config, macOS, Linux, Windows, Pollinations, open source">
+  <title>Sprout | Grow your AI development environment</title>
+  <meta name="description" content="Sprout is the starter CLI for AI-ready local tooling. Install and fix the CLIs your agents, harnesses, and deploys need — Claude Code, Codex, gh, Firebase, Supabase, Databricks, Snowflake, and more. macOS, Linux, Windows.">
+  <meta name="keywords" content="Sprout, sprout-install, AI development environment, Claude Code, Codex, coding agents, install fixer, developer tools, DevOps CLI, GitHub CLI, Firebase, Supabase, Databricks, Snowflake, PATH, Homebrew, macOS, Linux, Windows">
   <meta name="author" content="murderszn">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -15,8 +15,8 @@
   <meta name="apple-mobile-web-app-title" content="Sprout">
   <link rel="canonical" href="https://murderszn.github.io/sprout/">
   <link rel="alternate" href="https://github.com/murderszn/sprout" title="GitHub repository">
-  <meta property="og:title" content="Sprout | Install-fixer CLI for Developer Tools">
-  <meta property="og:description" content="Tell Sprout what to install. It detects your machine, proposes a plan, runs each step with your confirmation, and proves the result with a real verify command.">
+  <meta property="og:title" content="Sprout | Grow your AI development environment">
+  <meta property="og:description" content="Starter tool for AI-ready local environments. Get and fix the CLIs agents, harnesses, and deploys depend on — Claude Code, Codex, gh, Firebase, Supabase, Databricks, Snowflake, and more.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://murderszn.github.io/sprout/">
   <meta property="og:site_name" content="Sprout">
@@ -29,8 +29,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://murderszn.github.io/sprout/public/og-image.png">
   <meta name="twitter:image:alt" content="Sprout — sprout emoji on matcha green background">
-  <meta name="twitter:title" content="Sprout | Install-fixer CLI">
-  <meta name="twitter:description" content="Fix install, config, and PATH problems for developer tools on your machine. npm install -g sprout-install">
+  <meta name="twitter:title" content="Sprout | Grow your AI development environment">
+  <meta name="twitter:description" content="Starter CLI for AI-ready local tooling — agents, harnesses, deploys, and data CLIs. npm install -g sprout-install">
   <link rel="icon" href="public/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="public/apple-touch-icon.png" type="image/png" sizes="180x180">
   <link rel="apple-touch-icon" href="public/apple-touch-icon.png" sizes="180x180">
@@ -38,7 +38,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=63">
+  <link rel="stylesheet" href="styles.css?v=65">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -48,7 +48,7 @@
         "@id": "https://murderszn.github.io/sprout/#website",
         "url": "https://murderszn.github.io/sprout/",
         "name": "Sprout",
-        "description": "Install-fixer CLI for developer tools on macOS, Linux, and Windows.",
+        "description": "Starter CLI that installs and fixes local tools for AI agents, coding harnesses, deploys, and data workflows on macOS, Linux, and Windows.",
         "inLanguage": "en-US",
         "publisher": { "@id": "https://murderszn.github.io/sprout/#organization" }
       },
@@ -75,7 +75,7 @@
         "applicationCategory": "DeveloperApplication",
         "applicationSubCategory": "CLI Tool",
         "operatingSystem": "macOS, Linux, Windows",
-        "description": "Diagnose and fix local install, config, and PATH problems for developer tools. Detect your machine, plan install steps, confirm each command, and verify with a real command — not a general coding agent.",
+        "description": "Starter CLI for AI-ready local environments. Install and fix agent harnesses, deploy CLIs, and data tools — Claude Code, Codex, gh, Firebase, Supabase, Databricks, Snowflake, and more. Detect your machine, confirm each command, verify with a real run.",
         "url": "https://murderszn.github.io/sprout/",
         "image": "https://murderszn.github.io/sprout/public/og-image.png",
         "screenshot": "https://murderszn.github.io/sprout/public/og-image.png",
@@ -84,12 +84,12 @@
         "license": "https://opensource.org/licenses/MIT",
         "isAccessibleForFree": true,
         "featureList": [
-          "Install developer tools with machine-aware plans",
+          "Bootstrap AI agent and coding harness tooling",
+          "Install deploy and DevOps CLIs (GitHub, Firebase, and more)",
+          "Install data CLIs (Supabase, Databricks, Snowflake, and more)",
           "Diagnose failed install attempts from logs",
           "Detect OS, shell, PATH, and package managers",
-          "Step-by-step confirmation before system changes",
-          "Verify installs with real commands",
-          "Dry-run mode with zero side effects"
+          "Step-by-step confirmation and verified installs"
         ],
         "offers": {
           "@type": "Offer",
@@ -303,7 +303,7 @@
     .hero-trust {
       justify-content: center !important;
       margin-top: 0 !important;
-      margin-bottom: 3rem !important; /* Generous precise breathing room before terminal */
+      margin-bottom: 3rem !important;
       font-size: 0.95rem;
       color: var(--gray);
     }
@@ -319,7 +319,7 @@
     }
     /* Full iPad-style display — thin plant photo bezel, dark screen */
     .terminal-card-container {
-      aspect-ratio: 4 / 3 !important;
+      aspect-ratio: 16 / 10 !important;
       max-height: none !important;
       width: 100% !important;
       padding: clamp(0.45rem, 1.6%, 0.75rem) !important;
@@ -355,7 +355,7 @@
         max-width: min(920px, 94vw) !important;
       }
       .terminal-card-container {
-        aspect-ratio: 4 / 3 !important;
+        aspect-ratio: 16 / 10 !important;
         max-height: none !important;
         padding: clamp(0.4rem, 1.5%, 0.65rem) !important;
       }
@@ -382,7 +382,7 @@
         max-width: min(720px, 88vw) !important;
       }
       .terminal-card-container {
-        aspect-ratio: 4 / 3 !important;
+        aspect-ratio: 16 / 10 !important;
         max-height: min(48vh, 420px) !important;
         padding: clamp(0.35rem, 1.4%, 0.55rem) !important;
       }
@@ -481,7 +481,7 @@
       .terminal-card-container {
         width: 100% !important;
         max-width: 100% !important;
-        aspect-ratio: 4 / 3 !important;
+        aspect-ratio: 16 / 10 !important;
         max-height: none !important;
         padding: clamp(0.35rem, 1.5%, 0.55rem) !important;
         border-radius: 18px !important;
@@ -649,7 +649,7 @@
             <div class="hero-brand" id="hero-brand-title">
               <span class="hero-brand-emoji">🌱</span> Sprout
             </div>
-            <h1 class="hero-headline">Fix and grow your <em>AI development</em> environment</h1>
+            <h1 class="hero-headline">Grow your own <em>AI development</em> environments</h1>
             <div class="hero-actions">
               <div class="hero-command-cta dramatic-cta">
                 <code class="hero-command-text">npm install -g sprout-install</code>
@@ -687,7 +687,7 @@
           </div>
         </div>
 
-        <a href="#install" class="hero-scroll-icon-only" data-scroll-target="install" aria-label="Scroll to install section">
+        <a href="#why" class="hero-scroll-icon-only" data-scroll-target="why" aria-label="Scroll to why Sprout">
           <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-chevron-down"/></svg>
         </a>
       </div>
@@ -697,12 +697,40 @@
   </div>
 
   <main class="under-page" id="under-page">
+    <section id="why" class="why-sprout">
+      <div class="why-sprout-inner reveal-on-scroll">
+        <header class="why-sprout-header">
+          <div class="section-label">// WHY SPROUT</div>
+          <h2 class="section-title">AI work needs a clean local stack</h2>
+          <p class="section-desc">
+            Working with AI means your PC needs a solid DevOps environment — not just a model chat window.
+            Agents, Claude Code / Codex-style harnesses, GitHub &amp; Firebase deploys, and data CLIs like Supabase, Databricks, or Snowflake all depend on tools being installed, on PATH, and verified.
+            Sprout is the starter that installs and fixes those tools so your machine is ready for AI work.
+          </p>
+        </header>
+        <ul class="why-sprout-grid" aria-label="What Sprout helps you set up">
+          <li class="why-sprout-card">
+            <h3 class="why-sprout-card-title">Agents &amp; harnesses</h3>
+            <p class="why-sprout-card-desc">Bootstrap and repair local tooling for coding agents and Claude Code / Codex-style harnesses.</p>
+          </li>
+          <li class="why-sprout-card">
+            <h3 class="why-sprout-card-title">Deploy CLIs</h3>
+            <p class="why-sprout-card-desc">Get GitHub, Firebase, and other ship-to-prod CLIs installed cleanly for simple DevOps flows.</p>
+          </li>
+          <li class="why-sprout-card">
+            <h3 class="why-sprout-card-title">Data tools</h3>
+            <p class="why-sprout-card-desc">Install and fix database and data-platform CLIs — Supabase, Databricks, Snowflake, and more.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
     <section id="install" class="install">
       <div class="install-inner reveal-on-scroll">
         <header class="install-header">
           <div class="section-label">// INSTALL</div>
           <h2 class="section-title">Three steps to your first install</h2>
-          <p class="section-desc">Install Sprout, add your Pollinations key, then run a real command. Sprout detects your machine before it changes anything.</p>
+          <p class="section-desc">Install Sprout, add your Pollinations key, then install the tools your AI workspace needs. Sprout detects your machine before it changes anything.</p>
         </header>
 
         <ol class="install-stepper" aria-label="Setup steps">
@@ -899,7 +927,7 @@
         <header class="channels-header">
           <div class="section-label">// COMMANDS</div>
           <h2 class="section-title section-title--channels">What you run</h2>
-          <p class="section-desc section-desc--channels">Sprout's whole world is package managers, PATH, and shell rc files — nothing else.</p>
+          <p class="section-desc section-desc--channels">Sprout's whole world is the local tools AI work depends on — package managers, PATH, and shell config — nothing else.</p>
         </header>
 
         <div class="channels-body">
@@ -1031,7 +1059,7 @@
 
         <div class="channels-footer">
           <p class="channels-note">
-            <strong>Seeded recipes</strong>: Claude Code, Codex, Antigravity, mimo code, OpenCode, Gemini, Qwen, Amp, plus git, node, python, docker, gh, aws, kubectl, brew, jq, ripgrep, terraform — anything else is reasoned live. <a href="https://github.com/murderszn/sprout/blob/main/README.md#usage" target="_blank" rel="noopener noreferrer">Full usage →</a>
+            <strong>Seeded recipes</strong>: Claude Code, Codex, Antigravity, mimo code, OpenCode, Gemini, Qwen, Amp — plus git, node, python, docker, gh, aws, kubectl, Firebase, Supabase, Databricks, brew, jq, ripgrep, terraform — anything else is reasoned live. <a href="https://github.com/murderszn/sprout/blob/main/README.md#usage" target="_blank" rel="noopener noreferrer">Full usage →</a>
           </p>
           <div class="recipe-invite">
             <div class="recipe-invite-content">

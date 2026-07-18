@@ -24,3 +24,11 @@ npm_recovery_codes*.txt
 *.asc
 *.gpg
 *.kdbx
+
+# Screenshots / review captures
+review-*.png
+.DS_Store
+
+# Local outreach (star/fork email + boost page — not published)
+docs/boost/
+docs/email/
