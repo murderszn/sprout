@@ -193,31 +193,217 @@ a {
   pointer-events: none;
 }
 
+/*
+ * Full-page-height sprout — left side of the hero overlay.
+ * Mask keeps foliage out of the centered copy column.
+ */
+.hero-plant {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  overflow: visible;
+  /* Center of plant sits at the middle of the first 1/3 of the page (~16.7vw) */
+  left: 16.666vw;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: min(48vw, 640px);
+  max-width: none;
+  transform: translateX(-50%);
+  opacity: 0.95;
+  filter: drop-shadow(0 10px 22px rgba(26, 40, 8, 0.14));
+  /* Fade only on the RIGHT into the copy column — left stays fully opaque */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    #000 0%,
+    #000 58%,
+    rgba(0, 0, 0, 0.5) 78%,
+    rgba(0, 0, 0, 0.12) 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    #000 0%,
+    #000 58%,
+    rgba(0, 0, 0, 0.5) 78%,
+    rgba(0, 0, 0, 0.12) 92%,
+    transparent 100%
+  );
+}
+
+.hero-plant__svg {
+  /* Full height; centered in the left-third anchor */
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  top: 0;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  transform: translateX(-50%);
+  display: block;
+  overflow: visible;
+}
+
+@media (min-width: 1280px) {
+  .hero-plant {
+    width: min(46vw, 680px);
+    opacity: 0.95;
+  }
+}
+
+@media (max-width: 1100px) {
+  .hero-plant {
+    left: 15vw;
+    width: min(44vw, 480px);
+    opacity: 0.82;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-plant {
+    left: 14vw;
+    width: min(42vw, 380px);
+    opacity: 0.65;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-plant {
+    left: 18vw;
+    width: min(50vw, 240px);
+    opacity: 0.48;
+  }
+}
+
+@media (max-height: 700px) {
+  .hero-plant {
+    width: min(40vw, 400px);
+    opacity: 0.55;
+  }
+}
+
+/* Growth animations */
+.hero-plant .soil {
+  opacity: 0;
+  transform-origin: center bottom;
+  animation: soil-in 0.9s ease-out 0.15s forwards;
+}
+
+@keyframes soil-in {
+  from { opacity: 0; transform: scaleX(0.6); }
+  to { opacity: 1; transform: scaleX(1); }
+}
+
+.hero-plant .seed {
+  opacity: 0;
+  animation: seed-in 0.9s cubic-bezier(0.34, 1.2, 0.64, 1) 0.4s forwards;
+}
+
+@keyframes seed-in {
+  from { opacity: 0; transform: translateY(-6px) scale(0.7); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.hero-plant .stem-draw {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: stem-draw 3.2s cubic-bezier(0.22, 0.9, 0.3, 1) 0.85s forwards;
+}
+
+@keyframes stem-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+.hero-plant .leaf {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: var(--ox, 50%) var(--oy, 100%);
+  animation: leaf-unfurl 1.2s cubic-bezier(0.22, 1.15, 0.36, 1) forwards;
+}
+
+@keyframes leaf-unfurl {
+  0% { opacity: 0; transform: scale(0.15) rotate(var(--r, -12deg)); }
+  60% { opacity: 1; transform: scale(1.04) rotate(calc(var(--r, -12deg) * -0.1)); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.hero-plant .canopy {
+  transform-origin: 50% 100%;
+  animation: plant-sway 9s ease-in-out 4.5s infinite;
+}
+
+@keyframes plant-sway {
+  0%, 100% { transform: rotate(0deg); }
+  35% { transform: rotate(0.4deg); }
+  70% { transform: rotate(-0.3deg); }
+}
+
+.hero-plant .w-l1 { animation-delay: 1.9s; --ox: 100%; --oy: 60%; --r: 18deg; }
+.hero-plant .w-l2 { animation-delay: 2.15s; --ox: 0%; --oy: 55%; --r: -16deg; }
+.hero-plant .w-l3 { animation-delay: 2.45s; --ox: 100%; --oy: 55%; --r: 14deg; }
+.hero-plant .w-l4 { animation-delay: 2.7s; --ox: 0%; --oy: 50%; --r: -14deg; }
+.hero-plant .w-l5 { animation-delay: 3.0s; --ox: 100%; --oy: 55%; --r: 12deg; }
+.hero-plant .w-l6 { animation-delay: 3.25s; --ox: 0%; --oy: 50%; --r: -12deg; }
+.hero-plant .w-l7 { animation-delay: 3.5s; --ox: 50%; --oy: 100%; --r: -8deg; }
+.hero-plant .w-l8 { animation-delay: 3.75s; --ox: 50%; --oy: 100%; --r: 8deg; }
+
+/* iPad-style device frame — plant photo as thin bezel */
 .terminal-card-container {
   position: relative;
   width: 100%;
+  /* Landscape iPad proportions — full display, not a flat strip */
   aspect-ratio: 4 / 3;
   background-image: url('public/hero-sprout.jpg');
   background-size: cover;
   background-position: center;
   will-change: transform;
   z-index: 1;
-  border-radius: 24px;
+  border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 45px 120px rgba(0, 0, 0, 0.5);
+  /* Slim device rim + depth */
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.22),
+    0 28px 80px rgba(0, 0, 0, 0.4),
+    0 10px 24px rgba(0, 0, 0, 0.18);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: clamp(1.5rem, 6%, 3.5rem);
+  /* Thin bezel — photo still reads as border without eating the screen */
+  padding: clamp(0.45rem, 1.6%, 0.75rem);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* Subtle glass sheen over the photo bezel */
+.terminal-card-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 36%,
+      transparent 64%,
+      rgba(0, 0, 0, 0.14) 100%
+    );
+}
+
 .terminal-card-container .hero-terminal {
+  position: relative;
   width: 100%;
   height: 100%;
   aspect-ratio: auto;
   z-index: 2;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 12px 36px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .overlay-bg-canvas {
@@ -500,8 +686,8 @@ a {
   width: 100%;
   min-width: 0;
   flex: 0 0 auto;
-  aspect-ratio: 16 / 12;
-  height: auto;
+  aspect-ratio: auto;
+  height: 100%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -577,25 +763,28 @@ a {
 }
 
 .hero-headline em {
-  font-style: normal;
+  font-style: italic;
+  font-weight: 800;
   position: relative;
-  display: inline-block;
-  color: var(--white);
+  display: inline;
+  color: #2a4010;
+  letter-spacing: -0.02em;
+  /* Soft cream wash — distinct without a underline marker */
+  background-image: linear-gradient(
+    180deg,
+    transparent 58%,
+    rgba(250, 253, 246, 0.72) 58%,
+    rgba(250, 253, 246, 0.72) 92%,
+    transparent 92%
+  );
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0 0.06em;
 }
 
 .hero-headline em::after {
-  content: '';
-  position: absolute;
-  left: -4%;
-  right: -4%;
-  bottom: -4%;
-  height: 0.22em;
-  background: #8C5333; /* Avocado pit brown */
-  z-index: -1;
-  transform: rotate(-1.8deg) skewX(-10deg);
-  border-radius: 4px 8px 3px 6px / 3px 4px 2px 3px;
-  pointer-events: none;
-  opacity: 0.95;
+  display: none;
+  content: none;
 }
 
 .hero-eyebrow,
@@ -1602,25 +1791,26 @@ a {
   font-size: 0.75rem;
 }
 
-/* Mac Terminal (hero) */
+/* Mac Terminal (hero) — dark theme, high-contrast readable text */
 .mac-terminal {
-  --mac-bg: #FFFFFF;
-  --mac-toolbar: #EDF1E7;
-  --mac-text: #223112;
-  --mac-dim: #62754A;
-  --mac-prompt: #223112;
-  --mac-accent: #4E731F;
-  --mac-brand: #6C8E32;
-  --mac-ok: #2E8B3E;
-  --mac-fail: #C23E3E;
+  --mac-bg: #0a0e07;
+  --mac-toolbar: #141a0f;
+  --mac-text: #f4f7ec;
+  --mac-dim: #c4d4a8;
+  --mac-prompt: #b8c99a;
+  --mac-accent: #b8f03a;
+  --mac-brand: #c8f55a;
+  --mac-ok: #5cf08a;
+  --mac-fail: #ff8a8a;
   background: var(--mac-bg);
   border-radius: 10px;
   overflow: hidden;
   box-shadow:
-    0 0 0 0.5px rgba(0, 0, 0, 0.08),
-    0 22px 70px rgba(34, 49, 18, 0.12);
+    0 0 0 0.5px rgba(163, 230, 53, 0.12),
+    0 22px 70px rgba(0, 0, 0, 0.35);
   font-family: 'SF Mono', 'Menlo', 'Monaco', 'JetBrains Mono', 'Fira Code', monospace;
   -webkit-font-smoothing: antialiased;
+  color: var(--mac-text);
 }
 
 .mac-terminal-toolbar {
@@ -1629,8 +1819,8 @@ a {
   align-items: center;
   min-height: 34px;
   padding: 0 12px;
-  background: linear-gradient(180deg, #FAFDF6 0%, var(--mac-toolbar) 100%);
-  border-bottom: 0.5px solid rgba(108, 142, 50, 0.18);
+  background: linear-gradient(180deg, #1c2416 0%, var(--mac-toolbar) 100%);
+  border-bottom: 0.5px solid rgba(184, 240, 58, 0.16);
 }
 
 .mac-terminal-traffic {
@@ -1643,8 +1833,8 @@ a {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  border: 0.5px solid rgba(0, 0, 0, 0.12);
-  box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.2);
+  border: 0.5px solid rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.12);
 }
 
 .mac-traffic--close { background: #ff5f57; }
@@ -1657,7 +1847,7 @@ a {
   font-size: 0.8125rem;
   font-weight: 500;
   letter-spacing: -0.01em;
-  color: rgba(34, 49, 18, 0.72);
+  color: rgba(244, 247, 236, 0.72);
   text-align: center;
   white-space: nowrap;
 }
@@ -1674,17 +1864,18 @@ a {
 }
 
 .mac-terminal .terminal-session {
-  padding: 0.875rem 1rem 1rem;
+  padding: 0.9rem 1.05rem 1.05rem;
   font-family: inherit;
-  font-size: clamp(0.6875rem, 1.35vw, 0.75rem);
-  line-height: 1.45;
+  font-size: clamp(0.75rem, 1.45vw, 0.875rem);
+  line-height: 1.55;
+  font-weight: 450;
   color: var(--mac-text);
   background: var(--mac-bg);
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  scrollbar-color: rgba(184, 240, 58, 0.35) transparent;
 }
 
 .hero-terminal .mac-terminal .terminal-session {
@@ -1716,35 +1907,50 @@ a {
   scroll-behavior: auto;
 }
 
-.mac-terminal .t-prompt,
-.mac-terminal .t-cmd {
+/* Higher specificity so global light .terminal-session colors don't win */
+.mac-terminal .terminal-session,
+.mac-terminal .terminal-session .t-line,
+.mac-terminal .terminal-session .t-cmd,
+.mac-terminal .terminal-session .t-box-line,
+.mac-terminal .terminal-session .t-confirm {
+  color: var(--mac-text);
+}
+
+.mac-terminal .terminal-session .t-prompt {
   color: var(--mac-prompt);
 }
 
-.mac-terminal .t-brand { color: var(--mac-brand); }
-.mac-terminal .t-accent { color: var(--mac-accent); }
-.mac-terminal .t-dim { color: var(--mac-dim); }
-.mac-terminal .t-faint { color: #636366; }
-.mac-terminal .t-ok { color: var(--mac-ok); }
-.mac-terminal .t-fail { color: var(--mac-fail); }
+.mac-terminal .terminal-session .t-brand { color: var(--mac-brand); }
+.mac-terminal .terminal-session .t-accent { color: var(--mac-accent); }
+.mac-terminal .terminal-session .t-dim { color: var(--mac-dim); }
+.mac-terminal .terminal-session .t-faint { color: #a8bc8c; }
+.mac-terminal .terminal-session .t-ok { color: var(--mac-ok); }
+.mac-terminal .terminal-session .t-fail { color: var(--mac-fail); }
+.mac-terminal .terminal-session .t-bold { font-weight: 700; }
+.mac-terminal .terminal-session .t-card strong,
+.mac-terminal .terminal-session .t-box strong {
+  color: #ffffff;
+  font-weight: 700;
+}
 
-.mac-terminal .t-box {
+.mac-terminal .terminal-session .t-box {
   margin: 0.875rem 0;
-  padding: 0.625rem 0.75rem;
-  border: 0.5px solid rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.03);
+  padding: 0.7rem 0.85rem;
+  border: 0.5px solid rgba(184, 240, 58, 0.3);
+  border-radius: 6px;
+  background: rgba(184, 240, 58, 0.1);
 }
 
-.mac-terminal .t-prose {
-  color: rgba(245, 245, 247, 0.88);
+.mac-terminal .terminal-session .t-prose {
+  color: rgba(244, 247, 236, 0.96);
 }
 
-.mac-terminal .t-prose code,
-.mac-terminal .t-elbow code {
-  color: var(--mac-accent);
-  background: rgba(100, 210, 255, 0.08);
+.mac-terminal .terminal-session .t-prose code,
+.mac-terminal .terminal-session .t-elbow code {
+  color: #d8ff70;
+  background: rgba(184, 240, 58, 0.16);
   border-radius: 3px;
+  padding: 0 0.25em;
 }
 
 /* Hero + session terminal */
@@ -2614,9 +2820,7 @@ a {
     display: none;
   }
 
-  .terminal-card-container {
-    background-position: 70% center;
-  }
+
 
   .hero-layout--centered {
     --hero-terminal-stage: min(92vw, calc(100vw - 2 * var(--section-pad-x)));
@@ -2952,6 +3156,25 @@ a {
   .hero-ticker-track,
   .mac-terminal .t-cursor {
     animation: none;
+  }
+
+  .hero-plant .stem-draw,
+  .hero-plant .leaf,
+  .hero-plant .seed,
+  .hero-plant .soil,
+  .hero-plant .canopy {
+    animation: none !important;
+  }
+
+  .hero-plant .stem-draw {
+    stroke-dashoffset: 0;
+  }
+
+  .hero-plant .leaf,
+  .hero-plant .seed,
+  .hero-plant .soil {
+    opacity: 1;
+    transform: none;
   }
 
   .overlay,

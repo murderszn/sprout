@@ -38,7 +38,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=44">
+  <link rel="stylesheet" href="styles.css?v=63">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -107,22 +107,31 @@
       --font-body: 'Plus Jakarta Sans', system-ui, sans-serif !important;
     }
     
-    /* Slightly lighter bold pastel avocado green background for hero */
+    /* Avocado hero field — soft depth, plant sits in the left wash */
     .overlay {
       background-color: #a9e24a !important;
-      background-image: none !important;
+      background-image:
+        radial-gradient(ellipse 70% 80% at 12% 78%, rgba(108, 142, 50, 0.22) 0%, transparent 55%),
+        radial-gradient(ellipse 90% 60% at 50% 0%, rgba(226, 240, 194, 0.32) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 50% 100%, rgba(34, 49, 18, 0.1) 0%, transparent 50%) !important;
+      /* visible so plant leaves aren't clipped at the left edge */
+      overflow: visible;
     }
     
     /* Hero Redesign: Centered Stack Layout Override */
     .hero {
+      position: relative;
+      z-index: 2;
       min-height: 100vh;
       min-height: 100dvh;
       height: auto !important;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding-top: calc(var(--nav-height) + 3rem);
-      padding-bottom: 5rem;
+      padding-top: calc(var(--nav-height) + 2.25rem);
+      padding-bottom: 3.5rem;
+      padding-left: max(0.75rem, env(safe-area-inset-left));
+      padding-right: max(0.75rem, env(safe-area-inset-right));
     }
     .hero-layout--centered {
       gap: 0 !important; /* Managed by individual element margins for absolute control */
@@ -131,6 +140,9 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      width: 100%;
+      max-width: 100%;
+      padding-inline: 0 !important;
     }
     .hero-subgrid {
       flex-direction: column !important;
@@ -138,18 +150,26 @@
       justify-content: center !important;
       gap: 0 !important; /* Managed by children */
       width: 100% !important;
+      max-width: 100% !important;
+      padding-inline: 0 !important;
     }
     .hero-intro {
+      position: relative;
+      z-index: 3;
       width: 100% !important;
+      max-width: min(1100px, 96vw) !important;
       flex: 0 0 auto !important;
       text-align: center !important;
       display: flex;
       flex-direction: column;
       align-items: stretch;
+      padding-inline: 0 !important;
     }
     
     /* Hero Brand Title */
     .hero-brand {
+      position: relative;
+      z-index: 3;
       font-family: var(--font-brand);
       font-size: 1.15rem;
       font-weight: 800;
@@ -168,17 +188,49 @@
     }
     
     .hero-headline {
-      font-size: clamp(2.5rem, 6vw, 4rem) !important;
-      line-height: 1.15 !important;
-      width: 100% !important;
-      max-width: 900px !important;
+      position: relative;
+      z-index: 3;
+      font-family: var(--font-brand), var(--font-display), system-ui, sans-serif;
+      font-size: clamp(2.55rem, 6.8vw, 4.5rem) !important;
+      line-height: 1.05 !important;
+      width: min(100%, 24ch) !important;
+      max-width: min(96vw, 24ch) !important;
       min-width: 0 !important;
-      margin: 0 auto 1.5rem !important; /* Precise margin below headline */
+      margin: 0 auto 1.35rem !important;
+      padding-inline: 0;
       font-weight: 800;
       text-align: center;
-      letter-spacing: -0.02em; /* Tighter letter-spacing for premium display look */
+      letter-spacing: -0.035em;
+      text-transform: none !important;
+      color: #1a280c !important;
       overflow-wrap: normal;
-      text-wrap: pretty;
+      text-wrap: balance;
+      text-shadow: none;
+    }
+    /* "development" — italic + soft cream band (no marker bar) */
+    .hero-headline em {
+      font-style: italic !important;
+      font-weight: 800 !important;
+      color: #2a4010 !important;
+      -webkit-text-fill-color: #2a4010 !important;
+      background-image: linear-gradient(
+        180deg,
+        transparent 56%,
+        rgba(250, 253, 246, 0.78) 56%,
+        rgba(250, 253, 246, 0.78) 94%,
+        transparent 94%
+      ) !important;
+      background-color: transparent !important;
+      -webkit-background-clip: unset !important;
+      background-clip: unset !important;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+      padding: 0 0.08em;
+      letter-spacing: -0.02em;
+    }
+    .hero-headline em::after {
+      display: none !important;
+      content: none !important;
     }
     .hero-subline {
       display: none !important;
@@ -256,45 +308,103 @@
       color: var(--gray);
     }
     .hero-terminal-group {
+      position: relative;
+      z-index: 3;
       width: 100% !important;
       flex: 0 0 auto !important;
-      max-width: 1140px !important; /* Large, matching wide monitors beautifully */
+      max-width: min(1120px, 96vw) !important;
       align-self: center !important;
-      margin-bottom: 1.5rem !important;
+      margin-bottom: 1.25rem !important;
+      padding-inline: 0;
     }
+    /* Full iPad-style display — thin plant photo bezel, dark screen */
     .terminal-card-container {
-      aspect-ratio: 16 / 9.5 !important; /* Wider aspect ratio to show more horizontal detail */
-      padding: 2.5% !important; /* Precise, consistent border padding */
-      border-radius: 20px !important;
-      box-shadow: 0 60px 140px rgba(0, 0, 0, 0.45); /* Premium depth shadow */
+      aspect-ratio: 4 / 3 !important;
+      max-height: none !important;
+      width: 100% !important;
+      padding: clamp(0.45rem, 1.6%, 0.75rem) !important;
+      border-radius: 22px !important;
+      background-image: url('public/hero-sprout.jpg') !important;
+      background-size: cover !important;
+      background-position: center !important;
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.22),
+        0 36px 90px rgba(0, 0, 0, 0.4) !important;
+    }
+    .terminal-card-container .hero-terminal,
+    .terminal-card-container .mac-terminal {
+      border-radius: 14px !important;
+      height: 100% !important;
     }
     .hero-scroll-icon-only {
-      color: rgba(34, 49, 18, 0.55) !important; /* Visible dark-green/black on light avocado background */
+      position: relative;
+      z-index: 3;
+      color: rgba(34, 49, 18, 0.55) !important;
     }
     .hero-scroll-icon-only:hover {
       color: #223112 !important;
     }
-    @media (max-width: 1024px) {
+
+    /* Laptop / iPad landscape */
+    @media (max-width: 1100px) {
+      .hero {
+        padding-top: calc(var(--nav-height) + 1.75rem);
+        padding-bottom: 3rem;
+      }
       .hero-terminal-group {
-        max-width: 90% !important;
+        max-width: min(920px, 94vw) !important;
+      }
+      .terminal-card-container {
+        aspect-ratio: 4 / 3 !important;
+        max-height: none !important;
+        padding: clamp(0.4rem, 1.5%, 0.65rem) !important;
+      }
+      .hero-trust {
+        margin-bottom: 2rem !important;
       }
     }
+
+    /* Short viewports — keep iPad proportions, slightly tighter bezel */
+    @media (max-height: 760px) {
+      .hero {
+        min-height: auto;
+        padding-top: calc(var(--nav-height) + 1.25rem);
+        padding-bottom: 2rem;
+      }
+      .hero-headline {
+        font-size: clamp(2rem, 5.2vw, 3.25rem) !important;
+        margin-bottom: 1rem !important;
+      }
+      .hero-trust {
+        margin-bottom: 1.25rem !important;
+      }
+      .hero-terminal-group {
+        max-width: min(720px, 88vw) !important;
+      }
+      .terminal-card-container {
+        aspect-ratio: 4 / 3 !important;
+        max-height: min(48vh, 420px) !important;
+        padding: clamp(0.35rem, 1.4%, 0.55rem) !important;
+      }
+    }
+
     @media (max-width: 768px) {
       .hero {
-        padding-top: calc(var(--nav-height) + 2rem);
-        padding-bottom: 2.5rem;
-        padding-left: max(1.25rem, env(safe-area-inset-left));
-        padding-right: max(1.25rem, env(safe-area-inset-right));
-        justify-content: center;
+        padding-top: calc(var(--nav-height) + 1.25rem);
+        padding-bottom: max(1.75rem, env(safe-area-inset-bottom));
+        padding-left: max(0.75rem, env(safe-area-inset-left));
+        padding-right: max(0.75rem, env(safe-area-inset-right));
+        justify-content: flex-start;
+        min-height: 100dvh;
       }
       .hero-layout--centered {
         padding-top: 0 !important;
         padding-bottom: 0 !important;
-        gap: 1.5rem !important;
+        gap: 1.1rem !important;
         width: 100%;
       }
       .hero-subgrid {
-        gap: 1.5rem !important;
+        gap: 1.1rem !important;
         align-items: center !important;
         width: 100% !important;
       }
@@ -307,37 +417,90 @@
       .hero-brand {
         justify-content: center;
         width: 100%;
+        margin-bottom: 0.55rem;
+        font-size: 0.95rem;
       }
       .hero-headline {
-        font-size: clamp(1.75rem, 8.5vw, 2.125rem) !important;
-        line-height: 1.2 !important;
-        max-width: 100% !important;
-        margin-inline: auto !important;
-        overflow-wrap: normal;
-        text-wrap: pretty;
+        font-size: clamp(2.05rem, 9.5vw, 2.65rem) !important;
+        line-height: 1.07 !important;
+        width: min(100%, 20ch) !important;
+        max-width: min(100%, 20ch) !important;
+        margin: 0 auto 1rem !important;
+        padding-inline: 0;
       }
+      /* Keep install CTA on mobile — single row, not stacked */
       .hero-actions {
-        display: none !important; /* Hide install command on mobile */
+        display: flex !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 0.75rem !important;
+        padding-inline: 0.15rem;
+      }
+      .dramatic-cta,
+      .hero-command-cta.dramatic-cta {
+        flex-direction: row !important;
+        align-items: center !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 48px;
+        gap: 0.5rem !important;
+        padding: 0.4rem 0.4rem 0.4rem 0.85rem !important;
+      }
+      .dramatic-cta .hero-command-text,
+      .hero-command-cta .hero-command-text {
+        font-size: 0.78rem !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap !important;
+        text-align: left !important;
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+      }
+      .dramatic-copy-btn,
+      .copy-btn-hero.dramatic-copy-btn {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        height: 36px !important;
+        padding: 0 0.85rem !important;
+        font-size: 0.82rem !important;
       }
       .hero-trust {
         width: 100% !important;
-        margin-bottom: 1.5rem !important;
+        margin-bottom: 1.15rem !important;
         text-align: center;
         justify-content: center !important;
+        font-size: 0.85rem;
       }
       .hero-terminal-group {
         width: 100% !important;
         max-width: 100% !important;
         margin-inline: auto !important;
+        padding-inline: 0 !important;
       }
       .terminal-card-container {
         width: 100% !important;
         max-width: 100% !important;
         aspect-ratio: 4 / 3 !important;
-        padding: 0.75rem !important;
+        max-height: none !important;
+        padding: clamp(0.35rem, 1.5%, 0.55rem) !important;
+        border-radius: 18px !important;
+        background-image: url('public/hero-sprout.jpg') !important;
+        background-size: cover !important;
+        background-position: center !important;
       }
       .hero-scroll-icon-only {
-        margin-top: 0.5rem;
+        margin-top: 0.35rem;
+      }
+    }
+
+    /* Small phones */
+    @media (max-width: 380px) {
+      .hero-headline {
+        font-size: clamp(1.75rem, 9vw, 2.05rem) !important;
+      }
+      .dramatic-cta .hero-command-text {
+        font-size: 0.7rem !important;
       }
     }
   </style>
@@ -397,6 +560,88 @@
 
   <div class="overlay" id="overlay">
     <!-- <canvas class="overlay-bg-canvas" id="hero-shader-canvas"></canvas> -->
+    <div class="hero-plant" aria-hidden="true">
+      <!-- viewBox padded left so left leaves are fully visible (paths extend ~440) -->
+      <svg class="hero-plant__svg" viewBox="400 0 560 900" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Deeper greens so the plant reads against the avocado field -->
+          <linearGradient id="gLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#C8EF6A"/>
+            <stop offset="40%" stop-color="#7CBC1A"/>
+            <stop offset="100%" stop-color="#3F6B0C"/>
+          </linearGradient>
+          <linearGradient id="gLeaf2" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#A8DC3C"/>
+            <stop offset="50%" stop-color="#5F9E12"/>
+            <stop offset="100%" stop-color="#2F5508"/>
+          </linearGradient>
+          <linearGradient id="gStem" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#2A4210"/>
+            <stop offset="50%" stop-color="#4E731F"/>
+            <stop offset="100%" stop-color="#2A4210"/>
+          </linearGradient>
+          <linearGradient id="gSoil" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#8b6a4a"/>
+            <stop offset="100%" stop-color="#4a3222"/>
+          </linearGradient>
+          <radialGradient id="gSeed" cx="38%" cy="32%" r="65%">
+            <stop offset="0%" stop-color="#d4b84a"/>
+            <stop offset="100%" stop-color="#5c450c"/>
+          </radialGradient>
+          <filter id="gShadow" x="-30%" y="-30%" width="160%" height="170%">
+            <feDropShadow dx="1.5" dy="2.5" stdDeviation="2.5" flood-color="#1a2808" flood-opacity="0.18"/>
+          </filter>
+          <filter id="gShadowSoft" x="-25%" y="-25%" width="150%" height="160%">
+            <feDropShadow dx="1" dy="1.5" stdDeviation="1.5" flood-color="#1a2808" flood-opacity="0.14"/>
+          </filter>
+        </defs>
+        <g class="soil">
+          <ellipse cx="720" cy="880" rx="180" ry="28" fill="rgba(34,49,18,0.14)"/>
+          <ellipse cx="720" cy="868" rx="140" ry="22" fill="url(#gSoil)" opacity="0.88"/>
+          <ellipse cx="720" cy="858" rx="100" ry="10" fill="#6b4e38" opacity="0.4"/>
+        </g>
+        <g class="seed" filter="url(#gShadowSoft)">
+          <ellipse cx="720" cy="850" rx="18" ry="12" fill="url(#gSeed)"/>
+          <ellipse cx="714" cy="846" rx="5" ry="3" fill="#e8d080" opacity="0.4"/>
+        </g>
+        <g class="canopy">
+          <path class="stem-draw" d="M720 848 C716 740 726 620 718 500 C710 380 728 260 720 140 C716 80 722 40 720 18"
+            fill="none" stroke="url(#gStem)" stroke-width="6" stroke-linecap="round" filter="url(#gShadowSoft)"/>
+          <path class="stem-draw" d="M717 840 C713 730 721 610 715 490 C709 370 723 250 717 140"
+            fill="none" stroke="rgba(217,249,157,0.35)" stroke-width="1.6" stroke-linecap="round"/>
+          <g class="leaf w-l1" filter="url(#gShadow)">
+            <path d="M712 720 C640 700 540 660 480 600 C440 560 450 510 510 500 C570 490 640 540 690 610 C705 650 712 690 712 720Z" fill="url(#gLeaf)" stroke="#4D7C0F" stroke-width="0.9" stroke-opacity="0.55"/>
+            <path d="M708 710 C650 680 580 630 530 575" fill="none" stroke="rgba(45,90,20,0.32)" stroke-width="1.3" stroke-linecap="round"/>
+          </g>
+          <g class="leaf w-l2" filter="url(#gShadow)">
+            <path d="M728 680 C800 655 900 610 960 545 C995 505 980 455 920 450 C860 445 790 500 745 570 C732 610 728 650 728 680Z" fill="url(#gLeaf2)" stroke="#4D7C0F" stroke-width="0.9" stroke-opacity="0.55"/>
+            <path d="M732 670 C790 635 865 585 920 530" fill="none" stroke="rgba(45,90,20,0.32)" stroke-width="1.3" stroke-linecap="round"/>
+          </g>
+          <g class="leaf w-l3" filter="url(#gShadow)">
+            <path d="M714 520 C650 500 560 455 510 395 C475 355 490 310 545 305 C600 300 660 350 700 415 C712 450 716 490 714 520Z" fill="url(#gLeaf2)" stroke="#4D7C0F" stroke-width="0.9" stroke-opacity="0.55"/>
+            <path d="M710 510 C655 475 590 430 550 380" fill="none" stroke="rgba(45,90,20,0.3)" stroke-width="1.2" stroke-linecap="round"/>
+          </g>
+          <g class="leaf w-l4" filter="url(#gShadow)">
+            <path d="M726 470 C790 445 880 395 925 335 C955 295 935 250 880 250 C825 250 770 305 740 370 C728 405 724 440 726 470Z" fill="url(#gLeaf)" stroke="#4D7C0F" stroke-width="0.9" stroke-opacity="0.55"/>
+            <path d="M730 460 C790 420 850 370 890 320" fill="none" stroke="rgba(45,90,20,0.3)" stroke-width="1.2" stroke-linecap="round"/>
+          </g>
+          <g class="leaf w-l5" filter="url(#gShadowSoft)">
+            <path d="M716 320 C665 300 595 260 555 210 C525 175 545 140 590 140 C635 140 680 185 705 240 C714 270 718 300 716 320Z" fill="url(#gLeaf)" stroke="#4D7C0F" stroke-width="0.85" stroke-opacity="0.5"/>
+            <path d="M712 310 C670 280 625 245 590 205" fill="none" stroke="rgba(45,90,20,0.28)" stroke-width="1.1" stroke-linecap="round"/>
+          </g>
+          <g class="leaf w-l6" filter="url(#gShadowSoft)">
+            <path d="M724 280 C770 255 835 215 870 165 C895 130 875 100 835 105 C795 110 755 155 735 205 C726 235 722 260 724 280Z" fill="url(#gLeaf2)" stroke="#4D7C0F" stroke-width="0.85" stroke-opacity="0.5"/>
+            <path d="M728 270 C765 240 810 200 845 160" fill="none" stroke="rgba(45,90,20,0.28)" stroke-width="1.1" stroke-linecap="round"/>
+          </g>
+          <g class="leaf w-l7" filter="url(#gShadowSoft)">
+            <path d="M716 100 C690 75 665 40 662 12 C660 -6 682 -12 700 2 C716 14 722 50 720 80 C719 90 717 97 716 100Z" fill="url(#gLeaf)" stroke="#4D7C0F" stroke-width="0.8" stroke-opacity="0.5"/>
+          </g>
+          <g class="leaf w-l8" filter="url(#gShadowSoft)">
+            <path d="M724 90 C752 65 782 32 792 6 C800 -12 778 -18 760 -2 C744 12 732 48 726 78 C725 85 724 89 724 90Z" fill="url(#gLeaf2)" stroke="#4D7C0F" stroke-width="0.8" stroke-opacity="0.5"/>
+          </g>
+        </g>
+      </svg>
+    </div>
     <header class="hero">
       <div class="hero-layout hero-layout--centered">
         <div class="hero-subgrid">
@@ -404,7 +649,7 @@
             <div class="hero-brand" id="hero-brand-title">
               <span class="hero-brand-emoji">🌱</span> Sprout
             </div>
-            <h1 class="hero-headline">Fix broken development environments with <em>one</em> CLI.</h1>
+            <h1 class="hero-headline">Fix and grow your <em>AI development</em> environment</h1>
             <div class="hero-actions">
               <div class="hero-command-cta dramatic-cta">
                 <code class="hero-command-text">npm install -g sprout-install</code>
