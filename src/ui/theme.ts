@@ -11,6 +11,21 @@
 
 import chalk from "chalk";
 
+/**
+ * Sprout's terminal palette mirrors the website: forest, paper, pink, and
+ * yellow on a near-black ground. `forestReadable` is the same forest family,
+ * lifted for legibility in terminals with dark backgrounds.
+ */
+export const palette = {
+  black: "#101512",
+  paper: "#FFFDF8",
+  forest: "#174B32",
+  forestDeep: "#0D2E20",
+  forestReadable: "#7EBD8A",
+  pink: "#DF3F68",
+  yellow: "#F1C94B",
+} as const;
+
 export const glyph = {
   dot: "⏺",
   elbow: "⎿",
@@ -22,12 +37,18 @@ export const glyph = {
 } as const;
 
 export const color = {
-  brand: chalk.hex("#4cbf6c"),
-  brandDim: chalk.hex("#2e7d46"),
-  accent: chalk.cyan,
-  warn: chalk.yellow,
-  danger: chalk.red,
-  magic: chalk.magenta,
+  /** Primary affirmative/status color: readable forest on dark terminals. */
+  brand: chalk.hex(palette.forestReadable),
+  /** Structural borders and headings retain Sprout's deep forest. */
+  brandDim: chalk.hex(palette.forest),
+  /** Commands and focus affordances use the yellow accent. */
+  accent: chalk.hex(palette.yellow),
+  warn: chalk.hex(palette.yellow),
+  /** Errors and attention states use the site pink, not terminal red. */
+  danger: chalk.hex(palette.pink),
+  /** Dry-run / non-destructive states use the same pink family. */
+  magic: chalk.hex(palette.pink),
+  text: chalk.hex(palette.paper),
   dim: chalk.dim,
   bold: chalk.bold,
 } as const;

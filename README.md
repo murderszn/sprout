@@ -44,7 +44,7 @@ sprout --version
 If npm registry access is blocked, use the release tarball fallback instead:
 
 ```sh
-npm install -g https://github.com/murderszn/sprout/releases/download/v0.3.0/sprout-install-0.3.0.tgz
+npm install -g https://github.com/murderszn/sprout/releases/download/v0.3.1/sprout-install-0.3.1.tgz
 ```
 
 Do **not** install from the GitHub Pages site URL (`murderszn.github.io/sprout`) — that serves the website, not the npm package.

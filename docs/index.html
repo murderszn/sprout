@@ -10,7 +10,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://murderszn.github.io; connect-src 'self'; form-action 'none'; upgrade-insecure-requests">
-  <meta name="theme-color" content="#6C8E32">
+  <meta name="theme-color" content="#174B32">
   <meta name="application-name" content="Sprout">
   <meta name="apple-mobile-web-app-title" content="Sprout">
   <link rel="canonical" href="https://murderszn.github.io/sprout/">
@@ -37,8 +37,8 @@
   <link rel="manifest" href="public/site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=65">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=73">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -102,15 +102,49 @@
     ]
   </script>
   <style>
-    /* Avocado hero field — soft depth, plant sits in the left wash */
+    /* Artwork-led hero field */
     .overlay {
-      background-color: #a9e24a !important;
-      background-image:
-        radial-gradient(ellipse 70% 80% at 12% 78%, rgba(108, 142, 50, 0.22) 0%, transparent 55%),
-        radial-gradient(ellipse 90% 60% at 50% 0%, rgba(226, 240, 194, 0.32) 0%, transparent 55%),
-        radial-gradient(ellipse 70% 50% at 50% 100%, rgba(34, 49, 18, 0.1) 0%, transparent 50%) !important;
-      /* visible so plant leaves aren't clipped at the left edge */
-      overflow: visible;
+      background: var(--paper) !important;
+      overflow: hidden;
+    }
+    .hero-art {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+      background: var(--paper) url('public/banner-flora.png') center / cover no-repeat;
+    }
+    .hero-art::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255, 253, 247, 0.2), rgba(17, 19, 24, 0.18));
+      z-index: 1;
+    }
+    .hero-art__image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0;
+      animation: hero-art-cycle 18s ease-in-out infinite both;
+    }
+    .hero-art__image--flora { animation-delay: 0s; }
+    .hero-art__image--tracks { animation-delay: 6s; }
+    .hero-art__image--bonzzi { animation-delay: 12s; }
+    .hero-plant { display: none; }
+    @keyframes hero-art-cycle {
+      0% { opacity: 0; transform: scale(1.025); }
+      4%, 34% { opacity: 1; transform: scale(1); }
+      40%, 100% { opacity: 0; transform: scale(1.015); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-art__image,
+      .terminal-card-container { animation: none !important; }
+      .hero-art__image--flora { opacity: 1; }
     }
     
     /* Hero Redesign: Centered Stack Layout Override */
@@ -166,20 +200,27 @@
       position: relative;
       z-index: 3;
       font-family: var(--font-brand);
-      font-size: 1.15rem;
-      font-weight: 800;
-      letter-spacing: 0.25em;
-      color: #223112 !important; /* Always black/dark green */
+      font-size: 1.4rem;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      color: var(--black) !important;
       text-transform: uppercase;
       display: inline-flex;
       align-items: center;
       align-self: center;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
+      gap: 0.65rem;
+      margin-bottom: 1.2rem;
+      padding: 0.4rem 0.85rem 0.4rem 0.6rem;
+      background: rgba(255, 253, 248, 0.8);
+      border: 1px solid rgba(23, 75, 50, 0.32);
+      border-radius: 999px;
       animation: hero-enter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
-    .hero-brand-emoji {
-      font-size: 1.35rem;
+    .hero-brand-mark {
+      width: 2.55rem;
+      height: 2.55rem;
+      object-fit: contain;
+      flex: 0 0 auto;
     }
     
     .hero-headline {
@@ -193,26 +234,26 @@
       min-width: 0 !important;
       margin: 0 auto 1.35rem !important;
       padding-inline: 0;
-      font-weight: 800;
+      font-weight: 900;
       text-align: center;
       letter-spacing: -0.035em;
       text-transform: none !important;
-      color: #1a280c !important;
+      color: var(--black) !important;
       overflow-wrap: normal;
       text-wrap: balance;
       text-shadow: none;
     }
-    /* "development" — italic + soft cream band (no marker bar) */
+    /* Highlighted hero phrase — heavy, straight type with a soft paper band. */
     .hero-headline em {
-      font-style: italic !important;
-      font-weight: 800 !important;
-      color: #2a4010 !important;
-      -webkit-text-fill-color: #2a4010 !important;
+      font-style: normal !important;
+      font-weight: 900 !important;
+      color: var(--pink) !important;
+      -webkit-text-fill-color: var(--pink) !important;
       background-image: linear-gradient(
         180deg,
         transparent 56%,
-        rgba(250, 253, 246, 0.78) 56%,
-        rgba(250, 253, 246, 0.78) 94%,
+        rgba(255, 253, 247, 0.88) 56%,
+        rgba(255, 253, 247, 0.88) 94%,
         transparent 94%
       ) !important;
       background-color: transparent !important;
@@ -250,19 +291,17 @@
       margin-left: auto !important;
       margin-right: auto !important;
       background: var(--black-raised) !important;
-      border: 2px solid var(--yellow) !important;
-      border-radius: 10px !important;
+      border: 2px solid var(--cobalt) !important;
+      border-radius: 6px !important;
       padding: 0.375rem 0.375rem 0.375rem 1rem !important; /* Tighter aligned padding */
       max-width: 420px !important; /* Compact width to fit text exactly */
       width: 100% !important;
       height: 50px !important; /* Sleeker height */
-      box-shadow: 0 12px 36px rgba(108, 142, 50, 0.12) !important;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
       position: relative !important;
     }
     .dramatic-cta:hover {
-      border-color: var(--accent-bright) !important;
-      box-shadow: 0 16px 48px rgba(78, 115, 31, 0.18) !important;
+      border-color: var(--pink) !important;
       transform: translateY(-2px);
     }
     .dramatic-cta .hero-command-text {
@@ -274,12 +313,12 @@
       font-weight: 600;
     }
     .dramatic-copy-btn {
-      background: var(--accent-bright) !important;
-      color: #FAFDF6 !important; /* light cream text */
+      background: var(--pink) !important;
+      color: var(--paper) !important;
       font-family: var(--font-brand);
       font-weight: 700;
       border: none !important;
-      border-radius: 6px !important;
+      border-radius: 3px !important;
       padding: 0 1rem !important;
       height: 38px !important; /* Tighter button height */
       display: inline-flex !important;
@@ -288,10 +327,10 @@
       transition: all 0.2s ease !important;
       cursor: pointer !important;
       font-size: 0.9rem !important;
-      box-shadow: 0 4px 10px rgba(78, 115, 31, 0.12);
+      box-shadow: none;
     }
     .dramatic-copy-btn:hover {
-      background: var(--yellow-deep-rgb) !important;
+      background: rgb(var(--yellow-deep-rgb)) !important;
       transform: scale(1.02);
     }
     
@@ -312,19 +351,16 @@
       margin-bottom: 1.25rem !important;
       padding-inline: 0;
     }
-    /* Full iPad-style display — thin plant photo bezel, dark screen */
+    /* The terminal is the hero object; no decorative device frame. */
     .terminal-card-container {
       aspect-ratio: 16 / 10 !important;
       max-height: none !important;
       width: 100% !important;
-      padding: clamp(0.45rem, 1.6%, 0.75rem) !important;
-      border-radius: 22px !important;
-      background-image: url('public/hero-sprout.jpg') !important;
-      background-size: cover !important;
-      background-position: center !important;
-      box-shadow:
-        0 0 0 1px rgba(0, 0, 0, 0.22),
-        0 36px 90px rgba(0, 0, 0, 0.4) !important;
+      padding: 0 !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: none !important;
+      box-shadow: none !important;
     }
     .terminal-card-container .hero-terminal,
     .terminal-card-container .mac-terminal {
@@ -334,10 +370,10 @@
     .hero-scroll-icon-only {
       position: relative;
       z-index: 3;
-      color: rgba(34, 49, 18, 0.55) !important;
+      color: rgba(17, 19, 24, 0.64) !important;
     }
     .hero-scroll-icon-only:hover {
-      color: #223112 !important;
+      color: var(--forest-deep) !important;
     }
 
     /* Laptop / iPad landscape */
@@ -415,6 +451,11 @@
         width: 100%;
         margin-bottom: 0.6rem;
         font-size: 0.9rem;
+        padding: 0.32rem 0.65rem 0.32rem 0.5rem;
+      }
+      .hero-brand-mark {
+        width: 1.85rem;
+        height: 1.85rem;
       }
       .hero-headline {
         font-size: clamp(1.85rem, 8.5vw, 2.45rem) !important;
@@ -486,11 +527,11 @@
         aspect-ratio: auto !important;
         min-height: 300px !important;
         max-height: none !important;
-        padding: 0.45rem !important;
-        border-radius: 16px !important;
-        background-image: url('public/hero-sprout.jpg') !important;
-        background-size: cover !important;
-        background-position: center !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: none !important;
+        box-shadow: none !important;
       }
       .hero-terminal,
       .mac-terminal {
@@ -644,6 +685,7 @@
 
   <nav class="nav" id="nav" aria-label="Main navigation">
     <a href="#top" class="nav-logo" aria-label="Sprout — back to top">
+      <img class="nav-logo-mark" src="public/sprout-mark.png" alt="">
       <span class="nav-logo-text">SPROUT</span>
     </a>
     <div class="nav-links">
@@ -655,6 +697,11 @@
 
   <div class="overlay" id="overlay">
     <!-- <canvas class="overlay-bg-canvas" id="hero-shader-canvas"></canvas> -->
+    <div class="hero-art" aria-hidden="true">
+      <img class="hero-art__image hero-art__image--flora" src="public/banner-flora.png" alt="">
+      <img class="hero-art__image hero-art__image--tracks" src="public/banner-tracks.png" alt="">
+      <img class="hero-art__image hero-art__image--bonzzi" src="public/banner-bonzzi.png" alt="">
+    </div>
     <div class="hero-plant" aria-hidden="true">
       <!-- viewBox padded left so left leaves are fully visible (paths extend ~440) -->
       <svg class="hero-plant__svg" viewBox="400 0 560 900" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
@@ -803,9 +850,10 @@
         <div class="hero-subgrid">
           <div class="hero-intro">
             <div class="hero-brand" id="hero-brand-title">
-              <span class="hero-brand-emoji">🌱</span> Sprout
+              <img class="hero-brand-mark" src="public/sprout-mark.png" alt="">
+              <span>Sprout</span>
             </div>
-            <h1 class="hero-headline">Grow your own <em>AI development</em> environments</h1>
+            <h1 class="hero-headline">Homegrown <em>AI environments</em></h1>
             <div class="hero-actions">
               <div class="hero-command-cta dramatic-cta">
                 <code class="hero-command-text">npm install -g sprout-install</code>
@@ -856,7 +904,6 @@
     <section id="why" class="why-sprout">
       <div class="why-sprout-inner reveal-on-scroll">
         <header class="why-sprout-header">
-          <div class="section-label">// WHY SPROUT</div>
           <h2 class="section-title">AI work needs a clean local stack</h2>
           <p class="section-desc">
             Working with AI means your PC needs a solid DevOps environment — not just a model chat window.
@@ -884,7 +931,6 @@
     <section id="install" class="install">
       <div class="install-inner reveal-on-scroll">
         <header class="install-header">
-          <div class="section-label">// INSTALL</div>
           <h2 class="section-title">Three steps to your first install</h2>
           <p class="section-desc">Install Sprout, add your Pollinations key, then install the tools your AI workspace needs. Sprout detects your machine before it changes anything.</p>
         </header>
@@ -1074,14 +1120,25 @@
       </div>
     </section>
 
-    <div class="shader-banner" aria-hidden="true">
-      <canvas class="shader-banner-canvas"></canvas>
+    <div id="sprout-clock" class="shader-banner">
+      <canvas class="shader-banner-canvas" aria-hidden="true"></canvas>
+      <div class="shader-clock" data-local-clock aria-label="Sprout local time">
+        <span class="shader-clock__timezone" data-clock-timezone>LOCAL TIME</span>
+        <div class="shader-clock__face">
+          <span class="shader-clock__hand shader-clock__hand--hour" data-clock-hour></span>
+          <span class="shader-clock__hand shader-clock__hand--minute" data-clock-minute></span>
+          <span class="shader-clock__hand shader-clock__hand--second" data-clock-second></span>
+          <span class="shader-clock__pin"></span>
+          <span class="shader-clock__brand">SPROUT</span>
+        </div>
+        <time class="shader-clock__time" data-clock-time></time>
+        <button class="shader-clock__sound" type="button" data-clock-sound aria-pressed="false">Sound on</button>
+      </div>
     </div>
 
     <section id="commands" class="channels">
       <div class="channels-inner reveal-on-scroll">
         <header class="channels-header">
-          <div class="section-label">// COMMANDS</div>
           <h2 class="section-title section-title--channels">What you run</h2>
           <p class="section-desc section-desc--channels">Sprout's whole world is the local tools AI work depends on — package managers, PATH, and shell config — nothing else.</p>
         </header>
@@ -1230,7 +1287,6 @@
     <section id="features" class="features">
       <div class="features-header reveal-on-scroll">
         <div class="features-header-main">
-          <span class="section-label section-label--dark">// HOW IT WORKS</span>
           <h2 class="features-title features-title--header">Detect → plan → confirm → verify</h2>
           <p class="features-header-aside">A narrow CLI agent — not a general coding assistant. It orchestrates brew, apt, npm, pip, and friends instead of reimplementing them.</p>
         </div>
@@ -1368,7 +1424,6 @@
     <section id="faq" class="faq">
       <div class="faq-inner reveal-on-scroll">
         <header class="faq-header">
-          <div class="section-label">// FAQ</div>
           <h2 class="section-title">Common questions</h2>
           <p class="section-desc">Straight answers before you run anything on your machine.</p>
         </header>
@@ -1432,7 +1487,7 @@
 
   <script src="hero-shader.js?v=44" defer></script>
   <script src="hero-terminal.js?v=43" defer></script>
-  <script src="shader-banner.js?v=43" defer></script>
+  <script src="shader-banner.js?v=47" defer></script>
   <script src="main.js?v=43" defer></script>
   <script src="feature-terminals.js" defer></script>
 </body>

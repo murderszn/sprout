@@ -7,50 +7,57 @@
 }
 
 :root {
-  /* Premium Avocado Light Theme */
-  --yellow: #6C8E32; /* Avocado Green */
-  --yellow-bright: #E2F0C2; /* Soft light yellow-green (avocado flesh) */
-  --yellow-png: #84CC16;
-  --yellow-hover: #7E9F41;
-  --yellow-rgb: 108, 142, 50;
-  --yellow-bright-rgb: 226, 240, 194;
-  --yellow-deep-rgb: 34, 49, 18; /* Dark avocado green-black text base */
-  --accent-light: #7E9F41;
-  --accent-bright: #4E731F; /* Rich forest green */
-  --accent-bright-rgb: 78, 115, 31;
-  --accent-pale: #223112; /* Dark green for text */
-  --black: #FFFFFF; /* Replaced with White where we have it */
-  --black-soft: #FAFDF6; /* Cream/white main page background */
-  --black-raised: #F1F5EB; /* Panel background */
-  --gray: #62754A;
-  --gray-muted: #8BA076;
-  --gray-light: #4E5F3B; /* Dark sage green text */
-  --white: #223112; /* Primary body text (dark avocado green/brown) */
-  --text-on-dark: #223112;
-  --text-on-dark-muted: #586B47;
-  --text-on-yellow: #223112; /* Dark green text on yellow/bright elements */
-  --text-on-yellow-muted: #4E5F3B;
-  --text-on-yellow-subtle: #6B7F56;
+  /* Forest palette: black, white, forest, pink, and yellow. */
+  --black: #101512;
+  --white: #101512;
+  --paper: #FFFDF8;
+  --forest: #174B32;
+  --forest-deep: #0D2E20;
+  --pink: #DF3F68;
+  --yellow-accent: #F1C94B;
+  --cobalt: var(--yellow-accent); /* Legacy alias for existing emphasis rules. */
+  --meadow: var(--forest);
+  --yellow: var(--forest);
+  --yellow-bright: var(--paper);
+  --yellow-png: var(--yellow-accent);
+  --yellow-hover: var(--forest-deep);
+  --yellow-rgb: 23, 75, 50;
+  --yellow-bright-rgb: 255, 253, 247;
+  --yellow-deep-rgb: 16, 21, 18;
+  --accent-light: var(--yellow-accent);
+  --accent-bright: var(--forest);
+  --accent-bright-rgb: 23, 75, 50;
+  --accent-pale: var(--black);
+  --black-soft: var(--paper);
+  --black-raised: #F1F4ED;
+  --gray: #3B4D40;
+  --gray-muted: #46594C;
+  --gray-light: #1D3326;
+  --text-on-dark: var(--paper);
+  --text-on-dark-muted: #344B3C;
+  --text-on-yellow: var(--black);
+  --text-on-yellow-muted: #2A4032;
+  --text-on-yellow-subtle: #435649;
   --border-dark: rgba(var(--yellow-rgb), 0.14);
   --border-panel: rgba(var(--yellow-rgb), 0.22);
   --border-yellow: rgba(var(--yellow-rgb), 0.16);
   --accent-line: rgba(var(--yellow-rgb), 0.28);
   
   /* Terminal session variables */
-  --t-box-bg: rgba(108, 142, 50, 0.06);
-  --t-box-border: rgba(108, 142, 50, 0.28);
-  --t-brand: #6C8E32;
-  --t-accent: #4E731F;
-  --t-dim: #62754A;
-  --t-faint: #8BA076;
-  --t-ok: #2E8B3E;
-  --t-fail: #C23E3E;
-  --t-warn: #C2A21F;
+  --t-box-bg: rgba(23, 75, 50, 0.1);
+  --t-box-border: rgba(23, 75, 50, 0.34);
+  --t-brand: var(--forest);
+  --t-accent: var(--pink);
+  --t-dim: #617064;
+  --t-faint: #99A297;
+  --t-ok: #5CB85C;
+  --t-fail: var(--pink);
+  --t-warn: #D9A21B;
 
-  --radius-panel: 8px;
-  --radius-box: 6px;
-  --font-display: 'Syne', system-ui, sans-serif;
-  --font-brand: 'Lexend', system-ui, sans-serif;
+  --radius-panel: 18px;
+  --radius-box: 12px;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-brand: 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
   --nav-height: 80px;
@@ -78,6 +85,7 @@ body {
   background: var(--black-soft);
   color: var(--white);
   line-height: 1.65;
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
@@ -351,48 +359,20 @@ a {
 .hero-plant .w-l7 { animation-delay: 3.5s; --ox: 50%; --oy: 100%; --r: -8deg; }
 .hero-plant .w-l8 { animation-delay: 3.75s; --ox: 50%; --oy: 100%; --r: 8deg; }
 
-/* iPad-style device frame — plant photo as thin bezel */
+/* Terminal stage — the terminal itself provides the frame. */
 .terminal-card-container {
   position: relative;
   width: 100%;
-  /* Sleek widescreen display proportions */
   aspect-ratio: 16 / 10;
-  background-image: url('public/hero-sprout.jpg');
-  background-size: cover;
-  background-position: center;
   will-change: transform;
   z-index: 1;
-  border-radius: 22px;
-  overflow: hidden;
-  /* Slim device rim + depth */
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.22),
-    0 28px 80px rgba(0, 0, 0, 0.4),
-    0 10px 24px rgba(0, 0, 0, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  /* Thin bezel — photo still reads as border without eating the screen */
-  padding: clamp(0.45rem, 1.6%, 0.75rem);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Subtle glass sheen over the photo bezel */
 .terminal-card-container::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 0;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.08) 0%,
-      transparent 36%,
-      transparent 64%,
-      rgba(0, 0, 0, 0.14) 100%
-    );
+  content: none;
 }
 
 .terminal-card-container .hero-terminal {
@@ -452,7 +432,7 @@ a {
 }
 
 .nav--light .nav-links a {
-  color: rgba(var(--yellow-deep-rgb), 0.52);
+  color: rgba(var(--yellow-deep-rgb), 0.82);
 }
 
 .nav--light .nav-links a:hover,
@@ -468,7 +448,7 @@ a {
 }
 
 .nav--dark .nav-links a {
-  color: rgba(var(--yellow-deep-rgb), 0.55);
+  color: rgba(var(--yellow-deep-rgb), 0.82);
 }
 
 .nav--dark .nav-links a:hover,
@@ -493,7 +473,7 @@ a {
 
 .nav--yellow .nav-links a,
 .nav--cream .nav-links a {
-  color: rgba(var(--yellow-deep-rgb), 0.55);
+  color: rgba(var(--yellow-deep-rgb), 0.82);
 }
 
 .nav--yellow .nav-links a:hover,
@@ -525,6 +505,13 @@ a {
   text-transform: uppercase;
 }
 
+.nav-logo-mark {
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
 .nav-logo-sub {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
@@ -535,12 +522,12 @@ a {
 }
 
 .nav--light .nav-logo-sub {
-  color: rgba(var(--yellow-deep-rgb), 0.45);
+  color: rgba(var(--yellow-deep-rgb), 0.7);
 }
 
 .nav--yellow .nav-logo-sub,
 .nav--cream .nav-logo-sub {
-  color: rgba(var(--yellow-deep-rgb), 0.45);
+  color: rgba(var(--yellow-deep-rgb), 0.7);
 }
 
 .nav-links {
@@ -801,7 +788,7 @@ a {
   font-size: clamp(0.75rem, 1.6vw, 0.875rem);
   font-weight: 500;
   letter-spacing: 0.04em;
-  color: rgba(var(--yellow-deep-rgb), 0.62);
+  color: rgba(var(--yellow-deep-rgb), 0.84);
   margin: 0 0 0.875rem;
 }
 
@@ -846,7 +833,7 @@ a {
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.04em;
-  color: rgba(var(--yellow-deep-rgb), 0.58);
+  color: rgba(var(--yellow-deep-rgb), 0.82);
 }
 
 .hero-trust a {
@@ -1241,14 +1228,14 @@ a {
   border: 1px solid var(--border-panel);
   border-radius: var(--radius-panel);
   padding: 1.25rem 1.35rem;
-  box-shadow: 0 2px 0 rgba(34, 49, 18, 0.07), 3px 4px 0px rgba(34, 49, 18, 0.1);
+  box-shadow: 0 3px 0 rgba(13, 46, 32, 0.34), 0 14px 28px rgba(13, 46, 32, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .why-sprout-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 0 rgba(34, 49, 18, 0.08), 5px 7px 0px rgba(34, 49, 18, 0.14);
-  border-color: rgba(108, 142, 50, 0.35);
+  box-shadow: 0 5px 0 rgba(13, 46, 32, 0.42), 0 20px 36px rgba(13, 46, 32, 0.14);
+  border-color: rgba(var(--yellow-rgb), 0.52);
 }
 
 .why-sprout-card-title {
@@ -1494,22 +1481,22 @@ a {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #325012;
-  background: rgba(108, 142, 50, 0.12);
-  border: 1px solid rgba(108, 142, 50, 0.28);
+  color: var(--forest-deep);
+  background: rgba(var(--yellow-rgb), 0.11);
+  border: 1px solid rgba(var(--yellow-rgb), 0.34);
   border-left: 4px solid var(--yellow);
   padding: 0.3rem 0.75rem 0.3rem 0.65rem;
   border-radius: 3px 8px 8px 3px;
-  box-shadow: 2px 2.5px 0px rgba(34, 49, 18, 0.1);
+  box-shadow: 2px 3px 0 rgba(13, 46, 32, 0.25);
   margin-bottom: 0.85rem;
 }
 
 .section-label--dark,
 .features .section-label {
-  color: #223112;
-  background: rgba(34, 49, 18, 0.1);
-  border-color: rgba(34, 49, 18, 0.22);
-  border-left-color: #223112;
+  color: var(--paper);
+  background: var(--forest-deep);
+  border-color: var(--forest-deep);
+  border-left-color: var(--yellow-accent);
 }
 
 .section-title--channels {
@@ -1894,21 +1881,21 @@ a {
 
 /* Mac Terminal (hero) — dark theme, high-contrast readable text */
 .mac-terminal {
-  --mac-bg: #0a0e07;
-  --mac-toolbar: #141a0f;
-  --mac-text: #f4f7ec;
-  --mac-dim: #c4d4a8;
-  --mac-prompt: #b8c99a;
-  --mac-accent: #b8f03a;
-  --mac-brand: #c8f55a;
-  --mac-ok: #5cf08a;
-  --mac-fail: #ff8a8a;
+  --mac-bg: #0D1711;
+  --mac-toolbar: #173322;
+  --mac-text: #FFFDF7;
+  --mac-dim: #C9C5BD;
+  --mac-prompt: #F1C94B;
+  --mac-accent: #F07190;
+  --mac-brand: #7EBD8A;
+  --mac-ok: #8ED19B;
+  --mac-fail: #F07190;
   background: var(--mac-bg);
   border-radius: 10px;
   overflow: hidden;
   box-shadow:
-    0 0 0 0.5px rgba(163, 230, 53, 0.12),
-    0 22px 70px rgba(0, 0, 0, 0.35);
+    0 0 0 1px rgba(241, 201, 75, 0.48),
+    0 26px 70px rgba(13, 46, 32, 0.45);
   font-family: 'SF Mono', 'Menlo', 'Monaco', 'JetBrains Mono', 'Fira Code', monospace;
   -webkit-font-smoothing: antialiased;
   color: var(--mac-text);
@@ -1920,8 +1907,8 @@ a {
   align-items: center;
   min-height: 34px;
   padding: 0 12px;
-  background: linear-gradient(180deg, #1c2416 0%, var(--mac-toolbar) 100%);
-  border-bottom: 0.5px solid rgba(184, 240, 58, 0.16);
+  background: linear-gradient(180deg, #244A32 0%, var(--mac-toolbar) 100%);
+  border-bottom: 1px solid rgba(241, 201, 75, 0.32);
 }
 
 .mac-terminal-traffic {
@@ -1938,9 +1925,9 @@ a {
   box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.12);
 }
 
-.mac-traffic--close { background: #ff5f57; }
-.mac-traffic--min { background: #febc2e; }
-.mac-traffic--zoom { background: #28c840; }
+.mac-traffic--close { background: var(--pink); }
+.mac-traffic--min { background: var(--yellow-accent); }
+.mac-traffic--zoom { background: #8ED19B; }
 
 .mac-terminal-title {
   margin: 0;
@@ -2024,7 +2011,7 @@ a {
 .mac-terminal .terminal-session .t-brand { color: var(--mac-brand); }
 .mac-terminal .terminal-session .t-accent { color: var(--mac-accent); }
 .mac-terminal .terminal-session .t-dim { color: var(--mac-dim); }
-.mac-terminal .terminal-session .t-faint { color: #a8bc8c; }
+.mac-terminal .terminal-session .t-faint { color: #A9A5A0; }
 .mac-terminal .terminal-session .t-ok { color: var(--mac-ok); }
 .mac-terminal .terminal-session .t-fail { color: var(--mac-fail); }
 .mac-terminal .terminal-session .t-bold { font-weight: 700; }
@@ -2037,9 +2024,9 @@ a {
 .mac-terminal .terminal-session .t-box {
   margin: 0.875rem 0;
   padding: 0.7rem 0.85rem;
-  border: 0.5px solid rgba(184, 240, 58, 0.3);
+  border: 1px solid rgba(241, 201, 75, 0.36);
   border-radius: 6px;
-  background: rgba(184, 240, 58, 0.1);
+  background: rgba(23, 75, 50, 0.28);
 }
 
 .mac-terminal .terminal-session .t-prose {
@@ -2048,8 +2035,8 @@ a {
 
 .mac-terminal .terminal-session .t-prose code,
 .mac-terminal .terminal-session .t-elbow code {
-  color: #d8ff70;
-  background: rgba(184, 240, 58, 0.16);
+  color: #FFD766;
+  background: rgba(241, 201, 75, 0.14);
   border-radius: 3px;
   padding: 0 0.25em;
 }
@@ -2210,6 +2197,135 @@ a {
   height: 100%;
 }
 
+.shader-clock {
+  position: absolute;
+  top: clamp(1rem, 2vw, 1.75rem);
+  right: clamp(1rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  width: 9rem;
+  padding: 0.7rem 0.65rem;
+  background: rgba(255, 253, 248, 0.93);
+  border: 2px solid var(--forest-deep);
+  border-bottom-width: 4px;
+  border-radius: var(--radius-panel);
+  color: var(--forest-deep);
+  font-family: var(--font-mono);
+  pointer-events: none;
+}
+
+.shader-clock__timezone {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.shader-clock__face {
+  position: relative;
+  width: 6.4rem;
+  height: 6.4rem;
+  border: 2px solid var(--forest-deep);
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(from -1deg, var(--forest-deep) 0deg 1deg, transparent 1deg 30deg),
+    var(--paper);
+}
+
+.shader-clock__face::before {
+  content: '';
+  position: absolute;
+  inset: 0.5rem;
+  border: 1px solid rgba(var(--yellow-rgb), 0.32);
+  border-radius: 50%;
+}
+
+.shader-clock__hand {
+  position: absolute;
+  z-index: 2;
+  bottom: 50%;
+  left: 50%;
+  width: 2px;
+  transform-origin: 50% 100%;
+  border-radius: 999px;
+  background: var(--forest-deep);
+}
+
+.shader-clock__hand--hour {
+  width: 4px;
+  height: 1.45rem;
+}
+
+.shader-clock__hand--minute {
+  height: 2rem;
+}
+
+.shader-clock__hand--second {
+  width: 1px;
+  height: 2.25rem;
+  background: var(--pink);
+}
+
+.shader-clock__pin {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--forest-deep);
+  border-radius: 50%;
+  background: var(--yellow-accent);
+}
+
+.shader-clock__brand {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0.7rem);
+  font-size: 0.53rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.shader-clock__time {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.shader-clock__sound {
+  padding: 0.28rem 0.5rem;
+  border: 1px solid var(--forest-deep);
+  border-radius: 999px;
+  background: var(--forest-deep);
+  color: var(--paper);
+  font: inherit;
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.shader-clock__sound[aria-pressed='true'] {
+  background: var(--pink);
+  border-color: var(--pink);
+  color: var(--paper);
+}
+
+@media (max-width: 768px) {
+  .shader-clock {
+    display: none;
+  }
+}
+
 .shader-banner--fallback {
   background-color: rgb(var(--yellow-rgb));
   background-image:
@@ -2217,6 +2333,20 @@ a {
     linear-gradient(90deg, var(--black) 20px, transparent 20px);
   background-size: 24px 24px;
   background-position: 0 0;
+}
+
+/* Forest surfaces always carry light, high-contrast text. */
+.skip-link,
+.hero-command-cta,
+.hero-ticker,
+.footer {
+  color: var(--paper);
+}
+
+.footer .footer-label,
+.footer .footer-tagline,
+.footer .footer-links a {
+  color: var(--paper);
 }
 
 .channels {
@@ -3343,7 +3473,7 @@ a {
   border: 1px solid var(--border-panel);
   border-radius: var(--radius-panel);
   overflow: hidden;
-  box-shadow: 0 2px 0 rgba(34, 49, 18, 0.08), 3px 4px 0px rgba(34, 49, 18, 0.12);
+  box-shadow: 0 3px 0 rgba(13, 46, 32, 0.28), 0 14px 30px rgba(13, 46, 32, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
   display: flex;
   flex-direction: column;
@@ -3352,15 +3482,14 @@ a {
 
 .clip-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 0 rgba(34, 49, 18, 0.08), 5px 7px 0px rgba(34, 49, 18, 0.16);
-  border-color: rgba(108, 142, 50, 0.4);
-  background: rgba(108, 142, 50, 0.03);
+  box-shadow: 0 6px 0 rgba(13, 46, 32, 0.35), 0 20px 36px rgba(13, 46, 32, 0.14);
+  border-color: rgba(var(--yellow-rgb), 0.62);
+  background: rgba(var(--yellow-rgb), 0.06);
 }
 
 .clip-card .terminal-block {
   border: none;
   border-radius: 0;
-  border-bottom: 1px solid var(--border-panel);
   margin-bottom: 0;
 }
 
@@ -3476,4 +3605,99 @@ a {
     align-items: stretch;
     gap: 1.5rem;
   }
+}
+
+/* Forest depth pass — soft corners with a pronounced, tactile edge. */
+.panel,
+.platform-card,
+.terminal-block,
+.gh-command,
+.faq-item,
+.clip-card,
+.recipe-invite,
+.install-stepper-item {
+  border: 1.5px solid rgba(var(--yellow-rgb), 0.34);
+  border-radius: var(--radius-panel);
+  box-shadow: 0 4px 0 rgba(13, 46, 32, 0.28), 0 14px 30px rgba(13, 46, 32, 0.1);
+}
+
+.platform-card,
+.install-stepper-item {
+  background: var(--black-raised);
+}
+
+.platform-card:hover,
+.platform-card.active,
+.install-stepper-item.is-current,
+.faq-item[open],
+.clip-card:hover {
+  border-color: rgba(var(--yellow-rgb), 0.62);
+  box-shadow: 0 6px 0 rgba(13, 46, 32, 0.35), 0 20px 36px rgba(13, 46, 32, 0.14);
+}
+
+.platform-card:hover,
+.clip-card:hover {
+  transform: translateY(-2px);
+}
+
+.feature-grid {
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1.5px solid rgba(var(--yellow-rgb), 0.38);
+  border-radius: calc(var(--radius-panel) + 2px);
+  background: rgba(var(--yellow-rgb), 0.12);
+  box-shadow: 0 5px 0 rgba(13, 46, 32, 0.3), 0 18px 34px rgba(13, 46, 32, 0.12);
+}
+
+.feature-card {
+  border: 1px solid rgba(var(--yellow-rgb), 0.18);
+  border-radius: calc(var(--radius-panel) - 5px);
+}
+
+.feature-card:hover {
+  background: rgba(var(--yellow-rgb), 0.1);
+}
+
+/* Container system: depth comes from stacked borders, never cast shadows. */
+*,
+*::before,
+*::after {
+  box-shadow: none !important;
+}
+
+:where(
+  .why-sprout-card,
+  .panel,
+  .platform-card,
+  .terminal-block,
+  .gh-command,
+  .faq-item,
+  .clip-card,
+  .recipe-invite,
+  .install-stepper-item,
+  .feature-card
+) {
+  border: 2px solid rgba(var(--yellow-rgb), 0.42);
+  border-bottom: 5px solid var(--forest-deep);
+  border-radius: var(--radius-panel);
+  background-clip: padding-box;
+}
+
+:where(.platform-card, .clip-card, .feature-card, .why-sprout-card):hover {
+  transform: translateY(-2px);
+  border-color: var(--forest);
+  border-bottom-color: var(--yellow-accent);
+}
+
+.feature-grid {
+  border: 2px solid rgba(var(--yellow-rgb), 0.42);
+  border-bottom: 5px solid var(--forest-deep);
+  border-radius: calc(var(--radius-panel) + 2px);
+}
+
+.clip-card .terminal-block,
+.clip-card .terminal-header,
+.clip-card .terminal-body,
+.clip-card .clip-info {
+  border-bottom: 0;
 }

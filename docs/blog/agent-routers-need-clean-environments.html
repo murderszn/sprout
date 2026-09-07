@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" id="top">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Routers Make Clean Environments Non-Negotiable | Sprout</title>
+  <meta name="description" content="Coding agents and agent routers make it easier to swap specialists. That only works when the local environment underneath them is clean, discoverable, and easy to repair.">
+  <meta name="keywords" content="Sprout, coding agents, agent router, AI developer tools, clean environment, local tooling, CLI installation, PATH, developer workflow">
+  <meta name="author" content="murderszn">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://murderszn.github.io/sprout/blog/agent-routers-need-clean-environments.html">
+  <link rel="icon" href="../public/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css?v=73">
+  <style>
+    .blog-container { max-width: 760px; margin: 0 auto; padding: calc(var(--nav-height) + 3rem) 1.5rem 6rem; }
+    .blog-header { margin-bottom: 3rem; border-bottom: 2px solid var(--border-dark); padding-bottom: 2rem; }
+    .blog-category, .blog-meta, .back-home { font-family: var(--font-mono); color: var(--gray); font-size: 0.9rem; }
+    .blog-category { color: var(--accent-bright); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-bottom: 0.75rem; }
+    .blog-title { font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 900; line-height: 1.12; color: var(--white); margin-bottom: 1.25rem; }
+    .blog-content { font-size: 1.125rem; line-height: 1.8; color: var(--white); }
+    .blog-content p, .blog-content ul, .blog-content ol { margin-bottom: 1.6rem; }
+    .blog-content li { margin-bottom: 0.7rem; }
+    .blog-content h2 { font-family: var(--font-display); font-size: 1.8rem; line-height: 1.25; color: var(--white); margin: 3rem 0 1.15rem; }
+    .blog-content strong { color: var(--forest-deep); }
+    .blog-content code { font-family: var(--font-mono); font-size: 0.9em; background: var(--black-raised); border: 1px solid var(--border-panel); border-radius: var(--radius-box); padding: 0.15rem 0.35rem; }
+    .blog-content a, .back-home { color: var(--accent-bright); text-decoration: underline; text-underline-offset: 3px; }
+    .callout-box { background: var(--black-raised); border: 2px solid rgba(var(--yellow-rgb), 0.42); border-bottom: 5px solid var(--forest-deep); border-radius: var(--radius-panel); padding: 1.4rem; margin: 2.25rem 0; }
+    .callout-box h3 { font-family: var(--font-brand); font-size: 1.1rem; color: var(--forest-deep); margin-bottom: 0.5rem; }
+    .callout-box p { margin: 0; }
+    .back-home { display: inline-block; margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <nav class="nav" id="nav" aria-label="Main navigation">
+    <a href="../#top" class="nav-logo" aria-label="Sprout — back to top">
+      <img class="nav-logo-mark" src="../public/sprout-mark.png" alt="">
+      <span class="nav-logo-text">SPROUT</span>
+    </a>
+    <div class="nav-links">
+      <a href="../#install">Install</a>
+      <a href="https://github.com/murderszn/sprout/blob/main/README.md" target="_blank" rel="noopener noreferrer">Docs</a>
+      <a href="https://discord.gg/h9aXFuKqsv" target="_blank" rel="noopener noreferrer">Community</a>
+    </div>
+  </nav>
+
+  <main class="blog-container">
+    <a href="./" class="back-home">← back to the blog</a>
+    <article>
+      <header class="blog-header">
+        <span class="blog-category">Agent workflows · Local tooling</span>
+        <h1 class="blog-title">Agent Routers Make Clean Environments Non-Negotiable</h1>
+        <div class="blog-meta">Published September 7, 2026 <span aria-hidden="true">·</span> By murderszn <span aria-hidden="true">·</span> 5 min read</div>
+      </header>
+
+      <section class="blog-content">
+        <p>Coding agents are no longer a single tool you open and keep open all day. A useful workflow increasingly looks like a small team: one agent explores a codebase, another writes an implementation, another checks tests, and a router decides where each job should go. That flexibility is powerful. It also raises the standard for the machine underneath.</p>
+
+        <p>Every specialist arrives with assumptions. It may expect <code>git</code>, a current Node runtime, a package manager, a cloud CLI, a formatter, a browser harness, or an environment variable. If those assumptions are not true, switching agents does not feel like a handoff. It feels like starting over with a different kind of failure.</p>
+
+        <h2>The environment is now shared infrastructure</h2>
+
+        <p>When one developer used one editor and one assistant, a messy local setup was mostly personal friction. With agents, that same setup becomes shared infrastructure. A router can select the right model for a task, but it cannot make a missing binary appear on <code>PATH</code>. It cannot safely guess whether the active Python is system Python, <code>pyenv</code>, or a virtual environment. It cannot know whether a previous agent changed a shell profile without looking.</p>
+
+        <p>That is why a clean environment is not about making a laptop look pristine. It is about making the operating surface legible. Tools should be installed intentionally, their locations should be discoverable, and the result should be verifiable by the next agent in the chain.</p>
+
+        <div class="callout-box">
+          <h3>Clean does not mean identical</h3>
+          <p>A clean environment can still be personal. It can use Homebrew, npm, uv, Docker, or a preferred shell. The important part is that those choices are detectable, explicit, and working—not that every machine runs the same bootstrap script.</p>
+        </div>
+
+        <h2>Routers turn installation into a normal operation</h2>
+
+        <p>Agent routing changes the economics of tool installation. It is now normal to bring in a new agent because it is better at a certain framework, deployment target, or data platform. That agent may need a companion CLI or a different local capability. The environment needs to support that change at the same speed as the routing decision.</p>
+
+        <p>The unhealthy pattern is familiar: an agent suggests a command, the developer pastes it, an install partly succeeds, and the next agent inherits the residue. Repeating that loop makes a machine less predictable every week. A better pattern makes every new tool a small, observable transaction:</p>
+
+        <ol>
+          <li><strong>Detect the current machine.</strong> Identify the OS, shell, package managers, architecture, and relevant <code>PATH</code> state.</li>
+          <li><strong>State the plan.</strong> Explain what will be installed or changed before commands run.</li>
+          <li><strong>Install through the right local path.</strong> Respect the machine rather than assuming a generic tutorial is correct.</li>
+          <li><strong>Verify the handoff.</strong> Run the real command that proves the next agent can use the tool.</li>
+        </ol>
+
+        <h2>Make the next switch cheap</h2>
+
+        <p>The best test for an environment is simple: can you switch agents without thinking about the environment first? When the answer is yes, a router can do what it is supposed to do—choose the best capability for the task instead of choosing the agent least likely to hit a setup problem.</p>
+
+        <p>Sprout is built for that layer. It is deliberately narrow: detect the machine, plan a tool install or repair, ask before changes, and verify the result. That gives coding agents a cleaner place to land and gives developers confidence that a new tool will not quietly create a new category of local mess.</p>
+
+        <p>The future of coding agents is not one perfect agent. It is a flexible set of agents, each used where it is strongest. A clean, verified local environment is what makes that flexibility practical.</p>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

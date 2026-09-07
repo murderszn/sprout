@@ -15,6 +15,7 @@ uniform float u_scale;
 uniform float u_density;
 uniform vec3 u_yellow;
 uniform vec3 u_black;
+uniform vec3 u_accent;
 
 float hash21(vec2 p){
   p = fract(p * vec2(234.34, 435.345));
@@ -94,7 +95,6 @@ void main(){
   vec2 p = vec2(gl_FragCoord.x, u_res.y - gl_FragCoord.y) / mn;
   p *= mix(1.2, 2.6, u_scale) * 3.0;
 
-  float tick = floor(u_time * 1.6);
   float freq = 5.0 + u_density * 7.0;
   
   float gutter = 0.05;
@@ -114,61 +114,25 @@ void main(){
   vec2 cluster3 = floor(id / 3.0);
   vec2 clusterCoord = mix(cluster2, cluster3, step(0.58, chunkRoll));
 
-  float clusterOrder = hash21(clusterCoord * 1.91 + vec2(u_seed * 0.13)) * CYCLE;
-
-  float trailHead = mod(tick * 1.35 + u_seed * 0.2, CYCLE);
-  float trailA = inTrail(clusterOrder, trailHead);
-  float trailB = inTrail(clusterOrder, mod(trailHead + CYCLE * 0.33, CYCLE));
-  float trailC = inTrail(clusterOrder, mod(trailHead + CYCLE * 0.66, CYCLE));
-  float addressed = max(trailA, max(trailB, trailC));
-
-  float head0 = mod(tick * 1.9 + u_seed * 3.7, CYCLE);
-  float head1 = mod(tick * 2.7 + u_seed * 1.4, CYCLE);
-  float head2 = mod(tick * 1.3 + u_seed * 5.1, CYCLE);
-  float head3 = mod(tick * 3.1 + u_seed * 2.8, CYCLE);
-
-  float clusterActive = 0.0;
-  clusterActive = max(clusterActive, nearHead(clusterOrder, head0));
-  clusterActive = max(clusterActive, nearHead(clusterOrder, head1));
-  clusterActive = max(clusterActive, nearHead(clusterOrder, head2));
-  clusterActive = max(clusterActive, nearHead(clusterOrder, head3));
-
-  float pulse = 1.0 - step(0.5, mod(tick, 2.0));
-  clusterActive *= pulse;
-
-  float cellOrder = hash21(id + vec2(u_seed * 0.29)) * CYCLE;
-  float sparkHead = mod(tick * 4.3 + u_seed * 7.2, CYCLE);
-  float cellSpark = nearHead(cellOrder, sparkHead) * pulse;
-
-  // Center the word "SPROUT" relative to screen geometry, independent of seedOffset
-  vec2 centerId = floor((vec2(0.5 * u_res.x, 0.5 * u_res.y) / mn) * mix(1.2, 2.6, u_scale) * 3.0 * freq + vec2(gutter * 1.5));
-  vec2 relId = floor(gv) - centerId;
-
-  bool inWord = false;
-  vec2 localId = vec2(relId.x + 11.0, 2.0 + relId.y);
-  if (localId.x >= -0.5 && localId.x < 23.0 && localId.y >= -0.5 && localId.y < 5.0) {
-    inWord = isSprout(localId);
-  }
-
-  float highlighted = clamp(
-    max(addressed, clusterActive * 0.95) + cellSpark * 0.85,
-    0.0, 1.0
-  );
-
-  if (inWord) {
-    float wave = 0.8 + 0.2 * sin(u_time * 2.5 - length(p - vec2(0.5 * u_res.x, 0.5 * u_res.y) / mn) * 6.0);
-    highlighted = wave;
-  }
+  // This is deliberately static: the clock is the only time-based element.
+  // Grouped hash values give the field a technical, court-side scoreboard feel
+  // without any flicker, sweep, or reactive animation.
+  float clusterPattern = hash21(clusterCoord * 1.91 + vec2(u_seed * 0.13));
+  float cellPattern = hash21(id + vec2(u_seed * 0.29));
+  float highlighted = step(0.68, clusterPattern) * (0.6 + 0.4 * step(0.45, cellPattern));
+  float timingSignal = step(0.992, cellPattern) * inBox;
 
   float fill = inBox * (1.0 - highlighted);
   vec3 col = mix(u_yellow, u_black, fill);
+  col = mix(col, u_accent, timingSignal);
   gl_FragColor = vec4(col, 1.0);
 }`;
 
   const PARAMS = {
     seed: 2251,
-    yellow: '#C7E38B',
-    black: '#FAFDF6',
+    yellow: '#174B32',
+    black: '#FFFDF8',
+    accent: '#F1C94B',
     scale: 0.5,
     density: 0.55,
   };
@@ -195,6 +159,8 @@ void main(){
 
   banners.forEach((banner) => {
     const canvas = banner.querySelector('.shader-banner-canvas');
+    const clock = banner.querySelector('[data-local-clock]');
+    const soundButton = banner.querySelector('[data-clock-sound]');
     if (!canvas) return;
 
     const gl = canvas.getContext('webgl', { alpha: false, antialias: false });
@@ -236,13 +202,78 @@ void main(){
       u_density: gl.getUniformLocation(prog, 'u_density'),
       u_yellow: gl.getUniformLocation(prog, 'u_yellow'),
       u_black: gl.getUniformLocation(prog, 'u_black'),
+      u_accent: gl.getUniformLocation(prog, 'u_accent'),
     };
 
     let width = 0;
     let height = 0;
     let rafId = 0;
     let visible = false;
+    let lastSecond = null;
+    let clockSoundEnabled = false;
+    let audioContext = null;
     const t0 = performance.now();
+
+    function playTick() {
+      if (!audioContext || audioContext.state !== 'running') return;
+
+      const start = audioContext.currentTime;
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      oscillator.type = 'triangle';
+      oscillator.frequency.setValueAtTime(1180, start);
+      oscillator.frequency.exponentialRampToValueAtTime(760, start + 0.035);
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.exponentialRampToValueAtTime(0.024, start + 0.003);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.045);
+      oscillator.connect(gain).connect(audioContext.destination);
+      oscillator.start(start);
+      oscillator.stop(start + 0.05);
+    }
+
+    async function toggleClockSound() {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass || !soundButton) return;
+
+      if (!audioContext) audioContext = new AudioContextClass();
+      if (audioContext.state === 'suspended') await audioContext.resume();
+      clockSoundEnabled = !clockSoundEnabled;
+      soundButton.setAttribute('aria-pressed', String(clockSoundEnabled));
+      soundButton.textContent = clockSoundEnabled ? 'Sound off' : 'Sound on';
+      if (clockSoundEnabled) playTick();
+    }
+
+    if (soundButton) soundButton.addEventListener('click', toggleClockSound);
+
+    function updateClock() {
+      if (!clock) return;
+
+      const now = new Date();
+      const seconds = now.getSeconds();
+      const minutes = now.getMinutes() + seconds / 60;
+      const hours = (now.getHours() % 12) + minutes / 60;
+      const hourHand = clock.querySelector('[data-clock-hour]');
+      const minuteHand = clock.querySelector('[data-clock-minute]');
+      const secondHand = clock.querySelector('[data-clock-second]');
+      const time = clock.querySelector('[data-clock-time]');
+      const zone = clock.querySelector('[data-clock-timezone]');
+
+      if (hourHand) hourHand.style.transform = `rotate(${hours * 30}deg)`;
+      if (minuteHand) minuteHand.style.transform = `rotate(${minutes * 6}deg)`;
+      if (secondHand) secondHand.style.transform = `rotate(${seconds * 6}deg)`;
+      if (time) {
+        time.textContent = now.toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        });
+      }
+      if (zone) {
+        zone.textContent = `LOCAL / ${Intl.DateTimeFormat().resolvedOptions().timeZone || 'TIME'}`;
+      }
+      if (clockSoundEnabled && lastSecond !== null && seconds !== lastSecond) playTick();
+      lastSecond = seconds;
+    }
 
     function resize() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -262,6 +293,7 @@ void main(){
       if (!visible) return;
 
       const elapsed = prefersReducedMotion ? 0.0 : (now - t0) / 1000;
+      updateClock();
 
       gl.uniform2f(U.u_res, width, height);
       gl.uniform1f(U.u_time, elapsed);
@@ -270,6 +302,7 @@ void main(){
       gl.uniform1f(U.u_density, PARAMS.density);
       gl.uniform3fv(U.u_yellow, hex2rgb(PARAMS.yellow));
       gl.uniform3fv(U.u_black, hex2rgb(PARAMS.black));
+      gl.uniform3fv(U.u_accent, hex2rgb(PARAMS.accent));
 
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       rafId = requestAnimationFrame(draw);

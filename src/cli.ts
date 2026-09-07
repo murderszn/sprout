@@ -84,16 +84,16 @@ async function performByopLogin(save = true): Promise<string> {
     onAuthorized: ({ user }) => {
       process.stdout.write("\n");
       if (user?.preferred_username) {
-        console.log(chalk.green(`  ${glyph.ok} authorized as ${user.preferred_username}`));
+        console.log(color.brand(`  ${glyph.ok} authorized as ${user.preferred_username}`));
       } else {
-        console.log(chalk.green(`  ${glyph.ok} authorized`));
+        console.log(color.brand(`  ${glyph.ok} authorized`));
       }
     },
   });
 
   if (save) {
     writeConfig({ apiKey: key, apiKeyKind: "byop" });
-    console.log(chalk.green(`\nSaved (masked: ${maskKey(key)}) to ${configFilePath()}`));
+    console.log(color.brand(`\nSaved (masked: ${maskKey(key)}) to ${configFilePath()}`));
   }
 
   return key;
@@ -118,7 +118,7 @@ async function requireApiKey(): Promise<string> {
   const save = await promptYesNo(`Save it to ${configFilePath()} (chmod 600)? Otherwise export SPROUT_API_KEY each run.`);
   if (save) {
     writeConfig({ apiKey: key, apiKeyKind: "manual" });
-    console.log(chalk.green(`Saved to ${configFilePath()}`));
+    console.log(color.brand(`Saved to ${configFilePath()}`));
   }
   return key;
 }
@@ -158,7 +158,7 @@ program
   .option("--no-save", "authorize but do not write the key to ~/.sprout/config.json")
   .action(async (cmdOpts: { noSave?: boolean }) => {
     if (!interactive()) {
-      console.error(chalk.red("sprout login requires an interactive terminal."));
+      console.error(color.danger("sprout login requires an interactive terminal."));
       process.exitCode = 1;
       return;
     }
@@ -214,7 +214,7 @@ program
     }
     log = log.trim();
     if (!log) {
-      console.error(chalk.red("Nothing to diagnose — pipe or paste the failing command and its output."));
+      console.error(color.danger("Nothing to diagnose — pipe or paste the failing command and its output."));
       process.exitCode = 1;
       return;
     }
@@ -255,17 +255,17 @@ program
     if (cmdOpts.setKey) {
       const key = await promptForApiKey();
       writeConfig({ apiKey: key, apiKeyKind: "manual" });
-      console.log(chalk.green(`Saved (masked: ${maskKey(key)}) to ${configFilePath()}`));
+      console.log(color.brand(`Saved (masked: ${maskKey(key)}) to ${configFilePath()}`));
       return;
     }
     if (cmdOpts.clearKey) {
       writeConfig({ apiKey: undefined, apiKeyKind: undefined });
-      console.log(chalk.green("Stored API key cleared."));
+      console.log(color.brand("Stored API key cleared."));
       return;
     }
     if (cmdOpts.model) {
       writeConfig({ model: cmdOpts.model });
-      console.log(chalk.green(`Default model set to ${cmdOpts.model}`));
+      console.log(color.brand(`Default model set to ${cmdOpts.model}`));
       return;
     }
     const cfg = readConfig();
@@ -291,9 +291,9 @@ program
     console.log(chalk.dim(`endpoint: ${POLLINATIONS_BASE_URL} · model: ${model}`));
     const status = await checkModelStatus(apiKey, model);
     if (status.ok) {
-      console.log(chalk.green("✓ ") + status.detail);
+      console.log(color.brand("✓ ") + status.detail);
     } else {
-      console.log(chalk.red("✗ ") + status.detail);
+      console.log(color.danger("✗ ") + status.detail);
       process.exitCode = 1;
     }
   });
@@ -316,6 +316,6 @@ function readAll(stream: NodeJS.ReadStream): Promise<string> {
 }
 
 program.parseAsync().catch((err: Error) => {
-  console.error(chalk.red("\n" + err.message));
+  console.error(color.danger("\n" + err.message));
   process.exit(1);
 });
