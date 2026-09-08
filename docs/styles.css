@@ -503,6 +503,8 @@ a {
   font-weight: 800;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+  /* The wordmark stays black on every scroll-state background. */
+  color: var(--black);
 }
 
 .nav-logo-mark {
