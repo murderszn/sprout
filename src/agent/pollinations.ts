@@ -36,7 +36,9 @@ export async function checkModelStatus(apiKey: string, model: string): Promise<M
   let listed = false;
   try {
     const models = await client.models.list();
-    listed = models.data.some((m) => m.id === model);
+    listed = models.data.some(
+      (m: OpenAI.Models.Model & { aliases?: string[] }) => m.id === model || m.aliases?.includes(model)
+    );
   } catch (err) {
     const status = (err as { status?: number }).status;
     if (status === 401 || status === 403) {
