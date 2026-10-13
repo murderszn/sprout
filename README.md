@@ -152,5 +152,11 @@ To add a tool to the knowledge base, see [CONTRIBUTING.md](CONTRIBUTING.md).
 ---
 
 <p align="center">
+  <a href="https://murderszn.github.io/sprout/">
+    <img src="docs/public/sprout-growth.gif" alt="A sprout grows into a flowering pink rose" width="240">
+  </a>
+</p>
+
+<p align="center">
   <sub>Built by <a href="https://github.com/murderszn">murderszn</a> · MIT · Powered by <a href="https://enter.pollinations.ai">Pollinations</a></sub>
 </p>

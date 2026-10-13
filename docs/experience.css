@@ -1,0 +1,576 @@
+/* Navigation and practical controls for the longer editorial page. */
+html {
+	scroll-padding-top: 104px;
+}
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 40;
+	display: block;
+	height: 82px;
+	background: #f7f5eeed;
+	backdrop-filter: blur(14px);
+	border-bottom: 1px solid transparent;
+	transition:
+		border-color 0.2s,
+		box-shadow 0.2s;
+}
+.site-header.is-scrolled {
+	border-color: var(--line);
+	box-shadow: 0 4px 20px #092e2505;
+}
+.header-inner {
+	display: flex;
+	height: 100%;
+	align-items: center;
+	justify-content: space-between;
+	gap: 26px;
+}
+.site-header .brand {
+	font-size: 33px;
+}
+.site-header .brand svg {
+	width: 26px;
+	height: 37px;
+}
+.site-header .desktop-navigation {
+	margin-left: auto;
+	gap: 28px;
+}
+.site-header nav a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+}
+.header-actions {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+}
+.header-install {
+	display: inline-flex;
+	gap: 18px;
+	align-items: center;
+	min-height: 44px;
+	padding: 8px 17px;
+	border: 1px solid var(--line);
+	border-radius: 4px;
+	text-decoration: none;
+	font-size: 13px;
+	font-weight: 600;
+}
+.header-install:hover {
+	background: var(--forest);
+	color: var(--paper);
+	border-color: var(--forest);
+}
+.mobile-menu {
+	display: none;
+}
+.page-progress {
+	position: absolute;
+	height: 2px;
+	left: 0;
+	bottom: -1px;
+	width: var(--page-progress, 0%);
+	background: var(--pink);
+	pointer-events: none;
+}
+.skip-link {
+	z-index: 60;
+}
+.section-label > button {
+	display: inline-flex;
+	align-items: center;
+	gap: 12px;
+	min-height: 44px;
+	padding: 0 2px;
+	border: 0;
+	background: none;
+	color: var(--ink);
+	font-size: 12px;
+	cursor: pointer;
+}
+.section-label > button:hover {
+	color: #a43d59;
+}
+.tool-strip button {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	min-height: 48px;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: inherit;
+	font-size: inherit;
+	cursor: pointer;
+}
+.tool-strip button:hover {
+	color: #a43d59;
+}
+.supported-tools:not([open]) {
+	display: block;
+}
+.supported-tools[hidden],
+.tool-library li[hidden],
+.library-empty[hidden] {
+	display: none;
+}
+.supported-tools {
+	padding-top: 30px;
+	margin-top: 24px;
+}
+.library-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 28px;
+}
+.library-header h3 {
+	font-family: var(--serif);
+	font-weight: 400;
+	font-size: 32px;
+}
+.supported-tools .library-header p {
+	font-size: 13px;
+	margin-top: 7px;
+}
+.tool-search-label {
+	width: min(280px, 40%);
+}
+.tool-search-label input {
+	width: 100%;
+	min-height: 48px;
+	padding: 10px 15px;
+	border: 1px solid var(--line);
+	background: #fff9;
+	border-radius: 4px;
+	color: var(--ink);
+	font: inherit;
+	font-size: 14px;
+}
+.tool-search-label input:focus-visible {
+	outline: 2px solid var(--pink);
+	outline-offset: 3px;
+}
+.supported-tools .library-count {
+	font-size: 11px;
+	margin-top: 24px;
+}
+.tool-library {
+	gap: 8px;
+	margin-top: 13px;
+}
+.tool-library li {
+	border: 0;
+	padding: 0;
+}
+.tool-library button {
+	min-height: 44px;
+	padding: 8px 13px;
+	border: 1px solid var(--line);
+	border-radius: 4px;
+	background: transparent;
+	font-size: 12px;
+	color: var(--ink);
+	cursor: pointer;
+}
+.tool-library button:hover {
+	background: #e9eddf;
+}
+.tool-library button[aria-pressed="true"] {
+	border-color: var(--forest);
+	background: var(--forest);
+	color: var(--paper);
+}
+.tool-selection {
+	margin-top: 24px;
+	padding: 22px 0 0;
+	border-top: 1px solid var(--line);
+}
+.tool-selection > span {
+	display: block;
+	font-weight: 600;
+	font-size: 14px;
+}
+.tool-selection .command-bar {
+	max-width: 480px;
+	margin-top: 12px;
+}
+.supported-tools .tool-selection p {
+	margin-top: 12px;
+	font-size: 12px;
+	max-width: 65ch;
+}
+.supported-tools .library-empty {
+	padding-block: 20px;
+	font-size: 14px;
+}
+.demo-expand {
+	display: inline-flex;
+	gap: 9px;
+	width: auto;
+	min-height: 44px;
+	height: auto;
+	padding: 4px 0 4px 10px;
+	font-family: var(--sans);
+	font-size: 11px;
+	letter-spacing: 0;
+	white-space: nowrap;
+}
+.demo-tabs {
+	gap: 20px;
+}
+.demo-tabs button {
+	font-size: 11px;
+}
+.demo-progress {
+	gap: 12px;
+	padding-bottom: 0;
+	margin-top: 10px;
+}
+.demo-progress > span {
+	height: auto;
+	padding: 7px 0;
+	border-top: 2px solid #dce0d4;
+	background: none;
+	color: var(--muted);
+	font-family: var(--mono);
+	font-size: 9px;
+}
+.demo-progress > span.is-reached {
+	background: none;
+	color: #365d2e;
+	border-color: #779369;
+}
+.demo-controls button {
+	min-height: 44px;
+	padding: 6px 0;
+}
+.demo-follow {
+	min-height: 44px;
+	bottom: 92px;
+}
+.control-note {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 80px;
+	align-items: center;
+	padding-block: 58px 66px;
+	border-top: 1px solid var(--line);
+}
+.control-note h2 {
+	font-size: clamp(40px, 4vw, 52px);
+}
+.control-note h2 em {
+	color: #a43d59;
+}
+.control-note > div > p:not(.eyebrow) {
+	color: var(--muted);
+	font-size: 15px;
+	line-height: 1.8;
+}
+.control-note > div > p + p {
+	margin-top: 16px;
+}
+.control-note .text-link {
+	margin-top: 22px;
+}
+.setup-help {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	min-height: 44px;
+	font-size: 12px;
+	margin-top: 8px;
+	color: #476341;
+}
+.setup-checkpoint {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	border-top: 1px solid var(--line);
+	padding-block: 23px;
+	font-size: 13px;
+}
+.setup-checkpoint > svg {
+	width: 27px;
+	height: 27px;
+	flex-shrink: 0;
+	color: #517044;
+}
+.setup-checkpoint p {
+	color: var(--muted);
+}
+.setup-checkpoint a {
+	margin-left: auto;
+	font-size: 12px;
+	min-height: 44px;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+.copy-toast {
+	position: fixed;
+	z-index: 100;
+	bottom: 24px;
+	left: 50%;
+	transform: translate(-50%, 10px);
+	opacity: 0;
+	pointer-events: none;
+	max-width: calc(100vw - 32px);
+	width: max-content;
+	padding: 14px 20px;
+	color: var(--paper);
+	background: var(--forest);
+	border: 1px solid #ffffff28;
+	border-radius: 6px;
+	box-shadow: 0 8px 30px #092e2522;
+	font-size: 13px;
+	overflow-wrap: anywhere;
+	transition:
+		opacity 0.2s,
+		transform 0.2s;
+}
+.copy-toast.is-visible {
+	opacity: 1;
+	transform: translate(-50%, 0);
+}
+.copy-btn {
+	min-height: 44px;
+	min-width: 44px;
+}
+/* Setup commands share the open typographic treatment of the CLI examples. */
+.install-steps .command-bar {
+	border: 0;
+	border-radius: 0;
+	background: none;
+	padding: 2px 0;
+	min-height: 48px;
+}
+.install-steps .command-bar::before {
+	content: "❯";
+	font-family: var(--mono);
+	font-size: 13px;
+	color: #a43d59;
+}
+.install-steps .command-bar code {
+	color: var(--ink);
+	font-size: 12px;
+}
+@media (max-width: 1100px) and (min-width: 901px) {
+	.demo-tabs {
+		gap: 14px;
+	}
+	.demo-tabs button {
+		font-size: 10px;
+	}
+	.tool-strip {
+		gap: 14px;
+	}
+	.tool-strip li + li {
+		padding-left: 16px;
+	}
+	.tool-strip button {
+		font-size: 14px;
+		gap: 8px;
+	}
+}
+@media (max-width: 900px) {
+	.control-note {
+		gap: 40px;
+	}
+	.demo-tabs button {
+		font-size: 13px;
+	}
+	.setup-checkpoint {
+		flex-wrap: wrap;
+	}
+	.setup-checkpoint a {
+		margin-left: 43px;
+	}
+}
+@media (max-width: 760px) {
+	html {
+		scroll-padding-top: 88px;
+	}
+	.site-header {
+		height: 68px;
+	}
+	.header-inner {
+		gap: 12px;
+	}
+	.site-header .brand {
+		font-size: 28px;
+		gap: 9px;
+	}
+	.site-header .brand svg {
+		width: 23px;
+		height: 33px;
+	}
+	.site-header .desktop-navigation {
+		display: none;
+	}
+	.header-install {
+		font-size: 12px;
+		min-height: 44px;
+		padding-inline: 12px;
+		gap: 14px;
+	}
+	.header-actions {
+		gap: 6px;
+	}
+	.mobile-menu {
+		display: block;
+	}
+	.mobile-menu summary {
+		list-style: none;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		cursor: pointer;
+		border-radius: 4px;
+	}
+	.mobile-menu summary::-webkit-details-marker {
+		display: none;
+	}
+	.mobile-menu summary svg {
+		width: 23px;
+		height: 23px;
+	}
+	.mobile-menu[open] summary {
+		background: #e4e9dc;
+	}
+	.site-header .mobile-menu nav {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 0;
+		position: absolute;
+		top: 67px;
+		left: 0;
+		width: 100%;
+		background: var(--paper);
+		border-block: 1px solid var(--line);
+		padding: 12px 24px 20px;
+		box-shadow: 0 14px 24px #092e2510;
+		font-size: 15px;
+		max-height: calc(100dvh - 68px);
+		overflow-y: auto;
+	}
+	.site-header .mobile-menu:not([open]) nav {
+		display: none;
+	}
+	.site-header .mobile-menu nav a {
+		min-height: 48px;
+		justify-content: space-between;
+	}
+	.control-note {
+		grid-template-columns: 1fr;
+		gap: 28px;
+		padding-block: 42px 48px;
+	}
+	.control-note h2 br {
+		display: none;
+	}
+	.control-note h2 em {
+		margin-left: 8px;
+	}
+	.control-note h2 {
+		font-size: 40px;
+	}
+	.library-header {
+		align-items: stretch;
+		flex-direction: column;
+		gap: 20px;
+	}
+	.tool-search-label {
+		width: 100%;
+	}
+	.tool-strip button {
+		min-height: 54px;
+	}
+	.tool-library button {
+		font-size: 12px;
+	}
+	.setup-checkpoint p {
+		flex: 1;
+		font-size: 12px;
+	}
+	.setup-checkpoint a {
+		font-size: 12px;
+	}
+	.demo-expand {
+		min-height: 44px;
+		font-size: 11px;
+	}
+	.tui-heading {
+		letter-spacing: 0.1em;
+	}
+	.copy-btn {
+		padding: 8px;
+	}
+	.workspace-commands .copy-btn {
+		min-width: 44px;
+		min-height: 44px;
+	}
+	.animation-toggle {
+		min-height: 44px;
+		padding-block: 10px;
+	}
+}
+@media (max-width: 420px) {
+	.header-install {
+		gap: 8px;
+	}
+	.demo-tabs {
+		gap: 14px;
+		justify-content: space-between;
+	}
+	.demo-tabs button {
+		font-size: 10px;
+	}
+	.demo-tabs button > span {
+		display: none;
+	}
+	.demo-state {
+		font-size: 9px;
+		max-width: 155px;
+	}
+	.demo-controls {
+		gap: 12px;
+	}
+	.demo-progress > span {
+		font-size: 8px;
+	}
+	.tui-heading {
+		font-size: 8px;
+		letter-spacing: 0.06em;
+	}
+	.hero .command-bar code {
+		font-size: 10px;
+	}
+	.library-header h3 {
+		font-size: 28px;
+	}
+	.section-label {
+		gap: 10px;
+	}
+	.section-label h2 {
+		font-size: 10px;
+	}
+	.section-label > button {
+		font-size: 11px;
+		white-space: nowrap;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.copy-toast,
+	.site-header,
+	.demo-progress > span {
+		transition: none;
+	}
+}

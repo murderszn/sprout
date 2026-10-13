@@ -1,12 +1,12 @@
 {
-  "name": "Sprout — Install-fixer CLI",
+  "name": "Sprout \u2014 Install-fixer CLI",
   "short_name": "Sprout",
-  "description": "Diagnose and fix local install, config, and PATH problems for developer tools on macOS and Linux.",
+  "description": "Install and repair local developer tools on macOS, Linux, and Windows.",
   "start_url": "/sprout/",
   "scope": "/sprout/",
   "display": "standalone",
-  "background_color": "#84CC16",
-  "theme_color": "#65A30D",
+  "background_color": "#f7f5ee",
+  "theme_color": "#133b2c",
   "icons": [
     {
       "src": "favicon.svg",

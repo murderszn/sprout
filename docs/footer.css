@@ -1,0 +1,459 @@
+.botanical-footer {
+	position: relative;
+	background: #133b2c;
+	color: #f7f5ee;
+	overflow: hidden;
+	border-top: 1px solid #284a37;
+	isolation: isolate;
+}
+.botanical-footer::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background: radial-gradient(ellipse at 78% 27%, #3b57322b, transparent 48%);
+}
+.footer-top {
+	display: grid;
+	grid-template-columns: 1.2fr 0.8fr;
+	gap: 60px;
+	align-items: center;
+	padding-top: 58px;
+	padding-bottom: 38px;
+}
+.footer-invitation .eyebrow {
+	color: #c4d2b8;
+	font-size: 11px;
+	margin-bottom: 21px;
+}
+.footer-invitation h2 {
+	font-size: clamp(50px, 5.6vw, 72px);
+	line-height: 1.02;
+	margin-bottom: 24px;
+	letter-spacing: -0.035em;
+}
+.footer-description {
+	font-size: 17px;
+	line-height: 1.65;
+	color: #d4dfcd;
+	max-width: 44ch;
+}
+.footer-actions {
+	display: flex;
+	align-items: center;
+	gap: 25px;
+	margin-block: 25px 18px;
+}
+.footer-source {
+	font-size: 13px;
+	color: #e1e7d7;
+	text-decoration: none;
+}
+.footer-source:hover {
+	text-decoration: underline;
+}
+.footer-account {
+	font-size: 11px;
+	color: #b5c6ac;
+	max-width: 45ch;
+	line-height: 1.7;
+}
+.footer-garden {
+	min-width: 0;
+	position: relative;
+	align-self: end;
+	padding-top: 5px;
+}
+.footer-plant {
+	position: relative;
+	width: min(100%, 345px);
+	aspect-ratio: 271.5 / 362;
+	margin-inline: auto;
+}
+.footer-plant-frame {
+	position: absolute;
+	inset: 0;
+	background: url("public/sprouted-sprite.png") 100% 100% / 400% 400% no-repeat;
+	animation: footer-grow 16s steps(1, end) infinite;
+	mask-image: linear-gradient(
+		to right,
+		transparent,
+		#000 8%,
+		#000 98%,
+		transparent
+	);
+	will-change: background-position, transform;
+}
+.footer-plant-frame.is-paused {
+	animation-play-state: paused;
+}
+.garden-caption {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 20px;
+	border-top: 1px solid #ffffff20;
+	padding-top: 12px;
+	font-family: var(--mono);
+	font-size: 9px;
+	letter-spacing: 0.01em;
+	color: #c1cfb5;
+	margin-top: -24px;
+	position: relative;
+}
+.garden-caption .animation-toggle {
+	color: #c1cfb5;
+	font-size: 9px;
+}
+.footer-navigation {
+	border-top: 1px solid #ffffff20;
+	display: grid;
+	grid-template-columns: 1.3fr 1fr 1fr 1fr;
+	gap: 48px;
+	padding-block: 36px 38px;
+}
+.footer-identity .brand {
+	font-size: 32px;
+}
+.footer-identity .brand svg {
+	height: 38px;
+	width: 26px;
+}
+.footer-identity > p {
+	font-size: 11px;
+	color: #b5c6ac;
+	margin-top: 13px;
+}
+.footer-navigation nav {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 10px;
+}
+.footer-navigation h3 {
+	font-family: var(--sans);
+	font-size: 10px;
+	font-weight: 500;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: #aebe9e;
+	margin-bottom: 7px;
+}
+.footer-navigation nav > a {
+	font-size: 12px;
+	text-decoration: none;
+	color: #e1e7d7;
+}
+.footer-navigation a:hover,
+.footer-colophon a:hover {
+	color: #f0b0c3;
+}
+.footer-colophon {
+	display: flex;
+	align-items: center;
+	gap: 30px;
+	border-top: 1px solid #ffffff20;
+	padding-block: 19px 22px;
+	font-size: 10px;
+	color: #b5c6ac;
+}
+.footer-colophon > p {
+	margin-right: auto;
+}
+.footer-colophon a {
+	text-decoration: none;
+}
+@media (max-width: 1100px) {
+	.footer-top {
+		gap: 35px;
+	}
+	.footer-navigation {
+		gap: 28px;
+	}
+	.footer-navigation h3 {
+		font-size: 9px;
+	}
+	.garden-caption {
+		font-size: 8px;
+		gap: 12px;
+	}
+}
+@media (max-width: 900px) {
+	.footer-top {
+		grid-template-columns: 1fr 1fr;
+		gap: 24px;
+		padding-top: 42px;
+	}
+	.footer-invitation h2 {
+		font-size: 49px;
+	}
+	.footer-description {
+		font-size: 14px;
+	}
+	.footer-actions {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 15px;
+	}
+	.footer-account {
+		font-size: 10px;
+	}
+	.footer-plant {
+		width: 100%;
+	}
+	.footer-navigation {
+		grid-template-columns: 1.2fr 1fr 1fr;
+		gap: 25px;
+	}
+	.footer-identity {
+		grid-column: 1 / -1;
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	}
+	.footer-identity > p {
+		margin-top: 0;
+	}
+	.garden-caption {
+		flex-direction: column;
+		gap: 6px;
+	}
+	.footer-colophon {
+		gap: 18px;
+		font-size: 9px;
+	}
+}
+@media (max-width: 600px) {
+	.footer-top {
+		grid-template-columns: 1fr;
+		gap: 10px;
+		padding-top: 42px;
+		padding-bottom: 25px;
+	}
+	.footer-invitation h2 {
+		font-size: 51px;
+		line-height: 1.05;
+	}
+	.footer-invitation .eyebrow {
+		font-size: 10px;
+		margin-bottom: 15px;
+	}
+	.footer-description {
+		font-size: 15px;
+	}
+	.footer-actions {
+		flex-direction: row;
+		align-items: center;
+		gap: 23px;
+		margin-top: 24px;
+	}
+	.footer-source {
+		font-size: 12px;
+	}
+	.footer-actions .button {
+		min-height: 51px;
+		min-width: 150px;
+		padding-inline: 20px;
+		font-size: 15px;
+	}
+	.footer-account {
+		max-width: 45ch;
+		font-size: 11px;
+	}
+	.footer-garden {
+		width: 100%;
+		max-width: 350px;
+		justify-self: center;
+		padding-top: 0;
+	}
+	.footer-plant {
+		width: 250px;
+	}
+	.garden-caption {
+		flex-direction: row;
+		font-size: 8px;
+		margin-top: -10px;
+		gap: 12px;
+	}
+	.footer-navigation {
+		grid-template-columns: 1fr 1fr;
+		gap: 29px 35px;
+		padding-block: 29px;
+	}
+	.footer-identity {
+		display: block;
+	}
+	.footer-identity .brand {
+		font-size: 32px;
+	}
+	.footer-identity > p {
+		font-size: 11px;
+		margin-top: 12px;
+	}
+	.footer-navigation nav:last-child {
+		grid-column: 1 / -1;
+	}
+	.footer-navigation h3 {
+		font-size: 10px;
+	}
+	.footer-navigation nav > a {
+		font-size: 13px;
+	}
+	.footer-colophon {
+		flex-wrap: wrap;
+		gap: 10px 25px;
+		font-size: 10px;
+		padding-block: 19px 24px;
+	}
+	.footer-colophon p {
+		width: 100%;
+		margin-right: 0;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.footer-plant-frame {
+		animation: none;
+		transform: translate(-9.3923%, 3.0387%);
+		background-position: 100% 100%;
+	}
+	.garden-caption .animation-toggle {
+		display: none;
+	}
+}
+
+/* Per-frame alignment keeps the plant’s soil anchor fixed as it grows and recedes. */
+@keyframes footer-grow {
+	0% {
+		background-position: 0.000000% 0.000000%;
+		transform: translate(1.7311%, 0.0000%);
+	}
+	3% {
+		background-position: 33.333333% 0.000000%;
+		transform: translate(0.6998%, 0.0000%);
+	}
+	6% {
+		background-position: 66.666667% 0.000000%;
+		transform: translate(2.9466%, 0.0000%);
+	}
+	9% {
+		background-position: 100.000000% 0.000000%;
+		transform: translate(5.5985%, -0.2762%);
+	}
+	12% {
+		background-position: 0.000000% 33.333333%;
+		transform: translate(-0.1842%, 0.8287%);
+	}
+	15% {
+		background-position: 33.333333% 33.333333%;
+		transform: translate(-0.4420%, 1.1050%);
+	}
+	18% {
+		background-position: 66.666667% 33.333333%;
+		transform: translate(-0.3683%, 1.1050%);
+	}
+	21% {
+		background-position: 100.000000% 33.333333%;
+		transform: translate(-0.0368%, 0.2762%);
+	}
+	24% {
+		background-position: 0.000000% 66.666667%;
+		transform: translate(-1.4365%, 3.3149%);
+	}
+	27% {
+		background-position: 33.333333% 66.666667%;
+		transform: translate(0.1842%, 3.3149%);
+	}
+	30% {
+		background-position: 66.666667% 66.666667%;
+		transform: translate(-1.7311%, 3.3149%);
+	}
+	33% {
+		background-position: 100.000000% 66.666667%;
+		transform: translate(1.3996%, 3.0387%);
+	}
+	36% {
+		background-position: 0.000000% 100.000000%;
+		transform: translate(-3.9042%, 3.3149%);
+	}
+	39% {
+		background-position: 33.333333% 100.000000%;
+		transform: translate(-2.9098%, 3.0387%);
+	}
+	42% {
+		background-position: 66.666667% 100.000000%;
+		transform: translate(-6.4825%, 3.0387%);
+	}
+	45% {
+		background-position: 100.000000% 100.000000%;
+		transform: translate(-9.3923%, 3.0387%);
+	}
+	60% {
+		background-position: 100.000000% 100.000000%;
+		transform: translate(-9.3923%, 3.0387%);
+	}
+	63% {
+		background-position: 66.666667% 100.000000%;
+		transform: translate(-6.4825%, 3.0387%);
+	}
+	65.5% {
+		background-position: 33.333333% 100.000000%;
+		transform: translate(-2.9098%, 3.0387%);
+	}
+	68% {
+		background-position: 0.000000% 100.000000%;
+		transform: translate(-3.9042%, 3.3149%);
+	}
+	70.5% {
+		background-position: 100.000000% 66.666667%;
+		transform: translate(1.3996%, 3.0387%);
+	}
+	73% {
+		background-position: 66.666667% 66.666667%;
+		transform: translate(-1.7311%, 3.3149%);
+	}
+	75.5% {
+		background-position: 33.333333% 66.666667%;
+		transform: translate(0.1842%, 3.3149%);
+	}
+	78% {
+		background-position: 0.000000% 66.666667%;
+		transform: translate(-1.4365%, 3.3149%);
+	}
+	80.5% {
+		background-position: 100.000000% 33.333333%;
+		transform: translate(-0.0368%, 0.2762%);
+	}
+	83% {
+		background-position: 66.666667% 33.333333%;
+		transform: translate(-0.3683%, 1.1050%);
+	}
+	85.5% {
+		background-position: 33.333333% 33.333333%;
+		transform: translate(-0.4420%, 1.1050%);
+	}
+	88% {
+		background-position: 0.000000% 33.333333%;
+		transform: translate(-0.1842%, 0.8287%);
+	}
+	90.5% {
+		background-position: 100.000000% 0.000000%;
+		transform: translate(5.5985%, -0.2762%);
+	}
+	93% {
+		background-position: 66.666667% 0.000000%;
+		transform: translate(2.9466%, 0.0000%);
+	}
+	95.5% {
+		background-position: 33.333333% 0.000000%;
+		transform: translate(0.6998%, 0.0000%);
+	}
+	98% {
+		background-position: 0.000000% 0.000000%;
+		transform: translate(1.7311%, 0.0000%);
+	}
+	100% {
+		background-position: 0.000000% 0.000000%;
+		transform: translate(1.7311%, 0.0000%);
+	}
+}

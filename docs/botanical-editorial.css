@@ -1,0 +1,681 @@
+/* Botanical plates give each chapter its own breathing room. */
+.hero {
+	padding-top: 52px;
+	padding-bottom: 70px;
+	gap: 68px;
+	grid-template-columns: 1.1fr 1fr;
+}
+.hero-copy {
+	padding-top: 35px;
+}
+.hero-visual {
+	margin-top: 0;
+}
+.hero h1 {
+	font-size: clamp(65px, 7.6vw, 98px);
+}
+.hero-example figcaption {
+	font-size: 9px;
+	padding-top: 15px;
+}
+.hero .hero-description {
+	max-width: 47ch;
+}
+.tools {
+	padding-block: 28px 42px;
+}
+.section {
+	padding-block: 88px;
+}
+h2 em {
+	font-style: italic;
+	color: #bf4269;
+}
+.roots-section {
+	display: grid;
+	grid-template-columns: 0.9fr 1.1fr;
+	gap: 100px;
+	align-items: center;
+	padding-block: 80px 100px;
+}
+.botanical-study {
+	position: relative;
+	text-align: center;
+	min-width: 0;
+}
+.botanical-still {
+	background-image: url("public/sprouted-sprite.png");
+	background-size: 400% 400%;
+	background-repeat: no-repeat;
+	aspect-ratio: 271.5 / 362;
+	margin-inline: auto;
+	mask-image: linear-gradient(
+		to right,
+		transparent,
+		#000 8%,
+		#000 97%,
+		transparent
+	);
+}
+.botanical-still--sprout {
+	width: min(100%, 400px);
+	background-position: 100% 0%;
+}
+.botanical-still--rose {
+	width: min(100%, 380px);
+	background-position: 100% 100%;
+}
+.botanical-study figcaption {
+	font-family: var(--serif);
+	font-size: 20px;
+	font-style: italic;
+	color: #476441;
+	margin-top: -35px;
+	line-height: 1.5;
+}
+.botanical-study figcaption > span {
+	display: block;
+	font-family: var(--mono);
+	font-size: 9px;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	font-style: normal;
+	margin-bottom: 10px;
+	color: var(--muted);
+}
+.roots-copy h2 {
+	font-size: clamp(52px, 5.7vw, 72px);
+	line-height: 1.05;
+	margin-bottom: 28px;
+}
+.editorial-lead {
+	font-size: 21px;
+	line-height: 1.5;
+	margin-bottom: 20px;
+	max-width: 30ch;
+}
+.roots-copy > p:not(.eyebrow):not(.editorial-lead) {
+	font-size: 16px;
+	color: var(--muted);
+	line-height: 1.8;
+	max-width: 49ch;
+}
+.roots-note {
+	display: flex;
+	gap: 17px;
+	align-items: flex-start;
+	margin-top: 28px;
+	max-width: 48ch;
+}
+.roots-note > span {
+	font-size: 25px;
+	color: #a74664;
+	line-height: 1;
+}
+.roots-note p {
+	font-size: 13px;
+	color: #506448;
+	line-height: 1.8;
+}
+.roots-copy .text-link {
+	margin-top: 28px;
+}
+.workflow {
+	padding-block: 66px 76px;
+}
+.workflow h2 {
+	max-width: 950px;
+	margin-bottom: 48px;
+}
+.step-top {
+	height: 78px;
+}
+.workflow-grid p {
+	line-height: 1.7;
+}
+.repair-band {
+	background: #f0eee5;
+	border-block: 0;
+}
+.repair {
+	padding-block: 70px;
+	gap: 100px;
+	grid-template-columns: 1.15fr 0.85fr;
+}
+.repair h2 {
+	font-size: clamp(48px, 5.5vw, 68px);
+}
+.repair .section-description {
+	font-size: 18px;
+	max-width: 46ch;
+	margin-bottom: 29px;
+}
+.repair .command-bar {
+	border-width: 0 0 1px;
+	border-radius: 0;
+	padding-left: 0;
+	max-width: 440px;
+}
+.repair-links {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 12px;
+}
+.quiet-link {
+	font-size: 12px;
+	color: var(--muted);
+	text-decoration: none;
+}
+.quiet-link:hover {
+	text-decoration: underline;
+}
+.rose-study {
+	align-self: center;
+}
+.rose-study figcaption {
+	margin-top: -16px;
+}
+.workspace-section {
+	padding-block: 100px;
+}
+.workspace-heading {
+	max-width: 760px;
+}
+.workspace-heading .eyebrow {
+	margin-bottom: 18px;
+}
+.workspace-heading h2 {
+	font-size: clamp(46px, 5.4vw, 67px);
+	margin-bottom: 22px;
+}
+.workspace-heading > p:last-child {
+	font-size: 17px;
+	color: var(--muted);
+	line-height: 1.7;
+}
+.workspace-picker {
+	display: flex;
+	gap: 45px;
+	border-bottom: 1px solid var(--line);
+	margin-top: 45px;
+}
+.workspace-picker button {
+	display: flex;
+	align-items: center;
+	gap: 13px;
+	font-size: 16px;
+	font-weight: 500;
+	padding: 0 0 19px;
+	border: 0;
+	border-bottom: 2px solid transparent;
+	background: none;
+	color: var(--muted);
+	cursor: pointer;
+}
+.workspace-picker button > span {
+	font-family: var(--mono);
+	font-size: 10px;
+	color: var(--muted);
+}
+.workspace-picker button[aria-selected="true"] {
+	border-color: #bf4269;
+	color: var(--ink);
+}
+.workspace-picker button[aria-selected="true"] > span {
+	color: #a93e61;
+}
+.workspace-panel {
+	display: grid;
+	grid-template-columns: 0.8fr 1.2fr;
+	gap: 95px;
+	padding-top: 36px;
+}
+.workspace-intro h3 {
+	font-family: var(--serif);
+	font-size: 30px;
+	line-height: 1.2;
+	font-weight: 400;
+	letter-spacing: -0.025em;
+	margin-bottom: 16px;
+	max-width: 20ch;
+}
+.workspace-intro > p {
+	font-size: 15px;
+	line-height: 1.8;
+	color: var(--muted);
+	max-width: 34ch;
+}
+.workspace-footnote {
+	display: block;
+	font-family: var(--mono);
+	font-size: 9px;
+	color: var(--muted);
+	margin-top: 23px;
+}
+.workspace-commands li {
+	display: grid;
+	grid-template-columns: 1fr auto auto;
+	align-items: center;
+	gap: 14px;
+	padding-block: 17px;
+	border-bottom: 1px solid var(--line);
+}
+.workspace-commands li:first-child {
+	padding-top: 0;
+}
+.workspace-commands strong {
+	display: block;
+	font-size: 15px;
+	font-weight: 500;
+	margin-bottom: 4px;
+}
+.workspace-commands li > div > span {
+	display: block;
+	font-size: 11px;
+	color: var(--muted);
+	max-width: 24ch;
+}
+.workspace-commands code {
+	font-size: 11px;
+	color: #37522f;
+}
+.workspace-commands .copy-btn {
+	margin: 0;
+	font-size: 11px;
+}
+.workspace-commands .copy-btn .icon {
+	width: 16px;
+	height: 16px;
+}
+.getting-started {
+	border-top: 1px solid var(--line);
+	padding-block: 84px 94px;
+}
+.install-intro h2 {
+	font-size: 69px;
+}
+.install-steps {
+	gap: 32px;
+}
+.faq {
+	padding-block: 84px 95px;
+}
+.footer-top {
+	padding-top: 75px;
+}
+@media (min-width: 1400px) {
+	.hero {
+		padding-top: 70px;
+	}
+	.hero-copy {
+		padding-top: 25px;
+	}
+	.roots-section {
+		padding-block: 100px 120px;
+	}
+	.hero h1 {
+		font-size: 103px;
+	}
+}
+@media (max-width: 1100px) {
+	.hero {
+		gap: 42px;
+	}
+	.hero-copy {
+		padding-top: 20px;
+	}
+	.hero h1 {
+		font-size: 7.6vw;
+	}
+	.roots-section,
+	.repair {
+		gap: 55px;
+	}
+	.roots-copy h2 {
+		font-size: 58px;
+	}
+	.workspace-panel {
+		gap: 50px;
+	}
+	.workspace-picker {
+		gap: 28px;
+	}
+	.workspace-picker button {
+		font-size: 14px;
+	}
+	.workspace-commands li {
+		gap: 10px;
+	}
+	.workspace-commands code {
+		font-size: 10px;
+	}
+}
+@media (max-width: 900px) {
+	.hero {
+		grid-template-columns: 1fr;
+		padding-top: 30px;
+		padding-bottom: 45px;
+		gap: 0;
+	}
+	.hero-copy {
+		padding-top: 0;
+		max-width: 650px;
+	}
+	.hero h1 {
+		font-size: clamp(58px, 10.6vw, 80px);
+	}
+	.hero-visual {
+		margin-top: 35px;
+	}
+	.hero-example {
+		max-width: 650px;
+	}
+	.roots-section {
+		grid-template-columns: 0.8fr 1.2fr;
+		gap: 35px;
+		padding-block: 60px 75px;
+	}
+	.botanical-study figcaption {
+		font-size: 17px;
+	}
+	.roots-copy h2 {
+		font-size: 46px;
+	}
+	.editorial-lead {
+		font-size: 18px;
+	}
+	.roots-copy > p:not(.eyebrow):not(.editorial-lead) {
+		font-size: 14px;
+	}
+	.roots-note {
+		gap: 12px;
+		margin-top: 20px;
+	}
+	.roots-note p {
+		font-size: 12px;
+	}
+	.roots-section .eyebrow {
+		font-size: 9px;
+	}
+	.repair {
+		gap: 35px;
+		grid-template-columns: 1.1fr 0.9fr;
+		padding-block: 55px;
+	}
+	.repair h2 {
+		font-size: 47px;
+	}
+	.repair .section-description {
+		font-size: 16px;
+	}
+	.rose-study figcaption {
+		font-size: 16px;
+	}
+	.workspace-section {
+		padding-block: 70px;
+	}
+	.workspace-picker {
+		gap: 20px;
+	}
+	.workspace-picker button {
+		font-size: 13px;
+		gap: 8px;
+	}
+	.workspace-panel {
+		gap: 32px;
+		grid-template-columns: 0.8fr 1.2fr;
+	}
+	.workspace-intro h3 {
+		font-size: 26px;
+	}
+	.workspace-intro > p {
+		font-size: 14px;
+	}
+	.workspace-commands li {
+		grid-template-columns: 1fr auto;
+		gap: 10px;
+	}
+	.workspace-commands li > div {
+		grid-column: 1 / -1;
+	}
+	.workspace-commands .copy-btn {
+		justify-self: end;
+	}
+	.workspace-commands code {
+		font-size: 12px;
+	}
+	.getting-started {
+		padding-block: 65px;
+		gap: 30px;
+	}
+	.install-intro h2 {
+		font-size: 49px;
+	}
+	.faq {
+		padding-block: 65px;
+		gap: 30px;
+	}
+	.section {
+		padding-block: 65px;
+	}
+	.workflow {
+		padding-block: 55px 60px;
+	}
+	.workflow h2 {
+		margin-bottom: 35px;
+	}
+	.step-top {
+		height: 65px;
+	}
+}
+@media (max-width: 600px) {
+	.roots-section {
+		grid-template-columns: 1fr;
+		gap: 30px;
+		padding-block: 40px 55px;
+	}
+	.sprout-study {
+		order: 2;
+		max-width: 290px;
+		justify-self: center;
+		margin-top: -10px;
+	}
+	.botanical-still--sprout {
+		width: 260px;
+	}
+	.roots-copy h2 {
+		font-size: 55px;
+		margin-bottom: 24px;
+	}
+	.roots-section .eyebrow {
+		font-size: 9px;
+	}
+	.editorial-lead {
+		font-size: 20px;
+	}
+	.roots-copy > p:not(.eyebrow):not(.editorial-lead) {
+		font-size: 15px;
+	}
+	.botanical-study figcaption {
+		font-size: 19px;
+	}
+	.repair {
+		grid-template-columns: 1fr;
+		gap: 25px;
+		padding-block: 55px 35px;
+	}
+	.repair h2 {
+		font-size: 50px;
+	}
+	.repair .section-description {
+		font-size: 16px;
+	}
+	.rose-study {
+		width: 100%;
+		max-width: 280px;
+		justify-self: center;
+	}
+	.botanical-still--rose {
+		width: 270px;
+	}
+	.rose-study figcaption {
+		font-size: 19px;
+	}
+	.workspace-section {
+		padding-block: 55px 60px;
+	}
+	.workspace-heading h2 {
+		font-size: 45px;
+	}
+	.workspace-heading > p:last-child {
+		font-size: 15px;
+	}
+	.workspace-picker {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 0;
+		margin-top: 30px;
+		border-bottom: 0;
+	}
+	.workspace-picker button {
+		font-size: 15px;
+		padding: 15px 0;
+		border-bottom: 1px solid var(--line);
+		gap: 15px;
+	}
+	.workspace-picker button[aria-selected="true"] {
+		border-color: var(--line);
+	}
+	.workspace-picker button[aria-selected="true"]::after {
+		content: "↗";
+		margin-left: auto;
+		color: #a93e61;
+	}
+	.workspace-panel {
+		grid-template-columns: 1fr;
+		gap: 28px;
+		padding-top: 30px;
+	}
+	.workspace-intro h3 {
+		font-size: 29px;
+		max-width: none;
+		margin-bottom: 12px;
+	}
+	.workspace-intro > p {
+		max-width: 44ch;
+		font-size: 15px;
+	}
+	.workspace-footnote {
+		margin-top: 13px;
+		font-size: 8px;
+	}
+	.workspace-commands li {
+		grid-template-columns: 1fr auto auto;
+		gap: 10px;
+		padding-block: 16px;
+	}
+	.workspace-commands li > div {
+		grid-column: auto;
+	}
+	.workspace-commands strong {
+		font-size: 13px;
+	}
+	.workspace-commands li > div > span {
+		font-size: 10px;
+		max-width: 19ch;
+	}
+	.workspace-commands code {
+		font-size: 10px;
+	}
+	.workspace-commands .copy-btn {
+		gap: 4px;
+		font-size: 10px;
+	}
+	.workspace-commands .copy-btn .icon {
+		width: 13px;
+		height: 13px;
+	}
+	.workspace-commands .copy-btn > span {
+		display: none;
+	}
+	.getting-started {
+		padding-block: 55px;
+	}
+	.faq {
+		padding-block: 55px 65px;
+	}
+	.install-intro h2 {
+		font-size: 47px;
+	}
+	.footer-top {
+		padding-top: 45px;
+	}
+}
+@media (max-width: 420px) {
+	.hero h1 {
+		font-size: clamp(49px, 13.2vw, 58px);
+	}
+	.hero-copy .hero-description {
+		font-size: 16px;
+	}
+	.hero {
+		padding-top: 24px;
+	}
+	.roots-copy h2 {
+		font-size: 50px;
+	}
+	.workspace-heading h2 {
+		font-size: 41px;
+	}
+	.workspace-commands code {
+		font-size: 9px;
+	}
+}
+/* Trim empty space from the seedling plate without stretching the original artwork. */
+.botanical-still--sprout {
+	position: relative;
+	height: 370px;
+	aspect-ratio: auto;
+	background-image: none;
+	mask-image: none;
+	overflow: hidden;
+}
+.botanical-still--sprout::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	aspect-ratio: 271.5 / 362;
+	background: url("public/sprouted-sprite.png") 100% 0% / 400% 400% no-repeat;
+	mask-image: linear-gradient(
+		to right,
+		transparent,
+		#000 8%,
+		#000 97%,
+		transparent
+	);
+}
+.botanical-still--rose {
+	mask-image: linear-gradient(
+		to right,
+		transparent,
+		#000 13%,
+		#000 97%,
+		transparent
+	);
+}
+@media (max-width: 900px) {
+	.botanical-still--sprout {
+		height: 300px;
+	}
+}
+@media (max-width: 600px) {
+	.botanical-still--sprout {
+		height: 290px;
+	}
+	.sprout-study {
+		margin-top: 0;
+	}
+}

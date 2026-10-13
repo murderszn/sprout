@@ -1,10 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Sprout">
-  <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#84CC16"/>
-      <stop offset="100%" stop-color="#65A30D"/>
-    </linearGradient>
-  </defs>
-  <rect width="32" height="32" rx="8" fill="url(#bg)"/>
-  <text x="16" y="17.5" text-anchor="middle" dominant-baseline="middle" font-size="18" font-family="Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif">🌱</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Sprout"><rect width="48" height="48" rx="12" fill="#f7f5ee"/><g transform="translate(10 5) scale(.86)" fill="#092e25"><path d="M16 42V25C16 17 19 13 23 8" fill="none" stroke="#092e25" stroke-width="2"/><path d="M17 20C13 9 21 3 30 1c1 10-5 17-13 19ZM14 31C4 30 0 23 1 16c10 0 15 6 13 15ZM17 33c0-10 6-15 14-15-1 9-5 14-14 15Z"/></g></svg>
